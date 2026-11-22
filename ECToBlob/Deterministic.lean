@@ -125,7 +125,7 @@ theorem nonempty_of_mem_tree [DecidableEq X] {T : Finset (Finset X)} (hT : IsUnr
   have hne : ∀ B ∈ H, B ≠ univ → B.Nonempty ∧ Bᶜ.Nonempty := by
     intro B hB hBu
     refine ⟨hH.2.2.1 B hB, ?_⟩
-    rwa [Finset.nonempty_iff_ne_empty, Ne, Finset.compl_eq_empty_iff]
+    rwa [Finset.ne_empty_iff_nonempty.symm, Ne, Finset.compl_eq_empty_iff]
   simp only [unroot, mem_union, mem_erase, mem_image] at hA
   rcases hA with ⟨hAu, hAH⟩ | ⟨B, ⟨hBu, hBH⟩, rfl⟩
   · exact hne A hAH hAu

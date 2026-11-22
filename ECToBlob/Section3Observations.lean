@@ -705,7 +705,7 @@ theorem lengthMeasure_Ioo_ne_zero_of_pos (hybrid : Prop) {a b : ℝ} (hab : a < 
     linarith
   unfold lengthMeasure
   split_ifs
-  · rw [Measure.add_apply]
+  · rw [add_apply]
     exact fun h => hvol _ (fun x hx => Set.mem_Ici.2 ((le_max_right a 0).trans hx.1.le)) (add_eq_zero.1 h).2
   · exact hvol _ fun x hx => Set.mem_Ioi.2 ((le_max_right a 0).trans_lt hx.1)
 
@@ -1143,7 +1143,7 @@ omit [Fintype V] [Fintype E] [Fintype X] [DecidableEq X] in
 /-- The atom of the measure of §5.1 at length `0` of a hybrid arc. -/
 theorem lengthMeasure_singleton_zero_ne_zero {hybrid : Prop} (h : hybrid) : lengthMeasure hybrid {0} ≠ 0 := by
   unfold lengthMeasure
-  rw [ite_eq_left h, Measure.add_apply, Measure.dirac_apply' _ (measurableSet_singleton 0)]
+  rw [ite_eq_left h, add_apply, Measure.dirac_apply' _ (measurableSet_singleton 0)]
   simp
 
 omit [Fintype V] [Fintype X] [DecidableEq X] in

@@ -138,7 +138,7 @@ theorem iidProb_mean_ge_le (hd : IsDist dist) {c : Γ → ℝ} {l : ℝ} (hl : 0
         refine mul_le_mul_of_nonneg_left (pow_le_pow_left₀ (Finset.sum_nonneg fun g _ =>
           mul_nonneg (hd.1 g) (Real.exp_pos _).le) hmgf n) (Real.exp_pos _).le
     _ = _ := by
-        rw [← Real.exp_nat_mul, ← Real.exp_add]
+        rw [← Real.exp_natCast_mul, ← Real.exp_add]
         congr 1
         simp only [hs]
         field_simp

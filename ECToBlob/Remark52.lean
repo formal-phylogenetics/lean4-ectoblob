@@ -970,7 +970,7 @@ theorem lengthMeasure_Ioo_ne_zero (hybrid : Prop) : lengthMeasure hybrid (Set.Io
     norm_num
   unfold lengthMeasure
   split_ifs
-  · rw [Measure.add_apply]
+  · rw [add_apply]
     exact fun h => hvol _ (fun x hx => by
       have := hx.1
       exact Set.mem_Ici.2 (by linarith)) (add_eq_zero.1 h).2

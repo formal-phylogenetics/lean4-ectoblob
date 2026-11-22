@@ -1199,7 +1199,7 @@ theorem expect_pos_of {α : Type*} {p : PMF α} {f : α → ℝ≥0∞} {a : α}
   rw [pos_iff_ne_zero]
   intro h
   unfold expect at h
-  exact (mul_ne_zero ha hf) (ENNReal.tsum_eq_zero.1 h a)
+  exact (mul_ne_zero ha hf) (tsum_eq_zero_iff.1 h a)
 
 /-- All four species have a copy with positive probability, on a tree where a copy can go through each edge. -/
 theorem present_pos {T : SpeciesTree X} (hS : T.Survives) {A B C D : X} (hA : T.Has A) (hB : T.Has B) (hC : T.Has C) (hD : T.Has D) :

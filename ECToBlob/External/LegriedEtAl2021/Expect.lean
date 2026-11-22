@@ -37,7 +37,7 @@ theorem expect_bind (p : PMF α) (q : α → PMF β) (f : β → ℝ≥0∞) :
     expect (p.bind q) f = expect p fun a => expect (q a) f := by
   unfold expect
   simp only [PMF.bind_apply, ← ENNReal.tsum_mul_left, ← ENNReal.tsum_mul_right]
-  rw [ENNReal.tsum_comm]
+  rw [tsum_comm]
   simp only [mul_assoc]
 
 theorem expect_const (p : PMF α) (c : ℝ≥0∞) : expect p (fun _ => c) = c := by
@@ -46,7 +46,7 @@ theorem expect_const (p : PMF α) (c : ℝ≥0∞) : expect p (fun _ => c) = c :
 
 theorem expect_mono {p : PMF α} {f g : α → ℝ≥0∞} (h : ∀ a, p a ≠ 0 → f a ≤ g a) : expect p f ≤ expect p g := by
   unfold expect
-  refine ENNReal.tsum_le_tsum fun a => ?_
+  refine tsum_le_tsum fun a => ?_
   by_cases ha : p a = 0
   · simp [ha]
   · gcongr
@@ -58,7 +58,7 @@ theorem expect_congr {p : PMF α} {f g : α → ℝ≥0∞} (h : ∀ a, p a ≠ 
 theorem expect_add (p : PMF α) (f g : α → ℝ≥0∞) : expect p (fun a => f a + g a) = expect p f + expect p g := by
   unfold expect
   simp only [mul_add]
-  exact ENNReal.tsum_add
+  exact tsum_add
 
 theorem expect_mul_left (p : PMF α) (c : ℝ≥0∞) (f : α → ℝ≥0∞) : expect p (fun a => c * f a) = c * expect p f := by
   unfold expect
@@ -82,7 +82,7 @@ theorem expect_comm (p : PMF α) (q : PMF β) (f : α → β → ℝ≥0∞) :
     expect p (fun a => expect q (f a)) = expect q fun b => expect p fun a => f a b := by
   unfold expect
   simp only [← ENNReal.tsum_mul_left]
-  rw [ENNReal.tsum_comm]
+  rw [tsum_comm]
   exact tsum_congr fun b => tsum_congr fun a => by ring
 
 theorem exists_of_expect_ne_zero {p : PMF α} {f : α → ℝ≥0∞} (h : expect p f ≠ 0) : ∃ a, p a ≠ 0 ∧ f a ≠ 0 := by
@@ -90,7 +90,7 @@ theorem exists_of_expect_ne_zero {p : PMF α} {f : α → ℝ≥0∞} (h : expec
   push Not at hne
   apply h
   unfold expect
-  rw [ENNReal.tsum_eq_zero]
+  rw [tsum_eq_zero_iff]
   intro a
   by_cases ha : p a = 0
   · simp [ha]
@@ -101,7 +101,7 @@ theorem ne_top_of_expect_ne_top {p : PMF α} {f : α → ℝ≥0∞} (h : expect
   apply h
   unfold expect
   refine ENNReal.eq_top_of_forall_nnreal_le fun r => ?_
-  refine le_trans ?_ (ENNReal.le_tsum a)
+  refine le_trans ?_ (le_tsum _ a)
   simp [hf, ENNReal.mul_top ha]
 
 theorem expect_lt {p : PMF α} {f g : α → ℝ≥0∞} (hfin : expect p f ≠ ⊤) (hle : ∀ a, p a ≠ 0 → f a ≤ g a) {a : α}
@@ -167,7 +167,7 @@ theorem tsum_prod_pi (J : Type) [Fintype J] (α : J → Type) (f : ∀ j, α j �
     rw [tsum_eq_single (fun j => j.elim) fun g hg => (hg (funext fun j => j.elim)).elim]
     simp
   · intro J _ ih γ f
-    rw [← (Equiv.piOptionEquivProd (β := γ)).symm.tsum_eq, Fintype.prod_option, ENNReal.tsum_prod']
+    rw [← (Equiv.piOptionEquivProd (β := γ)).symm.tsum_eq, Fintype.prod_option, tsum_prod']
     simp only [Fintype.prod_option, Equiv.piOptionEquivProd_symm_apply]
     simp only [ENNReal.tsum_mul_left, ENNReal.tsum_mul_right]
     rw [ih]
@@ -177,7 +177,7 @@ variable {J J' : Type} [Fintype J] [Fintype J']
 /-- **The law of an independent family.** -/
 def piLaw {α : J → Type} (p : ∀ j, PMF (α j)) : PMF (∀ j, α j) :=
   ⟨fun g => ∏ j, p j (g j), by
-    rw [ENNReal.summable.hasSum_iff, tsum_prod_pi]
+    rw [CompleteLattice.summable.hasSum_iff, tsum_prod_pi]
     simp [PMF.tsum_coe]⟩
 
 theorem piLaw_apply {α : J → Type} (p : ∀ j, PMF (α j)) (g : ∀ j, α j) : piLaw p g = ∏ j, p j (g j) := rfl

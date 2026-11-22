@@ -255,7 +255,7 @@ theorem card_childClusters_le_of_subset {H₀ H : Finset (Finset X)} (hH₀ : Is
     -- each child in `H` lies in a child in `H₀`
     have hsup := hH₀.sup_childClusters h2
     rw [hC] at hsup
-    simp only [sup_insert, sup_singleton, id, sup_eq_union] at hsup
+    simp only [sup_insert, sup_singleton, id] at hsup
     have hsubg : childClusters H A ⊆ g C₁ ∪ g C₂ := by
       have hone : ∀ C ∈ childClusters H₀ A, ∀ B ∈ childClusters H A, (B ∩ C).Nonempty → B ∈ g C := by
         intro C hC B hB hBC
