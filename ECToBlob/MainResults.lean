@@ -39,6 +39,7 @@ public import Phylogenetics.Network.OfHierarchy
 public import Phylogenetics.Network.Quartets
 public import Phylogenetics.Tree.Defs
 public import Phylogenetics.Tree.Splits
+public import Phylogenetics.Network.CutHierarchy
 public import TINNiK.Basic
 public import TINNiK.MissingTaxa
 

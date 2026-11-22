@@ -7,6 +7,7 @@ public import TreeOfBlobs.Defs
 public import TreeOfBlobs.ForMathlib.Analysis.AnalyticZeroSet
 public import Phylogenetics.NMSC.Analytic
 public import Phylogenetics.NMSC.Exchangeability
+public import Phylogenetics.Network.CutHierarchy
 public import Phylogenetics.Network.DeletedArcs
 public import TreeOfBlobs.Testing.Defs
 public import TreeOfBlobs.Level1Blobs

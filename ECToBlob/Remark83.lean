@@ -6,6 +6,7 @@ public import Nanuq.NANUQ
 public import Nanuq.Proposition9
 public import TreeOfBlobs.External.MitchellAllmanRhodes2019.T3Test
 public import Phylogenetics.NMSC.Basic
+public import Phylogenetics.Network.CutHierarchy
 public import Phylogenetics.NMSC.Exchangeability
 public import TreeOfBlobs.Testing.Tails
 public import Phylogenetics.Tree.Metric

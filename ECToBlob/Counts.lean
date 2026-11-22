@@ -4,6 +4,7 @@ public import TreeOfBlobs.Defs
 public import TreeOfBlobs.Testing.Combining
 public import TreeOfBlobs.Testing.Defs
 public import Phylogenetics.Tree.Detach
+public import Phylogenetics.Network.CutHierarchy
 public import ECToBlob.Deterministic
 public import ECToBlob.Remark84
 public import TreeOfBlobs.TreeCounts

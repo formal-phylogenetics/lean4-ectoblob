@@ -2,6 +2,7 @@ module
 
 public import Phylogenetics.Network.Cuts
 public import Phylogenetics.Tree.Splits
+public import Phylogenetics.Network.CutHierarchy
 public import TreeOfBlobs.InducedSplits
 public import ECToBlob.Section4
 

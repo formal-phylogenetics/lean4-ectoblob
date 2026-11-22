@@ -4,6 +4,7 @@ public import TreeOfBlobs.Defs
 public import TreeOfBlobs.RhoOne
 public import Phylogenetics.NMSC.DisplayedTreeModel
 public import Phylogenetics.NMSC.Induced
+public import Phylogenetics.Network.CutHierarchy
 public import Phylogenetics.NMSC.InducedParams
 public import TreeOfBlobs.Testing.Trinomial.Tests
 public import TreeOfBlobs.Level1Blobs

@@ -5,6 +5,7 @@ public import AllmanEtAl2023.SubgraphBlobs
 public import Phylogenetics.Graph.Tree
 public import Phylogenetics.Network.AncestralRestriction
 public import Phylogenetics.Tree.Splits
+public import Phylogenetics.Network.CutHierarchy
 
 /-!
 # ECToBlob §4: funnels, the subgraphs `G̃₃`, `G̃₄`, and their cut edges

@@ -4,6 +4,7 @@ public import ECToBlob.DisplayedTree
 public import ECToBlob.DisplayedTreeExample
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Series
 public import Phylogenetics.Tree.FourPoint
+public import Phylogenetics.Network.CutHierarchy
 
 /-!
 # ECToBlob §10: sums of pairs of distances

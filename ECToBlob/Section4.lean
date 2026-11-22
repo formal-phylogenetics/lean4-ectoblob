@@ -4,6 +4,7 @@ public import AllmanEtAl2023.CutOrder
 public import AllmanEtAl2023.SubgraphBlobs
 public import Phylogenetics.Network.Cuts
 public import Phylogenetics.Tree.Metric
+public import Phylogenetics.Network.CutHierarchy
 public import ECToBlob.Section4Funnels
 
 /-!

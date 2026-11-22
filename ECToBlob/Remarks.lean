@@ -3,6 +3,7 @@ module
 public import AllmanEtAl2023.GenericCF
 public import TreeOfBlobs.Defs
 public import Phylogenetics.NMSC.Exchangeability
+public import Phylogenetics.Network.CutHierarchy
 public import Phylogenetics.NMSC.Witness
 public import TreeOfBlobs.Testing.Combining
 public import TreeOfBlobs.Testing.Trinomial.Gaussian

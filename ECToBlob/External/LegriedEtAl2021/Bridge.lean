@@ -4,6 +4,7 @@ public import ECToBlob.External.LegriedEtAl2021.Theorem1
 public import Phylogenetics.Network.OfHierarchy
 public import Phylogenetics.Network.Quartets
 public import Phylogenetics.Tree.Splits
+public import Phylogenetics.Network.CutHierarchy
 
 /-!
 # From addresses and species trees to `QuartetTree` and `RootedNetwork`

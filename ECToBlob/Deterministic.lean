@@ -6,6 +6,7 @@ public import Phylogenetics.Network.Cuts
 public import TreeOfBlobs.Testing.Combining
 public import TreeOfBlobs.Testing.Defs
 public import Phylogenetics.Tree.Splits
+public import Phylogenetics.Network.CutHierarchy
 public import ECToBlob.FalseEdge
 public import ECToBlob.Section5
 public import ECToBlob.Section6

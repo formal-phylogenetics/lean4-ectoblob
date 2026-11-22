@@ -4,6 +4,7 @@ public import TreeOfBlobs.FinNetwork
 public import TreeOfBlobs.General
 public import Phylogenetics.NMSC.DisplayedTreeModel
 public import Phylogenetics.Tree.Detach
+public import Phylogenetics.Network.CutHierarchy
 public import ECToBlob.Remark33Counterexample
 public import ECToBlob.Section5
 public import TreeOfBlobs.Level1CF

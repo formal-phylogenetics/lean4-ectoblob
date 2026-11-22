@@ -5,6 +5,7 @@ public import TreeOfBlobs.ForMathlib.Analysis.FiniteOptimization
 public import TreeOfBlobs.Testing.IID
 public import Phylogenetics.Network.Induced
 public import Phylogenetics.Tree.Detach
+public import Phylogenetics.Network.CutHierarchy
 public import Mathlib.Order.Filter.AtTopBot.Basic
 
 /-!
