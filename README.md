@@ -15,7 +15,7 @@ Theorem 8.2 says that, at test levels chosen independently of the network, the a
 probability tending to one as the number of gene trees grows. The formalization, in Lean 4 with Mathlib, is
 unconditional: no result of the literature is assumed.
 
-This paper is part of the collection of formalizations described in [lean4-tob](https://github.com/vltanh/lean4-tob), the hub of these papers.
+This paper is one of the four on the tree of blobs of the hub [lean4-tob](https://github.com/vltanh/lean4-tob), which presents them.
 
 ## What is proved
 
@@ -28,14 +28,14 @@ This paper is part of the collection of formalizations described in [lean4-tob](
   of lines 1159–1167, and from §10 the line test, a random `T₀`, data splitting, combining edge p-values, the framework on
   other tests and on sum-of-pairs distances, and Log-det distances. [Section 9 of the report](REPORT.md#9-not-formalized)
   lists what remains: empirical claims, and statements that are false, each with its counterexample.
-- The results it cites, in [`ECToBlob/External/`](ECToBlob/External), each folder with a README that says whether its source
-  was read: NANUQ (Proposition 9; Theorem 36, corrected), Legried et al. 2021 (Theorem 1 on quartets), Mitchell et al. 2019
+- The results it cites, in [`ECToBlob/External/`](ECToBlob/External) and in the repositories that [Layout](#layout) names,
+  each folder with a README that says whether its source was read: NANUQ (Proposition 9; Theorem 36, corrected), Legried et al. 2021 (Theorem 1 on quartets), Mitchell et al. 2019
   (Theorem 3.1 for this model, the limit laws and densities of T3 and T1), Ané et al. 2024 (exchangeability, Proposition
   12), Dinh and Baños 2025 (Theorem 1), and, through NANUQ and TINNiK, Huber et al. 2025 (Theorem 5.1) and Rhodes 2020
-  (Theorem 2). What the paper uses of Allman et al. 2023 and TINNiK is proved in their folders,
+  (Theorem 2). What the paper uses of Allman et al. 2023 and TINNiK is proved in their repositories,
   [`lean4-allman2023/AllmanEtAl2023/`](https://github.com/vltanh/lean4-allman2023/tree/main/AllmanEtAl2023) and [`lean4-tinnik/TINNiK/`](https://github.com/vltanh/lean4-tinnik/tree/main/TINNiK).
 - `lake build` passes with no warnings, and there is no `sorry`, `axiom`, `native_decide` or `implemented_by`.
-  [`scripts/Audit.lean`](scripts/Audit.lean) checks every declaration of the project and of the library it uses,
+  [`scripts/Audit.lean`](scripts/Audit.lean) checks every declaration of this repository and of the libraries it requires,
   including private and generated ones, against [`propext`](https://leanprover-community.github.io/mathlib4_docs/Init/Core.html#propext), [`Classical.choice`](https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Classical.choice) and [`Quot.sound`](https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Quot.sound) (see Building).
 
 ## The main results
@@ -93,12 +93,12 @@ The sources it cites:
 
 ## Palomar
 
-No submission to [Palomar](https://github.com/mathlib-initiative) is planned. [`palomar/`](.) keeps the files in
+No submission to [Palomar](https://github.com/mathlib-initiative) is planned. This repository keeps the files in
 case that changes:
 
-- [`palomar/comparator.json`](comparator.json) runs Comparator on the theorems above, with [`ECToBlob.MainResults`](ECToBlob/MainResults.lean)
+- [`comparator.json`](comparator.json) runs Comparator on the theorems above, with [`ECToBlob.MainResults`](ECToBlob/MainResults.lean)
   as both the challenge and the solution module, and permits the axioms [`propext`](https://leanprover-community.github.io/mathlib4_docs/Init/Core.html#propext), [`Quot.sound`](https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Quot.sound) and [`Classical.choice`](https://leanprover-community.github.io/mathlib4_docs/Init/Prelude.html#Classical.choice).
-- [`palomar/formalization.yaml`](formalization.yaml) is the entry's metadata, valid against the schema it names:
+- [`formalization.yaml`](formalization.yaml) is the entry's metadata, valid against the schema it names:
   the paper, the sources it cites, the statements aligned to the `TreeOfBlobs.*` theorems, and its fidelity section, which
   lists every divergence from the paper.
 
@@ -117,10 +117,10 @@ A submission would still need:
 1. A Challenge that imports only Mathlib, with the definitions that its statements use in a block of its own, and the
    bridges from them to the library's definitions. The last such file, with `scripts/sync_challenge_defs.py`, which kept
    its block equal to the library's, and `scripts/gen_solution.py`, which generated the Solution from it, is in the git
-   history at `f838ea4`, for the three papers of the time together.
+   history of lean4-tob at `f838ea4`, for the three papers of the time together.
 2. A Solution that restates those theorems and proves them from the libraries, and a `comparator.json` that names the two
    modules.
-3. These files at the root of the repository that holds the paper, with `formalization.yaml` pointing at the new modules.
+3. `formalization.yaml` pointing at the new modules.
 
 ## Audit summary
 
@@ -155,8 +155,9 @@ Lean counterexample where there is one, and the repair.
   Independent agents reviewed the statements and compared the proofs with the paper.
 - Source audit and first foundations by Codex; statements, proofs, audit and documents by Claude (Opus 5.5) in Claude Code,
   with sub-agents, following the [formalize-math-paper](https://github.com/vltanh/formalize-math-paper) procedure.
-- Made on 2026-10-27 and from 2026-10-31 to 2026-11-01, with the rest of the collection: three sub-agents in the Codex
-  round, and 85 in Claude Code, at most 11 at once, up to commit `282215c`. [`docs/CREDITS.md`](https://github.com/vltanh/lean4-tob/blob/main/docs/CREDITS.md) has
+- Made in lean4-tob on 2026-10-27 and from 2026-10-31 to 2026-11-01, with the rest of the collection: three sub-agents in
+  the Codex round, and 85 in Claude Code, at most 11 at once, up to commit `282215c` of lean4-tob. Moved to this repository
+  on 2026-11-21. [`CREDITS.md`](CREDITS.md) and lean4-tob's [`docs/CREDITS.md`](https://github.com/vltanh/lean4-tob/blob/main/docs/CREDITS.md) have
   the details.
 
 ## Related work
@@ -169,11 +170,11 @@ From [Section 10 of the report](REPORT.md#10-the-paper-in-the-literature), from 
   as the paper says.
 - Concurrent: TOB-QMC (Dai, Han, Molloy, first posted 2025-11-06) proves the same result, that an optimum of the quartet
   criterion refines the tree of blobs, and contracts edges by other tests, with guarantees at level 1. ECToBlob calls the
-  two works independent. Its formalization is in [`../TOBQMC/`](https://github.com/vltanh/lean4-tob-qmc/blob/main/README.md).
+  two works independent. Its formalization is in [lean4-tob-qmc](https://github.com/vltanh/lean4-tob-qmc/blob/main/README.md).
 - Since: we found no erratum and no version newer than v1. MSCquartets 3.3 implements ECToBlob. Dai and Molloy (WABI 2026)
   reconstruct level-1 blobs from a tree of blobs. No work we read settles whether the treelikeness of the 4-taxon sets
   around an edge decides it beyond level 1, which the paper's §10 raises.
-- We found no other formalization of the paper. This project imports the public library
+- We found no other formalization of the paper. This repository imports the public library
   [lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics).
 
 ## What's next
@@ -196,7 +197,7 @@ scripts/check_kernels.sh                                                        
 ```
 
 - Lean and Mathlib `v4.36.0-rc1` ([`lean-toolchain`](lean-toolchain), [`lake-manifest.json`](lake-manifest.json)).
-  [`lakefile.toml`](lakefile.toml) requires, by commit, [lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics), [lean4-tob](https://github.com/vltanh/lean4-tob), [lean4-allman2023](https://github.com/vltanh/lean4-allman2023), [lean4-tinnik](https://github.com/vltanh/lean4-tinnik), [lean4-phylo-network](https://github.com/vltanh/lean4-phylo-network), [lean4-nanuq](https://github.com/vltanh/lean4-nanuq).
+  [`lakefile.toml`](lakefile.toml) requires, by commit, [lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics), [lean4-tob](https://github.com/vltanh/lean4-tob), [lean4-allman2023](https://github.com/vltanh/lean4-allman2023), [lean4-tinnik](https://github.com/vltanh/lean4-tinnik), [lean4-nanuq](https://github.com/vltanh/lean4-nanuq), and through it [lean4-phylo-network](https://github.com/vltanh/lean4-phylo-network).
 - The audit checks every declaration of this repository and of the libraries it requires against Lean's
   standard axioms, and writes the routes of the proofs, which the route check compares with the paper's.
 - [lean4-tob's `docs/CONFIGURATION.md`](https://github.com/vltanh/lean4-tob/blob/main/docs/CONFIGURATION.md)
@@ -242,21 +243,21 @@ The paper's modules, in [`ECToBlob/`](ECToBlob):
 
 [`ECToBlob/MainResults.lean`](ECToBlob/MainResults.lean) has the main theorems.
 
-The sources it uses, in [`ECToBlob/External/`](ECToBlob/External), each with a README:
+The sources it uses, in [`ECToBlob/External/`](ECToBlob/External) and in other repositories, each with a README:
 
-- [`AllmanBanosRhodes2019/`](https://github.com/vltanh/lean4-nanuq/tree/main/Nanuq): NANUQ, for Remark 8.3 and the main theorems prefixed `nanuq_`.
+- [`Nanuq/`](https://github.com/vltanh/lean4-nanuq/tree/main/Nanuq), in lean4-nanuq: NANUQ, for Remark 8.3 and the main theorems prefixed `nanuq_`.
 - [`LegriedEtAl2021/`](ECToBlob/External/LegriedEtAl2021): Legried et al. 2021, for Remark 3.4 and [`legried_theorem1`](ECToBlob/MainResults.lean#L280).
-- [`MitchellAllmanRhodes2019/`](https://github.com/vltanh/lean4-tob/tree/main/TreeOfBlobs/External/MitchellAllmanRhodes2019): Mitchell et al. 2019, the T1 and T3 tests
+- [`MitchellAllmanRhodes2019/`](https://github.com/vltanh/lean4-tob/tree/main/TreeOfBlobs/External/MitchellAllmanRhodes2019), in lean4-tob: Mitchell et al. 2019, the T1 and T3 tests
   and their limit laws.
 - Through NANUQ and TINNiK: [`HuberEtAl2025/`](https://github.com/vltanh/lean4-tob/tree/main/TreeOfBlobs/External/HuberEtAl2025), [`Rhodes2020/`](https://github.com/vltanh/lean4-tob/tree/main/TreeOfBlobs/External/Rhodes2020)
-  and [`StudierKeppler1988/`](https://github.com/vltanh/lean4-tinnik/tree/main/TINNiK/External/StudierKeppler1988).
+  in lean4-tob, and [`StudierKeppler1988/`](https://github.com/vltanh/lean4-tinnik/tree/main/TINNiK/External/StudierKeppler1988), in lean4-tinnik.
 - What the paper uses of Ané et al. 2024, exchangeability and the strict form of Proposition 12, is in the library and in
-  [`lean4-tob/TreeOfBlobs/RhoOne.lean`](https://github.com/vltanh/lean4-tob/blob/main/TreeOfBlobs/RhoOne.lean). [`AneEtAl2024/`](https://github.com/vltanh/lean4-tob-qmc/tree/main/TOBQMC/External/AneEtAl2024) has the source's
-  own proofs, and this unit doesn't import it. Nor does it import [`DinhBanos2025/`](https://github.com/vltanh/lean4-tob-qmc/tree/main/TOBQMC/External/DinhBanos2025),
-  the source the paper cites in passing.
+  [`lean4-tob/TreeOfBlobs/RhoOne.lean`](https://github.com/vltanh/lean4-tob/blob/main/TreeOfBlobs/RhoOne.lean). [`AneEtAl2024/`](https://github.com/vltanh/lean4-tob-qmc/tree/main/TOBQMC/External/AneEtAl2024) in lean4-tob-qmc, has the source's
+  own proofs, and this repository doesn't import it. Nor does it import [`DinhBanos2025/`](https://github.com/vltanh/lean4-tob-qmc/tree/main/TOBQMC/External/DinhBanos2025),
+  also in lean4-tob-qmc, the source the paper cites in passing.
 
-It also imports two other papers of the collection: Allman et al. 2023, in [`lean4-allman2023/AllmanEtAl2023/`](https://github.com/vltanh/lean4-allman2023/tree/main/AllmanEtAl2023)
-([its folder](https://github.com/vltanh/lean4-allman2023/blob/main/README.md)), and TINNiK, in [`lean4-tinnik/TINNiK/`](https://github.com/vltanh/lean4-tinnik/tree/main/TINNiK) ([its folder](https://github.com/vltanh/lean4-tinnik/blob/main/README.md)).
+It also imports two other papers of the hub: Allman et al. 2023, in [`lean4-allman2023/AllmanEtAl2023/`](https://github.com/vltanh/lean4-allman2023/tree/main/AllmanEtAl2023)
+([its README](https://github.com/vltanh/lean4-allman2023/blob/main/README.md)), and TINNiK, in [`lean4-tinnik/TINNiK/`](https://github.com/vltanh/lean4-tinnik/tree/main/TINNiK) ([its README](https://github.com/vltanh/lean4-tinnik/blob/main/README.md)).
 
 The modules of [`lean4-tob/TreeOfBlobs/`](https://github.com/vltanh/lean4-tob/tree/main/TreeOfBlobs) that it imports ([its README](https://github.com/vltanh/lean4-tob/blob/main/TreeOfBlobs/README.md) has them all):
 
@@ -276,10 +277,10 @@ The modules of [`lean4-tob/TreeOfBlobs/`](https://github.com/vltanh/lean4-tob/tr
 | `UnitMetric` | Valid parameters on any network: unit lengths, equal inheritance |
 | `NMSCChain` | The chain of the network multispecies coalescent on a concrete network, from the root down |
 
-[`scripts/layers.toml`](https://github.com/vltanh/lean4-tob/blob/main/scripts/layers.toml) lists what this unit, [`ECToBlob`](ECToBlob) ([`ECToBlob/`](ECToBlob) and
-[`ECToBlob/MainResults.lean`](ECToBlob/MainResults.lean)), may import: [`Basic`](https://github.com/vltanh/lean4-tob/tree/main/TreeOfBlobs), [`AllmanEtAl2023`](https://github.com/vltanh/lean4-allman2023/tree/main/AllmanEtAl2023), [`TINNiK`](https://github.com/vltanh/lean4-tinnik/tree/main/TINNiK), `AllmanBanosRhodes2019`,
-`LegriedEtAl2021` and `MitchellAllmanRhodes2019`, besides Mathlib and the library. TOB-QMC and ECToBlob are concurrent and
-independent, so neither imports the other. `python3 scripts/check_layers.py` checks every import against it.
+What [`ECToBlob/`](ECToBlob), with [`ECToBlob/MainResults.lean`](ECToBlob/MainResults.lean), may import is what
+[`lakefile.toml`](lakefile.toml) requires: [`TreeOfBlobs`](https://github.com/vltanh/lean4-tob/tree/main/TreeOfBlobs), with `MitchellAllmanRhodes2019`, [`AllmanEtAl2023`](https://github.com/vltanh/lean4-allman2023/tree/main/AllmanEtAl2023), [`TINNiK`](https://github.com/vltanh/lean4-tinnik/tree/main/TINNiK) and [`Nanuq`](https://github.com/vltanh/lean4-nanuq/tree/main/Nanuq),
+besides Mathlib and the library; `LegriedEtAl2021` is here. TOB-QMC and ECToBlob are concurrent and
+independent, so neither imports the other.
 
 ## License
 
