@@ -3,8 +3,8 @@
 Source: E. S. Allman, H. Baños, J. D. Mitchell, J. A. Rhodes, *The tree of blobs of a species network:
 identifiability under the coalescent*, J. Math. Biol. 86 (2023), 10,
 <https://doi.org/10.1007/s00285-022-01838-9>. It is a paper of the hub lean4-phylo-tree-of-blobs, formalized in its own
-repository, [lean4-allman2023](https://github.com/vltanh/lean4-allman2023), which this repository requires;
-its [report](https://github.com/vltanh/lean4-allman2023/blob/main/docs/Allman2023/REPORT.md) is the audit
+repository, [lean4-allman2023](https://github.com/formal-phylogenetics/lean4-allman2023), which this repository requires;
+its [report](https://github.com/formal-phylogenetics/lean4-allman2023/blob/main/docs/Allman2023/REPORT.md) is the audit
 of the source.
 
 ECToBlob uses it in two places. Proposition 5.1 adapts its Theorem 1 to the measure of §5 ("checking the
@@ -18,10 +18,10 @@ Each result that the proofs here use is stated in this directory, in the namespa
 `External.Allman2023`, in the source's terms (the definitions of lean4-allman2023 and of the libraries),
 and proved from the theorem of lean4-allman2023 of the same name; the paper's library uses these
 statements. Four that lean4-tinnik states already, from the same theorems, are used from there
-([`Tinnik/External/Allman2023/`](https://github.com/vltanh/lean4-tinnik/tree/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023)), since the namespace
+([`Tinnik/External/Allman2023/`](https://github.com/formal-phylogenetics/lean4-tinnik/tree/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023)), since the namespace
 `External.Allman2023` is shared by the repositories that require one another:
-[`External.Allman2023.inducedCutSplit_unique`](https://github.com/vltanh/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023/Rule.lean#L69), [`External.Allman2023.inducedCutSplit_iff_exists_splitOffAt`](https://github.com/vltanh/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023/Rule.lean#L75),
-[`External.Allman2023.isNormalized_deletionMetric`](https://github.com/vltanh/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023/CFDetectable.lean#L50) and [`External.Allman2023.three_quarters_lt_nmscCF`](https://github.com/vltanh/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023/CFDetectable.lean#L57).
+[`External.Allman2023.inducedCutSplit_unique`](https://github.com/formal-phylogenetics/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023/Rule.lean#L69), [`External.Allman2023.inducedCutSplit_iff_exists_splitOffAt`](https://github.com/formal-phylogenetics/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023/Rule.lean#L75),
+[`External.Allman2023.isNormalized_deletionMetric`](https://github.com/formal-phylogenetics/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023/CFDetectable.lean#L50) and [`External.Allman2023.three_quarters_lt_nmscCF`](https://github.com/formal-phylogenetics/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023/CFDetectable.lean#L57).
 
 | File | Statements | Where the paper's library uses them |
 | --- | --- | --- |
@@ -33,7 +33,7 @@ statements. Four that lean4-tinnik states already, from the same theorems, are u
 The label `allman2023:a:claim:three-taxa` is the row of lean4-allman2023's routes file, prefixed by its
 id; it has a row in [`docs/Ectoblob/paper_routes.tsv`](../../../docs/Ectoblob/paper_routes.tsv), with
 `proved = 0`. The other statements are steps of the source's proofs that its routes file does not label.
-The definitions they use ([`Determines`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/SubgraphBlobs.lean#L66), [`OnlyCrosses`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/SubgraphBlobs.lean#L80), [`SameBlobIn`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/SubgraphBlobs.lean#L54), [`compOff`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/SubgraphBlobs.lean#L74), [`deletionMetric`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/FourTaxa/GenericCF.lean#L60),
-[`IsStochasticCoords`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/FourTaxa/GenericCF.lean#L166), [`CFDetectable`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/Rule.lean#L56), …) are lean4-allman2023's. The general
-[`Real.exists_mem_Ioo_forall_ne`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/Basic/Analysis/Convex/Segment.lean#L24) of its `Basic/` is used directly, in
+The definitions they use ([`Determines`](https://github.com/formal-phylogenetics/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/SubgraphBlobs.lean#L66), [`OnlyCrosses`](https://github.com/formal-phylogenetics/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/SubgraphBlobs.lean#L80), [`SameBlobIn`](https://github.com/formal-phylogenetics/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/SubgraphBlobs.lean#L54), [`compOff`](https://github.com/formal-phylogenetics/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/SubgraphBlobs.lean#L74), [`deletionMetric`](https://github.com/formal-phylogenetics/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/FourTaxa/GenericCF.lean#L60),
+[`IsStochasticCoords`](https://github.com/formal-phylogenetics/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/FourTaxa/GenericCF.lean#L166), [`CFDetectable`](https://github.com/formal-phylogenetics/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/Rule.lean#L56), …) are lean4-allman2023's. The general
+[`Real.exists_mem_Ioo_forall_ne`](https://github.com/formal-phylogenetics/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/Basic/Analysis/Convex/Segment.lean#L24) of its `Basic/` is used directly, in
 [`Ectoblob.Evidence.FaceWitness`](../../Evidence/FaceWitness.lean).

@@ -27,7 +27,7 @@ A topology of four leaves is `Pat`, defined by clusters: some vertex has two of 
 - A species tree on all the species has clusters that are a hierarchy ([`isHierarchy_clustersF`](Bridge.lean#L524)), and [`speciesNetwork`](Bridge.lean#L530) is the library's network
   of it. Its tree of blobs is the unrooted species tree ([`treeOfBlobs_speciesNetwork`](Bridge.lean#L534)), and displays `quartetTree A B C D` exactly when
   [`SpeciesTree.IsQuartet`](Model.lean#L101) holds: [`displays_treeOfBlobs_iff`](Bridge.lean#L557).
-- [`quartetP`](Bridge.lean#L594) is the probability on [`Phylogenetics.QuartetTree`](https://github.com/vltanh/lean4-phylogenetics/blob/3fcabfd7d191990dda268b0b3968d945b65eb59a/Phylogenetics/Tree/Defs.lean#L67), well defined by [`probTopology_congr`](Bridge.lean#L628). [`quartetP_lt`](Bridge.lean#L829) is (3.1) in the form of the hypothesis of
+- [`quartetP`](Bridge.lean#L594) is the probability on [`Phylogenetics.QuartetTree`](https://github.com/formal-phylogenetics/lean4-phylogenetics/blob/3fcabfd7d191990dda268b0b3968d945b65eb59a/Phylogenetics/Tree/Defs.lean#L67), well defined by [`probTopology_congr`](Bridge.lean#L628). [`quartetP_lt`](Bridge.lean#L829) is (3.1) in the form of the hypothesis of
   ECToBlob's Theorem 3.1, and [`sum_treesOn_quartetP`](Bridge.lean#L809) the sum to one.
 
 ## The results (`Theorem1.lean`)

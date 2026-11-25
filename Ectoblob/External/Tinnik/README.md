@@ -3,8 +3,8 @@
 Source: E. S. Allman, H. Baños, J. D. Mitchell, J. A. Rhodes, *TINNiK: inference of the tree of blobs
 of a species network under the coalescent model*, Algorithms Mol. Biol. 19 (2024), 23,
 <https://doi.org/10.1186/s13015-024-00266-2>. It is a paper of the hub lean4-phylo-tree-of-blobs, formalized in its own
-repository, [lean4-tinnik](https://github.com/vltanh/lean4-tinnik), which this repository requires; its
-[report](https://github.com/vltanh/lean4-tinnik/blob/main/docs/Tinnik/REPORT.md) is the audit of the
+repository, [lean4-tinnik](https://github.com/formal-phylogenetics/lean4-tinnik), which this repository requires; its
+[report](https://github.com/formal-phylogenetics/lean4-tinnik/blob/main/docs/Tinnik/REPORT.md) is the audit of the
 source.
 
 ECToBlob's Remark 8.3 says that the argument of its Theorem 8.2 gives the consistency of TINNiK with
@@ -13,8 +13,8 @@ does. Each result that the proofs here use is stated in this directory, in the n
 `External.Tinnik`, in the source's terms (the definitions of lean4-tinnik and of the libraries), and
 proved from the theorem of lean4-tinnik of the same name; the paper's library uses these statements. Two
 that lean4-nanuq states already, from the same theorems, are used from there
-([`Nanuq/External/Tinnik/`](https://github.com/vltanh/lean4-nanuq/tree/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/External/Tinnik)): [`External.Tinnik.displaysOne_nmsc`](https://github.com/vltanh/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/External/Tinnik/Consistency.lean#L32) and
-[`External.Tinnik.isGenericNull_centroid`](https://github.com/vltanh/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/External/Tinnik/Consistency.lean#L41).
+([`Nanuq/External/Tinnik/`](https://github.com/formal-phylogenetics/lean4-nanuq/tree/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/External/Tinnik)): [`External.Tinnik.displaysOne_nmsc`](https://github.com/formal-phylogenetics/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/External/Tinnik/Consistency.lean#L32) and
+[`External.Tinnik.isGenericNull_centroid`](https://github.com/formal-phylogenetics/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/External/Tinnik/Consistency.lean#L41).
 
 | File | Statements | Where the paper's library uses them |
 | --- | --- | --- |
@@ -24,5 +24,5 @@ that lean4-nanuq states already, from the same theorems, are used from there
 
 The label `tinnik:theorem4` is the row of lean4-tinnik's routes file, which already carries the prefix
 `tinnik:`; it has a row in [`docs/Ectoblob/paper_routes.tsv`](../../../docs/Ectoblob/paper_routes.tsv),
-with `proved = 0`. The definitions the statements use ([`Tinnik.NoCentroidCF`](https://github.com/vltanh/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/Consistency/Theorem4.lean#L334), [`Tinnik.testedBT3`](https://github.com/vltanh/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/Consistency/T3.lean#L71),
-[`Tinnik.tinnikT3`](https://github.com/vltanh/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/Consistency/T3.lean#L92), [`Tinnik.tinnikOf`](https://github.com/vltanh/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/Consistency/T3.lean#L83), …) are lean4-tinnik's.
+with `proved = 0`. The definitions the statements use ([`Tinnik.NoCentroidCF`](https://github.com/formal-phylogenetics/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/Consistency/Theorem4.lean#L334), [`Tinnik.testedBT3`](https://github.com/formal-phylogenetics/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/Consistency/T3.lean#L71),
+[`Tinnik.tinnikT3`](https://github.com/formal-phylogenetics/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/Consistency/T3.lean#L92), [`Tinnik.tinnikOf`](https://github.com/formal-phylogenetics/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/Consistency/T3.lean#L83), …) are lean4-tinnik's.

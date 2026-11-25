@@ -1,6 +1,6 @@
 # ECToBlob: statistical inference of the tree of blobs from quartet concordance factors, in Lean
 
-[![CI](https://github.com/vltanh/lean4-ectoblob/actions/workflows/lean_action_ci.yml/badge.svg)](https://github.com/vltanh/lean4-ectoblob/actions/workflows/lean_action_ci.yml)
+[![CI](https://github.com/formal-phylogenetics/lean4-ectoblob/actions/workflows/lean_action_ci.yml/badge.svg)](https://github.com/formal-phylogenetics/lean4-ectoblob/actions/workflows/lean_action_ci.yml)
 
 A Lean 4 formalization of John A. Rhodes, Elizabeth S. Allman, Cécile Ané and Hector Baños (2026), "Statistical inference
 of the Tree of Blobs of a phylogenetic network from quartet concordance factors",
@@ -19,11 +19,11 @@ outside the Challenge's statements. Theorem 8.2 holds as proved for laws meeting
 parameters, and, for the Cauchy and CBC corrections, with positive alternatives on quartets strictly in the T1 null (E10,
 E11 of [the report](docs/Ectoblob/REPORT.md#4-missing-hypotheses)); (3.3) is proved in a corrected form (E2). No person has reviewed the proofs.
 
-This paper belongs to the hub [lean4-phylo-tree-of-blobs](https://github.com/vltanh/lean4-phylo-tree-of-blobs), on the tree
-of blobs of a phylogenetic network, a sub-hub of [lean4-phylo-network](https://github.com/vltanh/lean4-phylo-network), in
-the collection rooted at [lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics). It builds on Allman et al.
-2023, TINNiK and NANUQ, formalized in [lean4-allman2023](https://github.com/vltanh/lean4-allman2023),
-[lean4-tinnik](https://github.com/vltanh/lean4-tinnik) and [lean4-nanuq](https://github.com/vltanh/lean4-nanuq).
+This paper belongs to the hub [lean4-phylo-tree-of-blobs](https://github.com/formal-phylogenetics/lean4-phylo-tree-of-blobs), on the tree
+of blobs of a phylogenetic network, a sub-hub of [lean4-phylo-network](https://github.com/formal-phylogenetics/lean4-phylo-network), in
+the collection rooted at [lean4-phylogenetics](https://github.com/formal-phylogenetics/lean4-phylogenetics). It builds on Allman et al.
+2023, TINNiK and NANUQ, formalized in [lean4-allman2023](https://github.com/formal-phylogenetics/lean4-allman2023),
+[lean4-tinnik](https://github.com/formal-phylogenetics/lean4-tinnik) and [lean4-nanuq](https://github.com/formal-phylogenetics/lean4-nanuq).
 
 ## Status
 
@@ -119,14 +119,14 @@ Corollary 3.6, Theorem 8.2), and two are not forced and say so (Theorem 4.1 and 
 ## Dependencies
 
 - [Mathlib](https://github.com/leanprover-community/mathlib4), at `v4.37.0-rc1`.
-- [lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics), the library of the collection, pinned by commit in
+- [lean4-phylogenetics](https://github.com/formal-phylogenetics/lean4-phylogenetics), the library of the collection, pinned by commit in
   [`lakefile.toml`](lakefile.toml): networks, trees and quartets, the network multispecies coalescent and its exchangeability, generic parameters.
-- [lean4-phylo-network](https://github.com/vltanh/lean4-phylo-network) and [lean4-phylo-tree-of-blobs](https://github.com/vltanh/lean4-phylo-tree-of-blobs), the libraries of the
+- [lean4-phylo-network](https://github.com/formal-phylogenetics/lean4-phylo-network) and [lean4-phylo-tree-of-blobs](https://github.com/formal-phylogenetics/lean4-phylo-tree-of-blobs), the libraries of the
   hubs above this paper, pinned by commit: the hypothesis tests and their limit laws, combining p-values, independent
   samples, blobs of level-1 networks and the sources Mitchell et al. 2019, Rhodes 2020 and Huber et al. 2025; the algorithm
   and its options, Assumption 1, networks given by tables, and the strict form of Proposition 12 of Ané et al. 2024.
-- [lean4-allman2023](https://github.com/vltanh/lean4-allman2023), [lean4-tinnik](https://github.com/vltanh/lean4-tinnik) and
-  [lean4-nanuq](https://github.com/vltanh/lean4-nanuq), pinned by commit, whose results the proofs use through the statements of
+- [lean4-allman2023](https://github.com/formal-phylogenetics/lean4-allman2023), [lean4-tinnik](https://github.com/formal-phylogenetics/lean4-tinnik) and
+  [lean4-nanuq](https://github.com/formal-phylogenetics/lean4-nanuq), pinned by commit, whose results the proofs use through the statements of
   [`Ectoblob/External/`](Ectoblob/External).
 
 ## Palomar
@@ -154,7 +154,7 @@ python3 scripts/linkify_docs.py                                             # th
 - Toolchain: Lean and Mathlib `v4.37.0-rc1` ([`lean-toolchain`](lean-toolchain), [`lake-manifest.json`](lake-manifest.json)).
 - `lake comparator`, `leanexport` and `con-ron` come from the toolchain, under `lake env`. The kernels' replays need much memory.
 - "Line N" of the paper is a line of `pdftotext -layout` on its v1 PDF, as lean4-phylo-tree-of-blobs's
-  [`docs/CONFIGURATION.md`](https://github.com/vltanh/lean4-phylo-tree-of-blobs/blob/6e7bc494d26f3d7096a17adffbfde1cf559f0ae9/docs/CONFIGURATION.md) defines.
+  [`docs/CONFIGURATION.md`](https://github.com/formal-phylogenetics/lean4-phylo-tree-of-blobs/blob/6e7bc494d26f3d7096a17adffbfde1cf559f0ae9/docs/CONFIGURATION.md) defines.
 
 ## Layout
 
@@ -178,7 +178,7 @@ From [Section 10 of the report](docs/Ectoblob/REPORT.md#10-the-paper-in-the-lite
   give the exact-quarnet form that Theorem 4.1 extends; for binary networks, Corollary 4.2 is Lemma 1 of Frohn et al.
 - Concurrent: TOB-QMC (Dai, Han, Molloy, first posted 2025-11-06) proves that an optimum of the quartet criterion refines the
   tree of blobs, and contracts edges by other tests; ECToBlob calls the two works independent. Its formalization is
-  [lean4-tob-qmc](https://github.com/vltanh/lean4-tob-qmc).
+  [lean4-tob-qmc](https://github.com/formal-phylogenetics/lean4-tob-qmc).
 - Since: no erratum and no version newer than v1 was found. MSCquartets 3.3 implements ECToBlob.
 - No other formalization of the paper was found.
 
@@ -197,7 +197,7 @@ decides it beyond level 1, and Theorem 8.2 for Cauchy and CBC without the hypoth
   in Claude Code, with sub-agents, following the [formalize-math-paper](https://github.com/vltanh/formalize-math-paper)
   procedure. Made in lean4-phylo-tree-of-blobs from 2026-10-27 to 2026-11-04, with the papers on the tree of blobs.
   [`docs/Ectoblob/CREDITS.md`](docs/Ectoblob/CREDITS.md) and lean4-phylo-tree-of-blobs's
-  [`docs/CREDITS.md`](https://github.com/vltanh/lean4-phylo-tree-of-blobs/blob/6e7bc494d26f3d7096a17adffbfde1cf559f0ae9/docs/CREDITS.md) have the details.
+  [`docs/CREDITS.md`](https://github.com/formal-phylogenetics/lean4-phylo-tree-of-blobs/blob/6e7bc494d26f3d7096a17adffbfde1cf559f0ae9/docs/CREDITS.md) have the details.
 - Review: no person has reviewed the proofs; Lean's kernel checks them. Independent agents reviewed the statements and
   compared the proofs with the paper.
 

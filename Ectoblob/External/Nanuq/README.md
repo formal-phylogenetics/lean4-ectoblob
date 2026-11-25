@@ -3,8 +3,8 @@
 Source: E. S. Allman, H. Baños, J. A. Rhodes, *NANUQ: a method for inferring species networks from gene
 trees under the coalescent model*, Algorithms Mol. Biol. 14 (2019), 24,
 <https://doi.org/10.1186/s13015-019-0159-2>. It is a paper of the hub lean4-phylo-network, formalized in
-its own repository, [lean4-nanuq](https://github.com/vltanh/lean4-nanuq), which this repository
-requires; its [report](https://github.com/vltanh/lean4-nanuq/blob/main/docs/Nanuq/REPORT.md) is the audit
+its own repository, [lean4-nanuq](https://github.com/formal-phylogenetics/lean4-nanuq), which this repository
+requires; its [report](https://github.com/formal-phylogenetics/lean4-nanuq/blob/main/docs/Nanuq/REPORT.md) is the audit
 of the source.
 
 ECToBlob's Remark 8.3 says that the argument of its Theorem 8.2 gives the consistency of NANUQ with
@@ -20,5 +20,5 @@ proved from the theorem of lean4-nanuq of the same name; the paper's library use
 The label `nanuq:proposition9` is the row of lean4-nanuq's routes file, which already carries the prefix
 `nanuq:`; it has a row in [`docs/Ectoblob/paper_routes.tsv`](../../../docs/Ectoblob/paper_routes.tsv),
 with `proved = 0`. The other statements are steps of the proof of Theorem 36 that the source does not
-label. The definitions the statements use ([`Nanuq.classify`](https://github.com/vltanh/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L95), [`Nanuq.cfClass`](https://github.com/vltanh/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L140), [`Nanuq.nanuqDistance`](https://github.com/vltanh/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L113),
-[`Nanuq.networkClass`](https://github.com/vltanh/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L1221), [`Nanuq.Proposition9`](https://github.com/vltanh/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L1205), …) are lean4-nanuq's.
+label. The definitions the statements use ([`Nanuq.classify`](https://github.com/formal-phylogenetics/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L95), [`Nanuq.cfClass`](https://github.com/formal-phylogenetics/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L140), [`Nanuq.nanuqDistance`](https://github.com/formal-phylogenetics/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L113),
+[`Nanuq.networkClass`](https://github.com/formal-phylogenetics/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L1221), [`Nanuq.Proposition9`](https://github.com/formal-phylogenetics/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L1205), …) are lean4-nanuq's.
