@@ -26,7 +26,7 @@ the proof that they are the library's in [`Bridge/`](Bridge).
 | [`Consistency/Deterministic`](Consistency/Deterministic.lean) | §8: the deterministic core of the proof of Theorem 8.2 |
 | [`Consistency/FalseEdge`](Consistency/FalseEdge.lean) | §8: a false edge has a witness that is neither a cut split nor a trivial 4-blob |
 | [`Consistency/Theorem82Literal`](Consistency/Theorem82Literal.lean) | Theorem 8.2 on the literal general model: the genericity is needed |
-| [`Consistency/BinaryLawExample`](Consistency/BinaryLawExample.lean) | Two laws of binary gene trees on the binary network of lean4-tob's `FinNetwork` |
+| [`Consistency/BinaryLawExample`](Consistency/BinaryLawExample.lean) | Two laws of binary gene trees on the binary network of lean4-phylo-tree-of-blobs's `FinNetwork` |
 | [`Consistency/LevelCutoffs`](Consistency/LevelCutoffs.lean) | Lines 1164–1167: the `o(n)` cutoffs of `α_n` |
 | [`Consistency/DisplayedTree`](Consistency/DisplayedTree.lean), [`Consistency/DisplayedTreeExample`](Consistency/DisplayedTreeExample.lean) | Theorem 8.2 for the displayed tree model, and its counterexamples for Cauchy and CBC |
 | [`Consistency/Remark83`](Consistency/Remark83.lean) | Remark 8.3: the consistency of NANUQ and TINNiK, with explicit levels |

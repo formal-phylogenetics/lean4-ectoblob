@@ -18,7 +18,7 @@ outside the Challenge's statements. Theorem 8.2 holds as proved for laws meeting
 parameters, and, for the Cauchy and CBC corrections, with positive alternatives on quartets strictly in the T1 null (E10,
 E11 of [the report](docs/Ectoblob/REPORT.md#4-missing-hypotheses)); (3.3) is proved in a corrected form (E2). No person has reviewed the proofs.
 
-This paper is one of the hub [lean4-tob](https://github.com/vltanh/lean4-tob), on the tree of blobs, a sub-hub of
+This paper is one of the hub [lean4-phylo-tree-of-blobs](https://github.com/vltanh/lean4-phylo-tree-of-blobs), on the tree of blobs, a sub-hub of
 [lean4-phylo-network](https://github.com/vltanh/lean4-phylo-network), in the collection rooted at
 [lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics). It builds on Allman et al. 2023, TINNiK and NANUQ,
 formalized in [lean4-allman2023](https://github.com/vltanh/lean4-allman2023), [lean4-tinnik](https://github.com/vltanh/lean4-tinnik) and
@@ -81,7 +81,7 @@ trees and their samples, the star and T1 tests, the combinations of p-values of 
 | Allman et al. 2023 | [`Ectoblob/External/Allman2023/`](Ectoblob/External/Allman2023) | the reduction of the proof of its Theorem 1, for Proposition 5.1, and the blobs of a subgraph, for Theorem 4.1; proved from lean4-allman2023 |
 | TINNiK, Theorem 4 | [`Ectoblob/External/Tinnik/`](Ectoblob/External/Tinnik) | at explicit levels, with the cut test and the T3 test, for Remark 8.3; proved from lean4-tinnik |
 | NANUQ, Proposition 9 and the proof of Theorem 36 | [`Ectoblob/External/Nanuq/`](Ectoblob/External/Nanuq) | for Remark 8.3; proved from lean4-nanuq |
-| Mitchell et al. 2019; Ané et al. 2024 | lean4-phylo-network; lean4-phylogenetics and lean4-tob | the T1 and T3 tests and their limit laws; exchangeability across cut edges and the strict form of Proposition 12 |
+| Mitchell et al. 2019; Ané et al. 2024 | lean4-phylo-network; lean4-phylogenetics and lean4-phylo-tree-of-blobs | the T1 and T3 tests and their limit laws; exchangeability across cut edges and the strict form of Proposition 12 |
 
 ## What the audit found
 
@@ -120,7 +120,7 @@ Corollary 3.6, Theorem 8.2), and two are not forced and say so (Theorem 4.1 and 
 - [Mathlib](https://github.com/leanprover-community/mathlib4), at `v4.37.0-rc1`.
 - [lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics), the library of the collection, pinned by commit in
   [`lakefile.toml`](lakefile.toml): networks, trees and quartets, the network multispecies coalescent and its exchangeability, generic parameters.
-- [lean4-phylo-network](https://github.com/vltanh/lean4-phylo-network) and [lean4-tob](https://github.com/vltanh/lean4-tob), the libraries of the
+- [lean4-phylo-network](https://github.com/vltanh/lean4-phylo-network) and [lean4-phylo-tree-of-blobs](https://github.com/vltanh/lean4-phylo-tree-of-blobs), the libraries of the
   hubs above this paper, pinned by commit: the hypothesis tests and their limit laws, combining p-values, independent
   samples, blobs of level-1 networks and the sources Mitchell et al. 2019, Rhodes 2020 and Huber et al. 2025; the algorithm
   and its options, Assumption 1, networks given by tables, and the strict form of Proposition 12 of Ané et al. 2024.
@@ -152,8 +152,8 @@ python3 scripts/linkify_docs.py                                             # th
 
 - Toolchain: Lean and Mathlib `v4.37.0-rc1` ([`lean-toolchain`](lean-toolchain), [`lake-manifest.json`](lake-manifest.json)).
 - `lake comparator`, `leanexport` and `con-ron` come from the toolchain, under `lake env`. The kernels' replays need much memory.
-- "Line N" of the paper is a line of `pdftotext -layout` on its v1 PDF, as lean4-tob's
-  [`docs/CONFIGURATION.md`](https://github.com/vltanh/lean4-tob/blob/6e7bc494d26f3d7096a17adffbfde1cf559f0ae9/docs/CONFIGURATION.md) defines.
+- "Line N" of the paper is a line of `pdftotext -layout` on its v1 PDF, as lean4-phylo-tree-of-blobs's
+  [`docs/CONFIGURATION.md`](https://github.com/vltanh/lean4-phylo-tree-of-blobs/blob/6e7bc494d26f3d7096a17adffbfde1cf559f0ae9/docs/CONFIGURATION.md) defines.
 
 ## Layout
 
@@ -194,8 +194,8 @@ decides it beyond level 1, and Theorem 8.2 for Cauchy and CBC without the hypoth
   (E10, E11), and decided the layout. **No person has reviewed the proofs.**
 - Source audit and first foundations by Codex; statements, proofs, audit and documents by Claude (Opus 5.5) in Claude Code,
   with sub-agents, following the [formalize-math-paper](https://github.com/vltanh/formalize-math-paper) procedure.
-- Made in lean4-tob from 2026-10-27 to 2026-11-04, with the papers on the tree of blobs. [`docs/Ectoblob/CREDITS.md`](docs/Ectoblob/CREDITS.md) and
-  lean4-tob's [`docs/CREDITS.md`](https://github.com/vltanh/lean4-tob/blob/6e7bc494d26f3d7096a17adffbfde1cf559f0ae9/docs/CREDITS.md) have the details.
+- Made in lean4-phylo-tree-of-blobs from 2026-10-27 to 2026-11-04, with the papers on the tree of blobs. [`docs/Ectoblob/CREDITS.md`](docs/Ectoblob/CREDITS.md) and
+  lean4-phylo-tree-of-blobs's [`docs/CREDITS.md`](https://github.com/vltanh/lean4-phylo-tree-of-blobs/blob/6e7bc494d26f3d7096a17adffbfde1cf559f0ae9/docs/CREDITS.md) have the details.
 
 ## License
 
