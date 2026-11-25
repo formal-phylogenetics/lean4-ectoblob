@@ -187,7 +187,7 @@ From [Section 10 of the report](docs/Ectoblob/REPORT.md#10-the-paper-in-the-lite
 The open directions are Assumption 1 under correlated inheritance, whether the treelikeness of the 4-taxon sets around an edge
 decides it beyond level 1, and Theorem 8.2 for Cauchy and CBC without the hypothesis on the alternatives.
 [Section 11 of the report](docs/Ectoblob/REPORT.md#11-whats-next) has these, with the simpler arguments that the formalization found. A private
-`NEXT.md` holds the candidate follow-up papers.
+
 
 ## Credits
 
