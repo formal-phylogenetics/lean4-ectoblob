@@ -4,21 +4,28 @@ version: "v0.4"
 project:
   name: "ECToBlob: statistical inference of the tree of blobs from quartet concordance factors"
   description: >-
-    A Lean formalization of ECToBlob (Rhodes, Allman, Ané, Baños 2026), which infers the tree of blobs of a phylogenetic
-    network from gene trees under the network multispecies coalescent. No result of the literature is assumed. No person
-    has reviewed the proofs.
+    A Lean 4 formalization of John A. Rhodes, Elizabeth S. Allman, Cécile Ané and Hector Baños
+    (2026), "Statistical inference of the Tree of Blobs of a phylogenetic network from quartet
+    concordance factors", bioRxiv 10.64898/2026.05.28.728501 v1. Its algorithm, ECToBlob, infers the
+    tree of blobs of a phylogenetic network from gene trees under the network multispecies
+    coalescent.
 
 
-    Proved: optimal trees of the maximum quartet support criterion resolve the tree of blobs (Theorem 3.1); if every
-    quartet across a quadripartition has the split as a cut-edge split then the network has that cut edge (Theorem 4.1);
-    statistical consistency of the ECToBlob algorithm for all its variants, with sequences of levels independent of the
-    network (Theorem 8.2); every other numbered result, and what the paper says in passing. Of the sources it cites,
-    Theorem 1 of Legried et al. 2021 on quartets; what the proofs use of Allman et al. 2023, TINNiK and NANUQ is stated
-    here and proved from their repositories, lean4-allman2023, lean4-tinnik and lean4-nanuq.
+    Proved: optimal trees of the maximum quartet support criterion resolve the tree of blobs
+    (Theorem 3.1); if every quartet across a quadripartition has the split as a cut-edge split then
+    the network has that cut edge (Theorem 4.1); statistical consistency of the ECToBlob algorithm
+    for all its variants, with sequences of levels independent of the network (Theorem 8.2); every
+    other numbered result, and what the paper says in passing. Of the sources it cites, Theorem 1 of
+    Legried et al. 2021 on quartets; what the proofs use of Allman et al. 2023, TINNiK and NANUQ is
+    stated here and proved from their repositories, lean4-allman2023, lean4-tinnik and lean4-nanuq.
 
 
-    The audit records E1-E17, E35-E38, E41 and E68 on the paper, including a counterexample to a boundary case of
-    Theorem 8.2 and a gap in its proof that needed a new argument, and E80 and E84 on the two sources above.
+    The audit records E1-E17, E35-E38, E41 and E68 on the paper, including a counterexample to a
+    boundary case of Theorem 8.2 and a gap in its proof that needed a new argument, and E80 and E84
+    on the two sources above.
+
+
+    No result of the literature is assumed. No person has reviewed the proofs.
   authors:
     - "The-Anh Vu-Le"
   license: "Apache-2.0"
@@ -51,8 +58,12 @@ sources:
     type: "article"
     location: "https://doi.org/10.1007/s00285-022-01838-9"
     relationship: "background"
-    note: "Cited; its Theorem 1 is adapted for Proposition 5.1, and its blobs of a subgraph are used in the proof of Theorem 4.1. It is formalized in its own repository, lean4-allman2023; each of its results that the proofs here use is stated in Ectoblob/External/Allman2023 and proved from that repository's theorem."
     author_endorsement: "not-contacted"
+    note: >-
+      Cited; its Theorem 1 is adapted for Proposition 5.1, and its blobs of a subgraph are used in
+      the proof of Theorem 4.1. It is formalized in its own repository, lean4-allman2023; each of
+      its results that the proofs here use is stated in Ectoblob/External/Allman2023 and proved from
+      that repository's theorem.
   - title: "TINNiK: inference of the tree of blobs of a species network under the coalescent model"
     authors:
       - "Elizabeth S. Allman"
@@ -63,8 +74,11 @@ sources:
     type: "article"
     location: "https://doi.org/10.1186/s13015-024-00266-2"
     relationship: "background"
-    note: "Cited; Remark 8.3 strengthens its consistency theorem. It is formalized in its own repository, lean4-tinnik; each of its results that the proofs here use is stated in Ectoblob/External/Tinnik and proved from that repository's theorem."
     author_endorsement: "not-contacted"
+    note: >-
+      Cited; Remark 8.3 strengthens its consistency theorem. It is formalized in its own repository,
+      lean4-tinnik; each of its results that the proofs here use is stated in
+      Ectoblob/External/Tinnik and proved from that repository's theorem.
   - title: "NANUQ: a method for inferring species networks from gene trees under the coalescent model"
     authors:
       - "Elizabeth S. Allman"
@@ -74,7 +88,11 @@ sources:
     type: "article"
     location: "https://doi.org/10.1186/s13015-019-0159-2"
     relationship: "background"
-    note: "Cited; Remark 8.3 strengthens its consistency theorem. It is formalized in its own repository, lean4-nanuq, where Proposition 9 and Theorem 36, corrected, up to the distance, are proved; each of its results that the proofs here use is stated in Ectoblob/External/Nanuq and proved from that repository's theorem."
+    note: >-
+      Cited; Remark 8.3 strengthens its consistency theorem. It is formalized in its own repository,
+      lean4-nanuq, where Proposition 9 and Theorem 36, corrected, up to the distance, are proved;
+      each of its results that the proofs here use is stated in Ectoblob/External/Nanuq and proved
+      from that repository's theorem.
   - title: "Polynomial-time statistical estimation of species trees under gene duplication and loss"
     authors:
       - "Brandon Legried"
@@ -85,7 +103,10 @@ sources:
     type: "article"
     location: "https://doi.org/10.1089/cmb.2020.0424"
     relationship: "background"
-    note: "Theorem 1 on quartets and equations (5) and (7) are proved in Ectoblob/External/LegriedEtAl2021, which ECToBlob's Remark 3.4 cites. Read in the bioRxiv text, not the journal's."
+    note: >-
+      Theorem 1 on quartets and equations (5) and (7) are proved in
+      Ectoblob/External/LegriedEtAl2021, which ECToBlob's Remark 3.4 cites. Read in the bioRxiv
+      text, not the journal's.
   - title: "Hypothesis testing near singularities and boundaries"
     authors:
       - "Jonathan D. Mitchell"
@@ -95,7 +116,10 @@ sources:
     type: "article"
     location: "https://doi.org/10.1214/19-EJS1576"
     relationship: "background"
-    note: "The conclusion of Theorem 3.1 for the trinomial cut model, and Propositions 4.1, 4.2, 5.1 and 5.2, are proved in lean4-phylo-network, PhyloNetwork/External/MitchellAllmanRhodes2019, the limit laws by a direct argument."
+    note: >-
+      The conclusion of Theorem 3.1 for the trinomial cut model, and Propositions 4.1, 4.2, 5.1 and
+      5.2, are proved in lean4-phylo-network, PhyloNetwork/External/MitchellAllmanRhodes2019, the
+      limit laws by a direct argument.
   - title: "Anomalous networks under the multispecies coalescent: theory and prevalence"
     authors:
       - "Cécile Ané"
@@ -107,7 +131,12 @@ sources:
     type: "article"
     location: "https://doi.org/10.1007/s00285-024-02050-7"
     relationship: "background"
-    note: "Exchangeability across a cut edge, for arbitrary networks with correlated inheritance, is proved in lean4-phylogenetics (Phylogenetics.NMSC.exchangeability), which the proofs here use, and by the source's argument in lean4-tob-qmc, TobQmc/External/AneEtAl2024, with Proposition 12 and rule 2; the strict form of Proposition 12 that Remark 3.3 uses is in lean4-phylo-tree-of-blobs (TreeOfBlobs/RhoOne.lean)."
+    note: >-
+      Exchangeability across a cut edge, for arbitrary networks with correlated inheritance, is
+      proved in lean4-phylogenetics (Phylogenetics.NMSC.exchangeability), which the proofs here use,
+      and by the source's argument in lean4-tob-qmc, TobQmc/External/AneEtAl2024, with Proposition
+      12 and rule 2; the strict form of Proposition 12 that Remark 3.3 uses is in
+      lean4-phylo-tree-of-blobs (TreeOfBlobs/RhoOne.lean).
   - title: "When are quarnets sufficient to reconstruct semi-directed phylogenetic networks?"
     authors:
       - "Katharina T. Huber"
@@ -119,7 +148,10 @@ sources:
     type: "article"
     location: "https://doi.org/10.1007/s11538-025-01510-5"
     relationship: "background"
-    note: "Theorem 5.1, both directions, is proved in lean4-phylo-network, PhyloNetwork/External/HuberEtAl2025; the proof of the converse isn't the source's, and is documented there."
+    note: >-
+      Theorem 5.1, both directions, is proved in lean4-phylo-network,
+      PhyloNetwork/External/HuberEtAl2025; the proof of the converse isn't the source's, and is
+      documented there.
   - title: "Topological metrizations of trees, and new quartet methods of tree inference"
     authors:
       - "John A. Rhodes"
@@ -132,7 +164,14 @@ sources:
 related_formalizations:
   - id: "https://github.com/vltanh/lean4-phylogenetics"
     relationship: "adapts"
-    note: "This repository imports this library, pinned at commit 3fcabfd, for its definitions and general results, so the Solution imports it too. Finite Kingman coalescent and hierarchy modules were adapted from commit 06f684e5 under Apache-2.0 before that, in lean4-phylo-tree-of-blobs (lean4-phylo-tree-of-blobs/docs/ADAPTED_SOURCES.md, lean4-phylo-tree-of-blobs/docs/COALESCENT_SOURCES.md). The network coalescent on arbitrary networks was first written in lean4-phylo-tree-of-blobs and has moved to the library; the library's term-based level-1 network coalescent is not used."
+    note: >-
+      This repository imports this library, pinned at commit 3fcabfd, for its definitions and
+      general results, so the Solution imports it too. Finite Kingman coalescent and hierarchy
+      modules were adapted from commit 06f684e5 under Apache-2.0 before that, in
+      lean4-phylo-tree-of-blobs (lean4-phylo-tree-of-blobs/docs/ADAPTED_SOURCES.md,
+      lean4-phylo-tree-of-blobs/docs/COALESCENT_SOURCES.md). The network coalescent on arbitrary
+      networks was first written in lean4-phylo-tree-of-blobs and has moved to the library; the
+      library's term-based level-1 network coalescent is not used.
   - id: "https://github.com/vltanh/lean4-camus"
     relationship: "independent"
     note: "Surveyed; no code used."
@@ -158,7 +197,8 @@ status:
 automation:
   methods:
     - method: "agent"
-      models: ["GPT-6 family (exact revision not exposed)"]
+      models:
+        - "GPT-6 family (exact revision not exposed)"
       framework: "Codex"
       tool_setup: "formalize-math-paper skill; three sub-agents; shared local workspace. Source audit and foundations, no numbered paper result."
       cost:
@@ -167,7 +207,8 @@ automation:
         hardware: "local machine"
       prompting_notes: "Slash command with the three paper links; statement corrections asked of the user and approved."
     - method: "agent"
-      models: ["claude-opus-5-5"]
+      models:
+        - "claude-opus-5-5"
       framework: "Claude Code (VS Code extension)"
       tool_setup: "formalize-math-paper skill, repository vltanh/formalize-math-paper, commit e339f64 (the last round's log names no commit); Claude Code 2.1.314; 85 sub-agents, at most 11 at once, up to commit 282215c."
       cost:
@@ -177,7 +218,16 @@ automation:
       prompting_notes: "Slash command with the three paper links, continuing from the earlier handoff; later the user asked to match the sources closely, to formalize what the report listed as not formalized, to add Gusfield et al. 2007 and Allman et al. 2023 as primary papers on the library lean4-phylogenetics, and to finish what remained, leaving only empirical claims and wrong statements."
   spend_usd: "not tracked"
   notes: >-
-    The user chose the papers and the versions of the first three, agreed to the statement corrections of ECToBlob and TOB-QMC, and decided the library's boundary, the layout, the kernels and publication. AI systems wrote the code, the statements, the audit and the documents. The automation above is for the whole project in lean4-phylo-tree-of-blobs, which until 2026-11-04 also had Gusfield et al. 2007, since moved to its own repository, lean4-gusfield2007; on 2026-11-21 each of its four papers moved, with its entry, to a repository of its own. Ectoblob/ is the library; the audit checks every declaration of this repository and of the libraries it requires, all on the standard axioms, and Lean's kernel, NanoDa and con-ron accept the three theorems of the Challenge (scripts/check_kernels.sh). See docs/Ectoblob/CREDITS.md and lean4-phylo-tree-of-blobs's docs/CREDITS.md at 6e7bc49.
+    The user chose the papers and the versions of the first three, agreed to the statement
+    corrections of ECToBlob and TOB-QMC, and decided the library's boundary, the layout, the kernels
+    and publication. AI systems wrote the code, the statements, the audit and the documents. The
+    automation above is for the whole project in lean4-phylo-tree-of-blobs, which also had Gusfield
+    et al. 2007 until 2026-11-04, when it moved to its own repository, lean4-gusfield2007; on
+    2026-11-21 each of its papers moved, with its entry, to a repository of its own. Ectoblob/ is
+    the library; the audit checks every declaration of this repository and of the libraries it
+    requires, all on the standard axioms, and Lean's kernel, NanoDa and con-ron accept the theorems
+    of the Challenge (scripts/check_kernels.sh). See docs/Ectoblob/CREDITS.md and
+    lean4-phylo-tree-of-blobs's docs/CREDITS.md at 6e7bc49.
 
 fidelity:
   divergences: >-
@@ -206,9 +256,9 @@ review:
   reviewers:
     - "none (no human review)"
   notes: >-
-    Independent AI agents reviewed the statements against the sources and compared the formal proofs with the papers'; a
-    separate agent checked the findings. The route check, Comparator (Lean's kernel and NanoDa) and con-ron
-    (scripts/check_kernels.sh) run locally.
+    Independent AI agents reviewed the statements against the sources and compared the formal proofs
+    with the papers'; a separate agent checked the findings. The route check, Comparator (Lean's
+    kernel and NanoDa) and con-ron (scripts/check_kernels.sh) run locally.
 
 alignment:
   namespace: "EctoblobChallenge"
@@ -217,16 +267,24 @@ alignment:
       lean: "EctoblobChallenge.theorem3_1"
       module: "Ectoblob.Challenge"
       status: "proved"
-      note: "Condition 2 in the form the proof uses; Ectoblob.pendantChainInvariant_cutExchangeable derives it from the literal form."
+      note: >-
+        Condition 2 in the form the proof uses; Ectoblob.pendantChainInvariant_cutExchangeable
+        derives it from the literal form.
     - source: "ECToBlob, Theorem 4.1"
       lean: "EctoblobChallenge.theorem4_1"
       module: "Ectoblob.Challenge"
       status: "proved"
-      note: "As printed, with the disjointness of A1, A2 and of B1, B2, which the proof does not use."
+      note: >-
+        As printed, with the disjointness of A1, A2 and of B1, B2, which the proof does not use.
     - source: "ECToBlob, Theorem 8.2"
       lean: "EctoblobChallenge.theorem8_2"
       module: "Ectoblob.Challenge"
       status: "proved, corrected"
-      note: "Corrections E10 and E11, agreed. Binary gene trees. The library's Ectoblob.DisplayedTree.theorem8_2_displayed is the displayed tree model, for Bon and BBC, Ectoblob.FinNetwork.Binary.counterexample its failure for Cauchy and CBC (E37), and Ectoblob.BinaryLaw.not_theorem8_2_without_hpos and Ectoblob.Theorem82Literal.not_theorem8_2_literal show that E11 and E10 are needed."
+      note: >-
+        Corrections E10 and E11, agreed. Binary gene trees. The library's
+        Ectoblob.DisplayedTree.theorem8_2_displayed is the displayed tree model, for Bon and BBC,
+        Ectoblob.FinNetwork.Binary.counterexample its failure for Cauchy and CBC (E37), and
+        Ectoblob.BinaryLaw.not_theorem8_2_without_hpos and
+        Ectoblob.Theorem82Literal.not_theorem8_2_literal show that E11 and E10 are needed.
 
-acknowledgements: "Lean, Mathlib; the Phylogenetics library of the maintainer (lean4-phylogenetics), for adapted Kingman coalescent modules; the authors of the papers and sources."
+acknowledgements: "Lean and Mathlib; lean4-phylogenetics, the Phylogenetics library of the maintainer, for its definitions and general results, exchangeability across a cut edge and adapted Kingman coalescent modules; lean4-phylo-network, for the hypothesis tests and their limit laws (Mitchell et al. 2019); lean4-phylo-tree-of-blobs, for the strict form of Proposition 12 of Ané et al. 2024; lean4-allman2023, lean4-tinnik and lean4-nanuq, for the results of those papers that the proofs use; the authors of the paper and of its sources."

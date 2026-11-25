@@ -2,8 +2,9 @@
 
 [![CI](https://github.com/vltanh/lean4-ectoblob/actions/workflows/lean_action_ci.yml/badge.svg)](https://github.com/vltanh/lean4-ectoblob/actions/workflows/lean_action_ci.yml)
 
-A Lean 4 formalization of J. A. Rhodes, E. S. Allman, C. Ané, H. Baños, *Statistical inference of the Tree of Blobs of a
-phylogenetic network from quartet concordance factors*, [bioRxiv 10.64898/2026.05.28.728501 v1](https://www.biorxiv.org/content/10.64898/2026.05.28.728501v1).
+A Lean 4 formalization of John A. Rhodes, Elizabeth S. Allman, Cécile Ané and Hector Baños (2026), "Statistical inference
+of the Tree of Blobs of a phylogenetic network from quartet concordance factors",
+[bioRxiv 10.64898/2026.05.28.728501 v1](https://www.biorxiv.org/content/10.64898/2026.05.28.728501v1).
 The tree of blobs of a phylogenetic network is the tree left when each blob, a maximal 2-edge connected subgraph, is
 contracted to a node. The paper's algorithm, ECToBlob, infers it from gene trees sampled under the network multispecies
 coalescent: it starts from a resolution `T₀` of the tree of blobs, such as a tree optimizing the Maximum Quartet Support
@@ -18,11 +19,11 @@ outside the Challenge's statements. Theorem 8.2 holds as proved for laws meeting
 parameters, and, for the Cauchy and CBC corrections, with positive alternatives on quartets strictly in the T1 null (E10,
 E11 of [the report](docs/Ectoblob/REPORT.md#4-missing-hypotheses)); (3.3) is proved in a corrected form (E2). No person has reviewed the proofs.
 
-This paper is one of the hub [lean4-phylo-tree-of-blobs](https://github.com/vltanh/lean4-phylo-tree-of-blobs), on the tree of blobs, a sub-hub of
-[lean4-phylo-network](https://github.com/vltanh/lean4-phylo-network), in the collection rooted at
-[lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics). It builds on Allman et al. 2023, TINNiK and NANUQ,
-formalized in [lean4-allman2023](https://github.com/vltanh/lean4-allman2023), [lean4-tinnik](https://github.com/vltanh/lean4-tinnik) and
-[lean4-nanuq](https://github.com/vltanh/lean4-nanuq).
+This paper is one of the hub [lean4-phylo-tree-of-blobs](https://github.com/vltanh/lean4-phylo-tree-of-blobs), on the tree
+of blobs of a phylogenetic network, a sub-hub of [lean4-phylo-network](https://github.com/vltanh/lean4-phylo-network), in
+the collection rooted at [lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics). It builds on Allman et al.
+2023, TINNiK and NANUQ, formalized in [lean4-allman2023](https://github.com/vltanh/lean4-allman2023),
+[lean4-tinnik](https://github.com/vltanh/lean4-tinnik) and [lean4-nanuq](https://github.com/vltanh/lean4-nanuq).
 
 ## Status
 
@@ -113,7 +114,7 @@ Corollary 3.6, Theorem 8.2), and two are not forced and say so (Theorem 4.1 and 
   [`docs/Ectoblob/route_differences.tsv`](docs/Ectoblob/route_differences.tsv).
 - Comparator checks that the Solution proves exactly the Challenge's statements, under Lean's kernel and NanoDa;
   [`scripts/check_kernels.sh`](scripts/check_kernels.sh) runs it, and con-ron on an export of the same theorems.
-- **No person has reviewed the proofs.** Independent agents reviewed the statements and compared the proofs with the paper.
+- No person has reviewed the proofs. Independent agents reviewed the statements and compared the proofs with the paper.
 
 ## Dependencies
 
@@ -190,13 +191,16 @@ decides it beyond level 1, and Theorem 8.2 for Cauchy and CBC without the hypoth
 
 ## Credits
 
-- Requested and supervised by The-Anh Vu-Le, who chose the paper and its version, agreed to the corrections of Theorem 8.2
-  (E10, E11), and decided the layout. **No person has reviewed the proofs.**
-- Source audit and first foundations by Codex; statements, proofs, audit and documents by Claude (Opus 5.5) in Claude Code,
-  with sub-agents, following the [formalize-math-paper](https://github.com/vltanh/formalize-math-paper) procedure.
-- Made in lean4-phylo-tree-of-blobs from 2026-10-27 to 2026-11-04, with the papers on the tree of blobs. [`docs/Ectoblob/CREDITS.md`](docs/Ectoblob/CREDITS.md) and
-  lean4-phylo-tree-of-blobs's [`docs/CREDITS.md`](https://github.com/vltanh/lean4-phylo-tree-of-blobs/blob/6e7bc494d26f3d7096a17adffbfde1cf559f0ae9/docs/CREDITS.md) have the details.
+- Maintainer: The-Anh Vu-Le, who requested and supervised the formalization, chose the paper and its version, agreed to
+  the corrections of Theorem 8.2 (E10, E11), and decided the layout.
+- Formalization: source audit and first foundations by Codex; statements, proofs, audit and documents by Claude (Opus 5.5)
+  in Claude Code, with sub-agents, following the [formalize-math-paper](https://github.com/vltanh/formalize-math-paper)
+  procedure. Made in lean4-phylo-tree-of-blobs from 2026-10-27 to 2026-11-04, with the papers on the tree of blobs.
+  [`docs/Ectoblob/CREDITS.md`](docs/Ectoblob/CREDITS.md) and lean4-phylo-tree-of-blobs's
+  [`docs/CREDITS.md`](https://github.com/vltanh/lean4-phylo-tree-of-blobs/blob/6e7bc494d26f3d7096a17adffbfde1cf559f0ae9/docs/CREDITS.md) have the details.
+- Review: no person has reviewed the proofs; Lean's kernel checks them. Independent agents reviewed the statements and
+  compared the proofs with the paper.
 
 ## License
 
-[Apache-2.0](LICENSE).
+Apache-2.0: [LICENSE](LICENSE).
