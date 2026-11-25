@@ -3,9 +3,9 @@ module
 public import Phylogenetics.Network.Cuts
 public import Phylogenetics.Tree.Splits
 public import Phylogenetics.Network.CutHierarchy
-public import TreeOfBlobs.Level1Blobs
+public import PhyloNetwork.Level1Blobs
 public import ECToBlob.Section5
-public import TreeOfBlobs.NMSCChain
+public import PhyloNetwork.NMSCChain
 
 /-!
 # ECToBlob Remark 5.2: the three networks of Figure 1

@@ -1,7 +1,7 @@
 module
 
-public import AllmanEtAl2023.CycleLemma
-public import AllmanEtAl2023.SubgraphBlobs
+public import Allman2023.LargeNetworks.CycleLemma
+public import Allman2023.LargeNetworks.SubgraphBlobs
 public import Phylogenetics.Graph.Tree
 public import Phylogenetics.Network.AncestralRestriction
 public import Phylogenetics.Tree.Splits
@@ -52,7 +52,7 @@ the funnels be attached at once.
 
 @[expose] public section
 
-open Phylogenetics Phylogenetics.RootedNetwork DirectedMultigraph AllmanEtAl2023
+open Phylogenetics Phylogenetics.RootedNetwork DirectedMultigraph Allman2023
 
 namespace ECToBlob
 

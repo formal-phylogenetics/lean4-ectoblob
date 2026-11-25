@@ -1,7 +1,7 @@
 module
 
-public import TreeOfBlobs.Testing.Combining
-public import TreeOfBlobs.Testing.Defs
+public import PhyloNetwork.Testing.Combining
+public import PhyloNetwork.Testing.Defs
 public import Mathlib.Analysis.Asymptotics.AsymptoticEquivalent
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.ArctanDeriv
 

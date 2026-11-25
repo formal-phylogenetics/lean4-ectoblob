@@ -1,7 +1,7 @@
 module
 
 public import TreeOfBlobs.FinNetwork
-public import TreeOfBlobs.NMSCChain
+public import PhyloNetwork.NMSCChain
 public import ECToBlob.DisplayedTree
 public import ECToBlob.Section3Observations
 
@@ -27,7 +27,7 @@ statements of `HasTrivialFourBlob` and `InducedCutSplit` need.
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Phylogenetics.QuartetTests Finset Filter Topology
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Phylogenetics.QuartetTests Finset Filter Topology
 open scoped Classical
 
 namespace ECToBlob.FinNetwork
@@ -68,9 +68,9 @@ theorem Tables.hasTrivialFourBlob_iff (h : Tables src tgt root desc avoid)
   constructor
   · intro htr
     obtain ⟨v, hv⟩ := exists_isHub hN (by omega) htr
-    exact ⟨v, h.isHub_iff.1 hv⟩
+    exact ⟨v, (ECToBlob.FinNetwork.Tables.isHub_iff h).1 hv⟩
   · rintro ⟨v, hv⟩
-    exact hasTrivialFourBlob_of_isHub hN (by omega) (h.isHub_iff.2 hv)
+    exact hasTrivialFourBlob_of_isHub hN (by omega) ((ECToBlob.FinNetwork.Tables.isHub_iff h).2 hv)
 
 end Tables
 
@@ -184,7 +184,7 @@ namespace Binary
 
 /-- It has no trivial 4-blob. -/
 theorem not_hasTrivialFourBlob {q : Finset (Fin 5)} (hq : q.card = 4) : ¬ HasTrivialFourBlob net q := by
-  rw [tables.hasTrivialFourBlob_iff net_isPhylogenetic hq]
+  rw [ECToBlob.FinNetwork.Tables.hasTrivialFourBlob_iff TreeOfBlobs.FinNetwork.Binary.tables TreeOfBlobs.FinNetwork.Binary.net_isPhylogenetic hq]
   have : ∀ q : Finset (Fin 5), q.card = 4 → ∀ v, ¬ HubT src tgt lf desc avoid q v := by decide
   exact fun ⟨v, hv⟩ => this q hq v hv
 
@@ -204,14 +204,14 @@ theorem T₀_isUnrootedTree : IsUnrootedTree T₀ :=
 
 theorem T₀_isResolution : IsResolutionOf T₀ (treeOfBlobs net) := by
   refine ⟨T₀_isUnrootedTree, fun A hA => ?_⟩
-  rw [mem_treeOfBlobs_iff] at hA
+  rw [TreeOfBlobs.FinNetwork.Binary.mem_treeOfBlobs_iff] at hA
   unfold T₀ H₀ unroot
   revert A
   decide
 
 theorem T₀_ne_treeOfBlobs : ({1, 2} : Finset (Fin 5)) ∈ T₀ ∧ ({1, 2} : Finset (Fin 5)) ∉ treeOfBlobs net := by
   refine ⟨by unfold T₀ H₀ unroot; decide, ?_⟩
-  rw [mem_treeOfBlobs_iff]
+  rw [TreeOfBlobs.FinNetwork.Binary.mem_treeOfBlobs_iff]
   decide
 
 /-! #### The concordance factors of the displayed trees -/
@@ -221,7 +221,7 @@ variable {x : Fin 5}
 /-- **Both directions of Assumption 1 hold at all valid parameters.** -/
 theorem displayed_converse {θ : MetricData (Fin 11)} (hθ : net.IsMetric θ) :
     Assumption1Converse net (displayedCF net θ) := by
-  have hN := net_isPhylogenetic
+  have hN := TreeOfBlobs.FinNetwork.Binary.net_isPhylogenetic
   have h₁ := assumption1Forward_displayed hN hθ.isWeakMetric.isNormalized (θ := θ)
   refine assumption1Converse_of_cases h₁ fun q hq => ?_
   have hcases : ∀ q : Finset (Fin 5), q.card = 4 →
@@ -229,7 +229,7 @@ theorem displayed_converse {θ : MetricData (Fin 11)} (hθ : net.IsMetric θ) :
         ∃ x : Fin 5, (x = 3 ∨ x = 4) ∧ q = {0, 1, 2, x} := by decide
   rcases hcases q hq with ⟨y, z, rfl, hr⟩ | ⟨x, hx, rfl⟩
   · exact Or.inr (Or.inl ⟨quartetTree 3 4 y z hq, by simp [treesOn],
-      inducedCutSplit_of_rdom hN hq (tables.rdom_iff.2 hr)⟩)
+      inducedCutSplit_of_rdom hN hq (TreeOfBlobs.FinNetwork.Binary.tables.rdom_iff.2 hr)⟩)
   · right; right
     have h₁' : ({0, 2, 1, x} : Finset (Fin 5)).card = 4 := by
       rcases hx with rfl | rfl <;> decide
@@ -264,14 +264,14 @@ theorem displayed_converse {θ : MetricData (Fin 11)} (hθ : net.IsMetric θ) :
       simp only [quartetTree_val] at this
       rcases hx with rfl | rfl <;> exact absurd this (by decide)
     refine ⟨_, hm₁, _, hm₂, _, hm₃, h12, h13, h23, ?_,
-      displayedCF_pos_of_displays hN hθ choiceU (displays_of_uh choiceU_keeps hx h₁'),
-      displayedCF_pos_of_displays hN hθ choiceV (displays_of_vh choiceV_keeps hx h₂')⟩
+      displayedCF_pos_of_displays hN hθ choiceU (TreeOfBlobs.FinNetwork.Binary.displays_of_uh TreeOfBlobs.FinNetwork.Binary.choiceU_keeps hx h₁'),
+      displayedCF_pos_of_displays hN hθ choiceV (TreeOfBlobs.FinNetwork.Binary.displays_of_vh TreeOfBlobs.FinNetwork.Binary.choiceV_keeps hx h₂')⟩
     refine displayedCF_eq_zero_of_forall hN fun c => ?_
-    rcases uh_or_vh c with h | h
-    · refine ⟨_, ?_, displays_of_uh h hx h₁'⟩
+    rcases TreeOfBlobs.FinNetwork.Binary.uh_or_vh c with h | h
+    · refine ⟨_, ?_, TreeOfBlobs.FinNetwork.Binary.displays_of_uh h hx h₁'⟩
       refine QuartetTree.mem_alternatives.2 ⟨?_, h13.symm⟩
       rw [taxa_quartetTree, taxa_quartetTree, ht₁]
-    · refine ⟨_, ?_, displays_of_vh h hx h₂'⟩
+    · refine ⟨_, ?_, TreeOfBlobs.FinNetwork.Binary.displays_of_vh h hx h₂'⟩
       refine QuartetTree.mem_alternatives.2 ⟨?_, h23.symm⟩
       rw [taxa_quartetTree, taxa_quartetTree, ht₂]
 
@@ -299,14 +299,14 @@ theorem counterexample {θ : MetricData (Fin 11)} (hθ : net.IsMetric θ) :
         Tendsto (fun n : ℕ => Real.log (β n) / n) atTop (𝓝 0) →
         Tendsto (fun n => iidProb (displayedTreeDist net θ) n fun ω =>
           ectoblob o (α n) (β n) (conventionCount ω) T₀ = treeOfBlobs net) atTop (𝓝 1)) := by
-  have hN := net_isPhylogenetic
+  have hN := TreeOfBlobs.FinNetwork.Binary.net_isPhylogenetic
   have hw := hθ.isWeakMetric
   have h₁ := assumption1Forward_displayed hN hw.isNormalized (θ := θ)
   have h₂ := displayed_converse hθ
   have hne : T₀ ≠ treeOfBlobs net := fun h => T₀_ne_treeOfBlobs.2 (h ▸ T₀_ne_treeOfBlobs.1)
   refine ⟨h₁, h₂, T₀_isResolution, hne, fun o hm {α β} hα hβ₀ hβ => ?_, fun o hm {α β} hα₀ hβ₀ hα hβ => ?_⟩
   · have hself := tendsto_ectoblob_displayed_self (N := net) (θ := θ) hN hw T₀_isUnrootedTree
-      (A := {3, 4}) (by unfold T₀ H₀ unroot; decide) (mem_treeOfBlobs_iff.2 (by decide)) (by decide)
+      (A := {3, 4}) (by unfold T₀ H₀ unroot; decide) (TreeOfBlobs.FinNetwork.Binary.mem_treeOfBlobs_iff.2 (by decide)) (by decide)
       (fun B _ s _ hu => not_hasTrivialFourBlob s.card_taxa
         ((uniform_iff h₁ h₂ s).1 hu)) hm hα hβ₀ hβ
     exact ⟨hself, tendsto_eq_zero_of_tendsto_eq (displayedTreeDist_isDist hN hw) hne hself⟩
@@ -351,7 +351,7 @@ theorem tables : Tables src tgt 11 desc avoid :=
 abbrev net : RootedNetwork (Fin 12) (Fin 12) (Fin 6) := FinNetwork.net src tgt 11 lf
 
 theorem net_isPhylogenetic : net.IsPhylogenetic :=
-  isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
+  TreeOfBlobs.FinNetwork.isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
     (by decide)
 
 /-- It is not binary: `w` has three children. -/
@@ -365,7 +365,7 @@ theorem not_isBinary : ¬ net.IsBinary := by
 /-- Its trivial 4-blobs: `x, d, e, f` with `x ∈ {a, b, c}`. -/
 theorem hasTrivialFourBlob_iff {q : Finset (Fin 6)} (hq : q.card = 4) :
     HasTrivialFourBlob net q ↔ ∃ x : Fin 6, x.val < 3 ∧ q = {x, 3, 4, 5} := by
-  rw [tables.hasTrivialFourBlob_iff net_isPhylogenetic hq]
+  rw [ECToBlob.FinNetwork.Tables.hasTrivialFourBlob_iff tables net_isPhylogenetic hq]
   revert q
   decide
 
@@ -425,10 +425,10 @@ theorem displays_of_uh {c : net.ParentChoice} (huh : (8 : Fin 12) ∉ net.delete
     (hx : x = 3 ∨ x = 4 ∨ x = 5) (hc : ({0, 2, 1, x} : Finset (Fin 6)).card = 4) :
     Displays (net.displayedSides c) (quartetTree 0 2 1 x hc) := by
   have h₇ : (7 : Fin 12) ∉ net.deletedArcs c :=
-    notMem_deletedArcs_of_unique c (by decide) (by decide)
+    TreeOfBlobs.FinNetwork.notMem_deletedArcs_of_unique c (by decide) (by decide)
   have h₁₁ : (11 : Fin 12) ∉ net.deletedArcs c :=
-    notMem_deletedArcs_of_unique c (by decide) (by decide)
-  refine displays_of_cluster (P := {0, 2}) (u := (7 : Fin 12)) (by simp) (fun y hy => ?_)
+    TreeOfBlobs.FinNetwork.notMem_deletedArcs_of_unique c (by decide) (by decide)
+  refine TreeOfBlobs.displays_of_cluster (P := {0, 2}) (u := (7 : Fin 12)) (by simp) (fun y hy => ?_)
     (fun y hyt hyP hy => ?_)
   · rw [mem_insert, mem_singleton] at hy
     rcases hy with rfl | rfl
@@ -446,10 +446,10 @@ theorem displays_of_vh {c : net.ParentChoice} (hvh : (10 : Fin 12) ∉ net.delet
     (hx : x = 3 ∨ x = 4 ∨ x = 5) (hc : ({1, 2, 0, x} : Finset (Fin 6)).card = 4) :
     Displays (net.displayedSides c) (quartetTree 1 2 0 x hc) := by
   have h₉ : (9 : Fin 12) ∉ net.deletedArcs c :=
-    notMem_deletedArcs_of_unique c (by decide) (by decide)
+    TreeOfBlobs.FinNetwork.notMem_deletedArcs_of_unique c (by decide) (by decide)
   have h₁₁ : (11 : Fin 12) ∉ net.deletedArcs c :=
-    notMem_deletedArcs_of_unique c (by decide) (by decide)
-  refine displays_of_cluster (P := {1, 2}) (u := (8 : Fin 12)) (by simp) (fun y hy => ?_)
+    TreeOfBlobs.FinNetwork.notMem_deletedArcs_of_unique c (by decide) (by decide)
+  refine TreeOfBlobs.displays_of_cluster (P := {1, 2}) (u := (8 : Fin 12)) (by simp) (fun y hy => ?_)
     (fun y hyt hyP hy => ?_)
   · rw [mem_insert, mem_singleton] at hy
     rcases hy with rfl | rfl

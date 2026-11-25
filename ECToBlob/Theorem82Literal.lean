@@ -24,7 +24,7 @@ meeting both clauses, and `ECToBlob.theorem8_2_generic` gives the conclusion for
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Phylogenetics.QuartetTests Finset Filter Topology MeasureTheory
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Phylogenetics.QuartetTests Finset Filter Topology MeasureTheory
 open scoped Classical
 
 namespace ECToBlob.Theorem82Literal
@@ -56,12 +56,12 @@ theorem tables : Tables src tgt 8 desc avoid :=
 abbrev net : RootedNetwork (Fin 9) (Fin 9) (Fin 4) := ECToBlob.FinNetwork.net src tgt 8 lf
 
 theorem net_isPhylogenetic : net.IsPhylogenetic :=
-  isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
+  TreeOfBlobs.FinNetwork.isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
 
 /-- No set of four taxa has a trivial 4-blob. -/
 theorem not_hasTrivialFourBlob {Q : Finset (Fin 4)} (hQ : Q.card = 4) : ¬ HasTrivialFourBlob net Q := by
   have : ∀ Q : Finset (Fin 4), Q.card = 4 → ∀ v, ¬ HubT src tgt lf desc avoid Q v := by decide
-  rw [tables.hasTrivialFourBlob_iff net_isPhylogenetic hQ]
+  rw [ECToBlob.FinNetwork.Tables.hasTrivialFourBlob_iff tables net_isPhylogenetic hQ]
   rintro ⟨v, hv⟩
   exact this Q hQ v hv
 
@@ -239,11 +239,11 @@ theorem not_theorem8_2_literal (o : ECToBlobOptions) :
   have hlaw := model_of_length_eq_one hθ₁
   have hd : IsDist (OnFour.law (1 / 4)) := OnFour.law_isDist (by norm_num) (by norm_num)
   have hcycle := h net net_isPhylogenetic model (fun θ _ => model_isDist θ) assumption1 (unitMetric net)
-    (isMetric_unitMetric net) OnFour.T₀ isResolutionOf_T₀
+    (TreeOfBlobs.isMetric_unitMetric net) OnFour.T₀ isResolutionOf_T₀
     (fun _ _ _ r _ => by rw [hlaw]; exact displayCF_law_pos r)
   rw [hlaw] at hcycle
   have htree := h OnFour.net OnFour.net_isPhylogenetic (fun _ => OnFour.law (1 / 4)) (fun _ _ => hd) assumption1_tree
-    (unitMetric OnFour.net) (isMetric_unitMetric _) OnFour.T₀ ⟨OnFour.T₀_isUnrootedTree, OnFour.treeOfBlobs_eq.le⟩
+    (unitMetric OnFour.net) (TreeOfBlobs.isMetric_unitMetric _) OnFour.T₀ ⟨OnFour.T₀_isUnrootedTree, OnFour.treeOfBlobs_eq.le⟩
     (fun _ _ _ r _ => displayCF_law_pos r)
   rw [OnFour.treeOfBlobs_eq] at htree
   exact one_ne_zero (tendsto_nhds_unique hcycle (tendsto_eq_zero_of_tendsto_eq hd T₀_ne htree))

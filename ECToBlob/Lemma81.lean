@@ -1,6 +1,6 @@
 module
 
-public import TreeOfBlobs.Testing.Tails
+public import PhyloNetwork.Testing.Tails
 
 /-!
 # ECToBlob §8: Lemma 8.1

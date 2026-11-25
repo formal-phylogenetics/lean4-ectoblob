@@ -28,7 +28,7 @@ Each section quotes the paper's text, by its lines.
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Phylogenetics.QuartetTests Finset Filter Topology
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Phylogenetics.QuartetTests Finset Filter Topology
 open scoped Classical
 
 namespace ECToBlob.InPassing
@@ -276,7 +276,7 @@ theorem tables : Tables src tgt 10 desc avoid :=
 abbrev net : RootedNetwork (Fin 11) (Fin 11) (Fin 5) := FinNetwork.net src tgt 10 lf
 
 theorem net_isPhylogenetic : net.IsPhylogenetic :=
-  isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
+  TreeOfBlobs.FinNetwork.isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
     (by decide)
 
 /-- (`ecto:cor4_3_taxa`) **Lines 673-679.** "Consider a 5-cycle sunlet network on taxa `a, b, c, d, e`, with `a` the hybrid descendant. Set `A1 = {a, b}`,
@@ -291,7 +291,7 @@ theorem not_corollary4_3_with_taxa :
   · rw [tables.hasCutSplit_iff hN]
     decide
   · have hc : ({1, 2, 3, 4} : Finset (Fin 5)).card = 4 := by decide
-    exact FalseEdge.hasCutSplitOn_of_inducedCutSplit hc
+    exact PhyloNetwork.hasCutSplitOn_of_inducedCutSplit hc
       (inducedCutSplit_of_rdom hN hc (tables.rdom_iff.2 (by decide)))
 
 end Sunlet
@@ -616,11 +616,11 @@ theorem tables : Tables src tgt 4 desc avoid :=
 abbrev net : RootedNetwork (Fin 5) (Fin 4) (Fin 4) := FinNetwork.net src tgt 4 lf
 
 theorem net_isPhylogenetic : net.IsPhylogenetic :=
-  isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
+  TreeOfBlobs.FinNetwork.isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
     (by decide)
 
 theorem hasTrivialFourBlob (q : Finset (Fin 4)) (hq : q.card = 4) : HasTrivialFourBlob net q :=
-  (tables.hasTrivialFourBlob_iff net_isPhylogenetic hq).2 ⟨4, by
+  (ECToBlob.FinNetwork.Tables.hasTrivialFourBlob_iff tables net_isPhylogenetic hq).2 ⟨4, by
     have : ∀ q : Finset (Fin 4), q.card = 4 → HubT src tgt lf desc avoid q 4 := by decide
     exact this q hq⟩
 

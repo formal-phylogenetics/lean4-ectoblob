@@ -3,7 +3,7 @@ module
 public import Phylogenetics.Network.Cuts
 public import Phylogenetics.Tree.Splits
 public import Phylogenetics.Network.CutHierarchy
-public import TreeOfBlobs.InducedSplits
+public import PhyloNetwork.InducedSplits
 public import ECToBlob.Section4
 
 /-!
@@ -39,7 +39,7 @@ API: `ECToBlob.falseEdge_witness`, `FalseEdge.exists_cut_witness`,
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Finset
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Finset
 open scoped Classical
 
 namespace ECToBlob.FalseEdge

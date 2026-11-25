@@ -1,16 +1,16 @@
 module
 
-public import AllmanEtAl2023.Basic
-public import AllmanEtAl2023.Reduction
+public import Allman2023.LargeNetworks.Rule
+public import Allman2023.LargeNetworks.Reduction
 public import ECToBlob.FaceWitness
 public import TreeOfBlobs.Defs
-public import TreeOfBlobs.ForMathlib.Analysis.AnalyticZeroSet
+public import Phylogenetics.ForMathlib.Analysis.AnalyticZeroSet
 public import Phylogenetics.NMSC.Analytic
 public import Phylogenetics.NMSC.Exchangeability
 public import Phylogenetics.Network.CutHierarchy
 public import Phylogenetics.Network.DeletedArcs
-public import TreeOfBlobs.Testing.Defs
-public import TreeOfBlobs.Level1Blobs
+public import PhyloNetwork.Testing.Defs
+public import PhyloNetwork.Level1Blobs
 public import Mathlib.MeasureTheory.Constructions.Pi
 public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 public import Mathlib.MeasureTheory.Measure.Dirac.Basic
@@ -31,7 +31,7 @@ adaptation of Theorem 1 of Allman et al. 2023, whose content it sketches ("check
 that generically, no two gene quartet probabilities are equal"). `adaptedAllmanTheorem1` proves that adaptation: the
 source's argument, with its choice of generic parameters and then of `γ`, runs on the face where all hybrid lengths are
 `0`, where the measure has its atom, since under the degree condition the cut arcs of the reduction can be chosen as
-tree arcs (`AllmanEtAl2023.exists_reduction_of_blobDegree`).
+tree arcs (`Allman2023.exists_reduction_of_blobDegree`).
 -/
 
 @[expose] public noncomputable section
@@ -108,7 +108,7 @@ theorem isNullParams_nmscCF_eq {r r' : QuartetTree X} {θ₀ : MetricData E} (h�
     (analyticOnNhd_nmscCF_coordMetric N d 0 r).sub (analyticOnNhd_nmscCF_coordMetric N d 0 r')
   have hw : nmscCF N (coordMetric N d θ₀.length θ₀.inheritance) 0 r -
       nmscCF N (coordMetric N d θ₀.length θ₀.inheritance) 0 r' ≠ 0 := by
-    rw [AllmanEtAl2023.coordMetric_self hθ₀ d]
+    rw [Phylogenetics.coordMetric_self hθ₀ d]
     exact sub_ne_zero.2 h
   have hnull := AnalyticOnNhd.prod_pi_dirac_add_restrict_setOf_eq_zero (fun e => N.IsHybridArc e)
     (s := Ici 0) (t := Ioi 0) (u := Ioo 0 1) hf ⟨(θ₀.length, θ₀.inheritance), hface, hw⟩
@@ -121,9 +121,9 @@ CFs differ from their alternatives, and then `γ` is picked. -/
 theorem exists_face_isNonCut (hN : N.IsPhylogenetic) (hdeg : BlobDegreeAtMostThree N) {q : Finset X}
     (hq : q.card = 4) (hnt : ¬ IsTreelike N q) (htr : ¬ HasTrivialFourBlob N q) :
     ∃ θ, N.IsNormalized θ ∧ (∀ e, N.IsHybridArc e → θ.length e = 0) ∧
-      AllmanEtAl2023.IsNonCut (nmscCF N θ 0) q := by
+      Allman2023.IsNonCut (nmscCF N θ 0) q := by
   obtain ⟨D, k₁, k₂, a, s₁, s₂, e₁, e₂, hD, hk, ht, hk₁, hk₂, hpar, -, -, hnot, hs₁, hs₂, hss, hsp₁,
-    hsp₂, he₁, he₂⟩ := AllmanEtAl2023.exists_reduction_of_blobDegree hN hdeg hq hnt htr
+    hsp₂, he₁, he₂⟩ := Allman2023.exists_reduction_of_blobDegree hN hdeg hq hnt htr
   obtain ⟨θ, hθ, hface, hnc⟩ := exists_isNonCut_of_reduction
     (Z := {e | N.IsHybridArc e}) hN hD hk ht hk₁ hk₂ hpar hq hnot hs₁ hs₂ hss hsp₁ hsp₂
     (not_isHybridArc_of_isTreeArc he₁) (not_isHybridArc_of_isTreeArc he₂)
@@ -139,7 +139,7 @@ and `NMSC.trivial_uniform`.
 The measure has atoms at length `0` on hybrid arcs, so the witness must be on the face where all hybrid
 lengths are `0` (`exists_face_isNonCut`). The source's parameters can be taken there, since the two cut arcs of its
 reduction can be moved down to tree arcs when reticulations have degree three
-(`AllmanEtAl2023.exists_reduction_of_blobDegree`). So the proof is the source's, read off a set of arcs of the network, as in
+(`Allman2023.exists_reduction_of_blobDegree`). So the proof is the source's, read off a set of arcs of the network, as in
 `src/ECToBlob/FaceWitness.lean` and `exists_reduction_aux` of `src/AllmanEtAl2023/Reduction.lean`, with what differs
 listed there, and the paper's sentence holds as written, for this measure.
 

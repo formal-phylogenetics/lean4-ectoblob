@@ -1,12 +1,12 @@
 module
 
-public import AllmanEtAl2023.GenericCF
+public import Allman2023.FourTaxa.GenericCF
 public import TreeOfBlobs.Defs
 public import Phylogenetics.NMSC.Exchangeability
 public import Phylogenetics.Network.CutHierarchy
 public import Phylogenetics.NMSC.Witness
-public import TreeOfBlobs.Testing.Combining
-public import TreeOfBlobs.Testing.Trinomial.Gaussian
+public import PhyloNetwork.Testing.Combining
+public import PhyloNetwork.Testing.Trinomial.Gaussian
 public import ECToBlob.Remark84
 
 /-!
@@ -32,7 +32,7 @@ proposes three changes to the algorithm. Here is their consistency.
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Phylogenetics.QuartetTests Phylogenetics.Trinomial
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Phylogenetics.QuartetTests Phylogenetics.Trinomial
 open Finset Filter Topology
 open scoped Classical
 
@@ -470,7 +470,7 @@ theorem exists_face_ne (hN : N.IsPhylogenetic) {s r : QuartetTree X} (hs : Induc
     (hr : r ∈ s.alternatives) :
     ∃ θ₀, N.IsNormalized θ₀ ∧ (∀ e, N.IsHybridArc e → θ₀.length e = 0) ∧
       nmscCF N θ₀ 0 r ≠ nmscCF N θ₀ 0 s := by
-  obtain ⟨e, he⟩ := (AllmanEtAl2023.inducedCutSplit_iff_exists_splitOffAt hN _).mp hs
+  obtain ⟨e, he⟩ := (Allman2023.inducedCutSplit_iff_exists_splitOffAt hN _).mp hs
   obtain ⟨g, hg⟩ : ∃ x, N.Dominates e x := by
     obtain ⟨P, hP, hsep⟩ := he
     obtain ⟨x, hx⟩ : P.Nonempty := Finset.card_pos.1 (by rw [s.card_of_mem hP]; omega)
@@ -481,8 +481,8 @@ theorem exists_face_ne (hN : N.IsPhylogenetic) {s r : QuartetTree X} (hs : Induc
     simp only [ℓ]
     split_ifs <;> norm_num
   have hℓe : ℓ e = 3 := by simp [ℓ]
-  refine ⟨AllmanEtAl2023.deletionMetric N ∅ ℓ,
-    AllmanEtAl2023.isNormalized_deletionMetric hN (isDeletion_empty hN) ℓ,
+  refine ⟨Allman2023.deletionMetric N ∅ ℓ,
+    Allman2023.isNormalized_deletionMetric hN (isDeletion_empty hN) ℓ,
     fun f hf => ?_, ?_⟩
   · have hfe : f ≠ e := by
       rintro rfl
@@ -490,11 +490,11 @@ theorem exists_face_ne (hN : N.IsPhylogenetic) {s r : QuartetTree X} (hs : Induc
     show ℓ f = 0
     simp [ℓ, hfe]
   · obtain ⟨hrt, hne⟩ := QuartetTree.mem_alternatives.1 hr
-    have h₁ := AllmanEtAl2023.three_quarters_lt_nmscCF hN (isDeletion_empty hN) hℓ hℓe he
+    have h₁ := Allman2023.three_quarters_lt_nmscCF hN (isDeletion_empty hN) hℓ hℓe he
     have h₂ := NMSC.nmscCF_le_exp_of_splitOffAt (ρ := 0) hN
-      (AllmanEtAl2023.isWeakMetric_deletionMetric hN (isDeletion_empty hN) hℓ)
+      (Allman2023.isWeakMetric_deletionMetric hN (isDeletion_empty hN) hℓ)
       ⟨le_rfl, zero_le_one⟩ (isDeletion_empty hN) (fun f hf => absurd hf (Set.notMem_empty f)) he hrt hne
-    rw [show (AllmanEtAl2023.deletionMetric N ∅ ℓ).length e = 3 from hℓe] at h₂
+    rw [show (Allman2023.deletionMetric N ∅ ℓ).length e = 3 from hℓe] at h₂
     have h₃ : Real.exp (-3) < 1 / 4 := by
       rw [Real.exp_neg, one_div]
       refine inv_strictAnti₀ (by norm_num) ?_

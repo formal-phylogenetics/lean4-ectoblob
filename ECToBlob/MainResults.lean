@@ -1,11 +1,11 @@
 module
 
-public import AllmanEtAl2023.BlobDefinitions
+public import Allman2023.Networks.BlobDefinitions
 public import TreeOfBlobs.Defs
 public import TreeOfBlobs.FinNetwork
-public import TreeOfBlobs.Testing.Combining
-public import TreeOfBlobs.Testing.IID
-public import TreeOfBlobs.Testing.MissingTaxa
+public import PhyloNetwork.Testing.Combining
+public import PhyloNetwork.Testing.IID
+public import PhyloNetwork.Testing.MissingTaxa
 public import ECToBlob.BinaryLawExample
 public import ECToBlob.DisplayedTree
 public import ECToBlob.DisplayedTreeExample
@@ -20,17 +20,17 @@ public import ECToBlob.Section5
 public import ECToBlob.Section8
 public import ECToBlob.SumOfPairs
 public import ECToBlob.Theorem82Literal
-public import Nanuq.MissingTaxa
-public import Nanuq.NANUQ
-public import Nanuq.Quartet
-public import Nanuq.QuartetClass
-public import Nanuq.QuartetContract
-public import Nanuq.QuartetForm
+public import Nanuq.Algorithm.MissingTaxa
+public import Nanuq.Algorithm.Consistency
+public import Nanuq.Networks.QuartetNetwork
+public import Nanuq.QuartetDistance.Class
+public import Nanuq.QuartetDistance.Contract
+public import Nanuq.QuartetDistance.Form
 public import ECToBlob.External.LegriedEtAl2021.Bridge
 public import ECToBlob.External.LegriedEtAl2021.Expect
 public import ECToBlob.External.LegriedEtAl2021.Model
 public import ECToBlob.External.LegriedEtAl2021.Theorem1
-public import TreeOfBlobs.External.MitchellAllmanRhodes2019.T3Test
+public import PhyloNetwork.External.MitchellAllmanRhodes2019.T3Test
 public import Phylogenetics.Hierarchy.Defs
 public import Phylogenetics.NMSC.Defs
 public import Phylogenetics.NMSC.History
@@ -40,8 +40,8 @@ public import Phylogenetics.Network.Quartets
 public import Phylogenetics.Tree.Defs
 public import Phylogenetics.Tree.Splits
 public import Phylogenetics.Network.CutHierarchy
-public import TINNiK.Basic
-public import TINNiK.MissingTaxa
+public import Tinnik.Consistency.Theorem4
+public import Tinnik.Consistency.MissingTaxa
 
 /-!
 # The main results of ECToBlob
@@ -62,7 +62,7 @@ universe u
 
 section
 
-open Phylogenetics Phylogenetics.RootedNetwork ECToBlob TOBQMC Filter Topology
+open Phylogenetics Phylogenetics.RootedNetwork ECToBlob Filter Topology
 
 /-- **ECToBlob, Theorem 3.1.** Let `p` be nonnegative weights on the quartet trees, the probabilities of a
 gene tree distribution, such that (1) if a cut edge of the network separates `a, b` from `c, d`, then
@@ -120,7 +120,7 @@ end
 
 section
 
-open Phylogenetics Phylogenetics.RootedNetwork ECToBlob TOBQMC AllmanEtAl2023 Filter Topology
+open Phylogenetics Phylogenetics.RootedNetwork ECToBlob Allman2023 Filter Topology
 
 /-- **ECToBlob, Theorem 8.2, for the displayed tree model, for Bon and BBC.** There are sequences `α_n`, `β_n`, independent of the network, such that for every network, possibly non-binary, every resolution `T₀` of the
 tree of blobs and every variant with Bon or BBC, the output on the counts of `n` displayed trees is the tree of blobs with probability tending to one. The converse of Assumption 1 is a hypothesis at the parameters. -/
@@ -236,7 +236,7 @@ section
 
 open Phylogenetics Phylogenetics.RootedNetwork Filter Topology Finset MeasureTheory ProbabilityTheory
 
-open External.AllmanBanosRhodes2019 in
+open Nanuq in
 /-- **NANUQ (Allman, Baños, Rhodes 2019), Proposition 9**, in the source's own terms, on a set of four taxa of a binary level-1 network, for the network multispecies coalescent at any `0 ≤ ρ ≤ 1`. `Q̃` is `qTilde`, and an `m_k`-cycle is `HasCycleType`. With no `4₁`- or `3₂`-cycle, the
 concordance factor is tree-like and supports `Q̃`; with a `3₂`-cycle, its entry for `Q̃` is at least `1/6`, the other two are equal, and a tree-like one supports `Q̃` or is the centroid; with a `4₁`-cycle, it isn't tree-like, and on the 4-cycle `a, b, c, d` the entry of `ac|bd` is the least. -/
 theorem nanuq_proposition9_source {V E X : Type*} [Fintype V] [Fintype E] [Fintype X] [DecidableEq X] {N : RootedNetwork V E X} {q : Finset X}
@@ -258,13 +258,13 @@ theorem nanuq_proposition9_source {V E X : Type*} [Fintype V] [Fintype E] [Finty
         nmscCF N θ ρ (quartetTree a.1 c.1 b.1 d.1 h') < nmscCF N θ ρ (quartetTree a.1 d.1 b.1 c.1 h''))) :=
   Quartet.proposition9_source hN hBin hLevel hθ hρ hq h h' h''
 
-open External.AllmanBanosRhodes2019 in
+open Nanuq in
 /-- **NANUQ, Theorem 36, corrected, with gene trees on subsets of the taxa.** With probability tending to one, on the concordance factors of `m` independent gene trees, the classification of all sets of four taxa, and so the quartet distance, is that of the network. The rest of the
 source's Theorem 36, the splits graph of the output, isn't formalized. -/
 theorem nanuq_theorem36_missing {V E X : Type*} [Fintype V] [Fintype E] [Fintype X] [DecidableEq X] [Nonempty X] {N : RootedNetwork V E X} {θ : MetricData E}
     (hN : N.IsPhylogenetic) (hBin : N.IsBinary) (hLevel : IsLevelOne N) (hθ : N.IsMetric θ)
-    (h32 : ThreeTwoTreelike N (nmscCF N θ 0)) (hcen : TINNiK.NoCentroidCF (nmscCF N θ 0))
-    {on : (m : ℕ) → Fin m → Finset X} (hon : TINNiK.Covers on) :
+    (h32 : ThreeTwoTreelike N (nmscCF N θ 0)) (hcen : Tinnik.NoCentroidCF (nmscCF N θ 0))
+    {on : (m : ℕ) → Fin m → Finset X} (hon : Tinnik.Covers on) :
     ∃ α : ℕ → ℝ, (∀ m, 0 < α m) ∧ (∀ᶠ m in atTop, α m < 1) ∧ Tendsto α atTop (𝓝 0) ∧
       ∀ β : ℝ, 0 < β → β < 1 → ∀ mlT mlC : (QuartetTree X → ℝ) → Finset X → QuartetTree X,
         IsMaxCountSelection mlT → IsMinCountSelection mlC →

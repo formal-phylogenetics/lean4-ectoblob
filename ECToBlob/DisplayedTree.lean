@@ -26,7 +26,7 @@ counts (`conventionCount`). This file settles what happens there.
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Phylogenetics.QuartetTests Finset Filter Topology
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Phylogenetics.QuartetTests Finset Filter Topology
 open scoped Classical
 
 namespace ECToBlob.DisplayedTree

@@ -1,12 +1,12 @@
 module
 
 public import TreeOfBlobs.Defs
-public import TreeOfBlobs.InducedSplits
+public import PhyloNetwork.InducedSplits
 public import TreeOfBlobs.RhoOne
 public import Phylogenetics.NMSC.DisplayedTreeModel
-public import TreeOfBlobs.Testing.Combining
-public import TreeOfBlobs.Testing.Tails
-public import TreeOfBlobs.Testing.Trinomial.Bridge
+public import PhyloNetwork.Testing.Combining
+public import PhyloNetwork.Testing.Tails
+public import PhyloNetwork.Testing.Trinomial.Bridge
 public import ECToBlob.Remark33
 public import ECToBlob.Section8
 
@@ -52,7 +52,7 @@ API: `limitTree`, `CoarseRun`, `IsLimit`, `outputBy`, `edgeTestP`, `treeTestP`, 
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Finset Filter Topology
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Finset Filter Topology
 open scoped Classical
 
 namespace ECToBlob.Coarsening
@@ -2018,9 +2018,9 @@ theorem exists_nontrivial : ∃ s ∈ multipartitionQuartets T₀ ({3, 4} : Fins
   have hc : ({3, 4, 0, 1} : Finset (Fin 5)).card = 4 := by decide
   refine ⟨quartetTree 3 4 0 1 hc, quartetTree_mem hc (by decide) (by decide) (by decide) (by decide)
     ?_ ?_, ?_⟩
-  · unfold FalseEdge.Sep T₀ H₀ unroot
+  · unfold PhyloNetwork.Sep T₀ H₀ unroot
     decide
-  · unfold FalseEdge.Sep T₀ H₀ unroot
+  · unfold PhyloNetwork.Sep T₀ H₀ unroot
     decide
   · rw [taxa_quartetTree, hasTrivialFourBlob_iff hc]
     decide

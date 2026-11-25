@@ -2,7 +2,7 @@ module
 
 public import TreeOfBlobs.Defs
 public import Phylogenetics.NMSC.DisplayedTreeModel
-public import TreeOfBlobs.Level1Blobs
+public import PhyloNetwork.Level1Blobs
 public import ECToBlob.Remark33
 public import ECToBlob.Remark52
 
@@ -20,7 +20,7 @@ The claim holds with the definition of TINNiK ([5] of the paper, TINNiK's text, 
 quartet {a,b,c,d} is one whose CF is ab|cd cut of the form (p, q, q) with q ≥ 1/3", for which `q = 1/3` is anomalous. The
 paper's use agrees with it: "the inequality uses the no-anomalous quartets assumption" (line 722, of the strict (5.2)), and
 without it "the correct quartet topology need not be indicated by the largest entry of the expected CF" (lines 1459-1460).
-So does Definition 1 of TOB-QMC, with strict inequalities. The Lean definitions `TOBQMC.IsTQuartetNonanomalous` and
+So does Definition 1 of TOB-QMC, with strict inequalities. The Lean definitions `TreeOfBlobs.IsTQuartetNonanomalous` and
 `NoAnomalousQuartets` are of this kind.
 
 ## The network
@@ -687,7 +687,7 @@ theorem remark3_3_strict {ρ γ s₁ s₂ : ℝ} (hρ₀ : 0 ≤ ρ) (hρ₁ : �
       Displays (treeOfBlobs cycleNet) abcd ∧
       (∀ r, nmscCF cycleNet (tieMetric ρ γ s₁ s₂) ρ r = 1 / 3) ∧
       ¬ nmscCF cycleNet (tieMetric ρ γ s₁ s₂) ρ abcd < 1 / 3 ∧
-      ¬ TOBQMC.IsTQuartetNonanomalous cycleNet (nmscCF cycleNet (tieMetric ρ γ s₁ s₂) ρ) ∧
+      ¬ TreeOfBlobs.IsTQuartetNonanomalous cycleNet (nmscCF cycleNet (tieMetric ρ γ s₁ s₂) ρ) ∧
       (∀ P, (P = {0, 1} ∨ P = {0, 2} ∨ P = {0, 3}) → IsBinaryTree (unroot (quartetHierarchy P)) ∧
         ∀ T', IsUnrootedTree T' → quartetSupport (nmscCF cycleNet (tieMetric ρ γ s₁ s₂) ρ) T' ≤
           quartetSupport (nmscCF cycleNet (tieMetric ρ γ s₁ s₂) ρ) (unroot (quartetHierarchy P))) ∧

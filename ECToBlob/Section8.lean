@@ -1,8 +1,8 @@
 module
 
 public import TreeOfBlobs.Defs
-public import TreeOfBlobs.Testing.Combining
-public import TreeOfBlobs.Testing.Limits
+public import PhyloNetwork.Testing.Combining
+public import PhyloNetwork.Testing.Limits
 public import ECToBlob.Section4
 public import ECToBlob.Section5
 public import ECToBlob.Lemma81

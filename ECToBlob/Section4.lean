@@ -1,7 +1,7 @@
 module
 
-public import AllmanEtAl2023.CutOrder
-public import AllmanEtAl2023.SubgraphBlobs
+public import Allman2023.LargeNetworks.CutOrder
+public import Allman2023.LargeNetworks.SubgraphBlobs
 public import Phylogenetics.Network.Cuts
 public import Phylogenetics.Tree.Metric
 public import Phylogenetics.Network.CutHierarchy
@@ -19,7 +19,7 @@ subgraphs `G̃₃`, `G̃₄`, the set `E` and the sides of `G̃₃`, are in `src
 
 @[expose] public section
 
-open Phylogenetics Phylogenetics.RootedNetwork AllmanEtAl2023
+open Phylogenetics Phylogenetics.RootedNetwork Allman2023
 
 namespace ECToBlob
 

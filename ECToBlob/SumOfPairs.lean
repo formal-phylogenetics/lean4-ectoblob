@@ -35,7 +35,7 @@ The paper does not design a test, and says "provided that". The test here is one
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Finset Filter Topology
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Finset Filter Topology
 open scoped Classical
 
 namespace ECToBlob.SumOfPairs
@@ -512,13 +512,13 @@ theorem treeOfBlobs_subset_of_sp {V₁ E₁ V₂ E₂ : Type*} {N₁ : RootedNet
       have hb₁' : b₁ ∉ A := Finset.mem_compl.1 hb₁
       have hb₂' : b₂ ∉ A := Finset.mem_compl.1 hb₂
       have hin : A ∩ (quartetTree a₁ a₂ b₁ b₂ h4).taxa ∈ (quartetTree a₁ a₂ b₁ b₂ h4).val := by
-        rw [FalseEdge.taxa_quartetTree, FalseEdge.inter_four ha₁ ha₂ hb₁' hb₂']
+        rw [PhyloNetwork.taxa_quartetTree, PhyloNetwork.inter_four ha₁ ha₂ hb₁' hb₂']
         simp
       have hstrict := hF₁.t1 _ (inducedCutSplit_of_mem h₁ hA hin)
       have hcut₂ : InducedCutSplit N₂ (quartetTree a₁ a₂ b₁ b₂ h4) := by
         by_contra hcon
         exact hC₂.t1 _ hcon hstrict
-      exact hnot (FalseEdge.hasCutSplitOn_of_inducedCutSplit h4 hcut₂)
+      exact hnot (PhyloNetwork.hasCutSplitOn_of_inducedCutSplit h4 hcut₂)
   · exact mem_treeOfBlobs_of_not_internal h₂ hne hne' hint
 
 /-- (`ecto:sec10_sp_identifiable`) **"The tree of blobs is identifiable from average pairwise distances"** (line 1429), under the analogue of Assumption 1: two
@@ -787,22 +787,22 @@ theorem displays_of_isPat [Fintype V] {c : N.ParentChoice} {u : V} {a b d e : X}
     (h : ({a, b, d, e} : Finset X).card = 4) (hp : IsPat (N.displayedCluster c u) a b d e) :
     Displays (N.displayedSides c) (quartetTree a b d e h) := by
   rcases hp with ⟨h₁, h₂, h₃, h₄⟩ | ⟨h₁, h₂, h₃, h₄⟩
-  · refine Section3Observations.displays_of_cluster (P := {a, b}) (u := u) (by simp) (fun x hx => ?_)
+  · refine TreeOfBlobs.displays_of_cluster (P := {a, b}) (u := u) (by simp) (fun x hx => ?_)
       (fun x hx hxP => ?_)
     · rw [mem_insert, mem_singleton] at hx
       rcases hx with rfl | rfl <;> assumption
-    · rw [FalseEdge.taxa_quartetTree] at hx
+    · rw [PhyloNetwork.taxa_quartetTree] at hx
       simp only [mem_insert, mem_singleton, not_or] at hx hxP
       rcases hx with rfl | rfl | rfl | rfl
       · exact absurd rfl hxP.1
       · exact absurd rfl hxP.2
       · exact h₃
       · exact h₄
-  · refine Section3Observations.displays_of_cluster (P := {d, e}) (u := u) (by simp) (fun x hx => ?_)
+  · refine TreeOfBlobs.displays_of_cluster (P := {d, e}) (u := u) (by simp) (fun x hx => ?_)
       (fun x hx hxP => ?_)
     · rw [mem_insert, mem_singleton] at hx
       rcases hx with rfl | rfl <;> assumption
-    · rw [FalseEdge.taxa_quartetTree] at hx
+    · rw [PhyloNetwork.taxa_quartetTree] at hx
       simp only [mem_insert, mem_singleton, not_or] at hx hxP
       rcases hx with rfl | rfl | rfl | rfl
       · exact h₃
@@ -819,7 +819,7 @@ theorem patWeight_eq_zero (hN : N.IsPhylogenetic) {c : N.ParentChoice} {a b d e 
   refine Finset.sum_eq_zero fun f _ => ite_eq_right ?_
   rintro ⟨-, hp⟩
   exact absurd ((isUnrootedTree_displayedSides hN c).displays_unique (displays_of_isPat h hp) hr
-    (by rw [ht, FalseEdge.taxa_quartetTree])) hne
+    (by rw [ht, PhyloNetwork.taxa_quartetTree])) hne
 
 omit [DecidableEq X] [Nonempty X] in
 /-- `avgWeight` is positive, from one kept arc with the pattern of positive length, at valid parameters. -/
@@ -913,9 +913,9 @@ theorem alternatives_quartetTree {a b d e : X} (h : ({a, b, d, e} : Finset X).ca
     simp only [mem_insert, mem_singleton] at hr
     rcases hr with rfl | rfl
     · exact QuartetTree.mem_alternatives.2 ⟨by
-        rw [FalseEdge.taxa_quartetTree, FalseEdge.taxa_quartetTree, ht₁], hne₁⟩
+        rw [PhyloNetwork.taxa_quartetTree, PhyloNetwork.taxa_quartetTree, ht₁], hne₁⟩
     · exact QuartetTree.mem_alternatives.2 ⟨by
-        rw [FalseEdge.taxa_quartetTree, FalseEdge.taxa_quartetTree, ht₂], hne₂⟩
+        rw [PhyloNetwork.taxa_quartetTree, PhyloNetwork.taxa_quartetTree, ht₂], hne₂⟩
   · rw [(quartetTree a b d e h).card_alternatives, Finset.card_pair hne]
 
 /-- (`ext:rhodes2025_prop6_1`) **The analogue of Assumption 1 in the forward direction, for the displayed tree model, on any network.** A trivial 4-blob
@@ -949,7 +949,7 @@ theorem spForward_averageDist (hN : N.IsPhylogenetic) (hθ : N.IsMetric θ) :
   · -- a trivial 4-blob: no displayed tree resolves it
     obtain ⟨a, b, d, e, h, rfl⟩ := TreeMetric.exists_eq_quartetTree r
     have hq' : q = {a, b, d, e} := by
-      rw [← mem_treesOn.1 hr, FalseEdge.taxa_quartetTree]
+      rw [← mem_treesOn.1 hr, PhyloNetwork.taxa_quartetTree]
     subst hq'
     have hzero : ∀ {u v w z : X} (hc : ({u, v, w, z} : Finset X).card = 4),
         ({u, v, w, z} : Finset X) = {a, b, d, e} → avgWeight N θ u v w z = 0 := by
@@ -957,7 +957,7 @@ theorem spForward_averageDist (hN : N.IsPhylogenetic) (hθ : N.IsMetric θ) :
       refine Finset.sum_eq_zero fun c _ => ?_
       have : patWeight N θ c u v w z = 0 := Finset.sum_eq_zero fun f _ => ite_eq_right fun hp =>
         absurd (displays_of_isPat hc hp.2) (not_displays_of_hasTrivialFourBlob hN c hq ht
-          (mem_treesOn.2 (by rw [FalseEdge.taxa_quartetTree, he])))
+          (mem_treesOn.2 (by rw [PhyloNetwork.taxa_quartetTree, he])))
       rw [this, mul_zero]
     obtain ⟨hab, had, hae, hbd, hbe, hde⟩ := ne_of_card_four h
     have h₁ : ({a, d, b, e} : Finset X).card = 4 := TreeMetric.card_four_of_ne had hab hae hbd.symm hde hbe
@@ -979,7 +979,7 @@ theorem spForward_averageDist (hN : N.IsPhylogenetic) (hθ : N.IsMetric θ) :
       · rw [hts]
       · have halt : t ∈ (quartetTree a b d e h).alternatives :=
           QuartetTree.mem_alternatives.2 ⟨by
-            rw [mem_treesOn.1 ht', FalseEdge.taxa_quartetTree], hts⟩
+            rw [mem_treesOn.1 ht', PhyloNetwork.taxa_quartetTree], hts⟩
         rw [alternatives_quartetTree h h₁ h₂] at halt
         simp only [mem_insert, mem_singleton] at halt
         rcases halt with rfl | rfl <;> linarith
@@ -1006,9 +1006,9 @@ theorem spForward_averageDist (hN : N.IsPhylogenetic) (hθ : N.IsMetric θ) :
       have hm : quartetTree a e b d h₂ ∈ (quartetTree a b d e h).alternatives := by rw [halt]; simp
       exact (QuartetTree.mem_alternatives.1 hm).2 he
     have hW₁ : avgWeight N θ a d b e = 0 := Finset.sum_eq_zero fun c _ => by
-      rw [patWeight_eq_zero hN h₁ (hdisp c) (by rw [FalseEdge.taxa_quartetTree, ht₁]) hne₁, mul_zero]
+      rw [patWeight_eq_zero hN h₁ (hdisp c) (by rw [PhyloNetwork.taxa_quartetTree, ht₁]) hne₁, mul_zero]
     have hW₂ : avgWeight N θ a e b d = 0 := Finset.sum_eq_zero fun c _ => by
-      rw [patWeight_eq_zero hN h₂ (hdisp c) (by rw [FalseEdge.taxa_quartetTree, ht₂]) hne₂, mul_zero]
+      rw [patWeight_eq_zero hN h₂ (hdisp c) (by rw [PhyloNetwork.taxa_quartetTree, ht₂]) hne₂, mul_zero]
     obtain ⟨hd₁, hd₂⟩ := hthree h h₁ h₂ hW₁ hW₂
     -- the separating arc, of positive length
     have hpos : 0 < avgWeight N θ a b d e := by
@@ -1035,7 +1035,7 @@ theorem spForward_averageDist (hN : N.IsPhylogenetic) (hθ : N.IsMetric θ) :
         mem_displayedCluster_of_dominates hN c hy
       have hout : ∀ y, ¬ N.IsBelow f y → y ∉ N.displayedCluster c (N.graph.target f) := fun y hy =>
         notMem_displayedCluster_of_not_isBelow hy
-      rw [FalseEdge.taxa_quartetTree] at hbelow
+      rw [PhyloNetwork.taxa_quartetTree] at hbelow
       rcases hP with rfl | rfl
       · exact Or.inl ⟨hin _ (hdom a (by simp)), hin _ (hdom b (by simp)),
           hout _ (hbelow d (by simp) (by simp [had.symm, hbd.symm])),
@@ -1099,10 +1099,10 @@ open FinNetwork FinNetwork.Binary
 /-- The cluster of `u` under a parent choice that keeps `u → h`. -/
 theorem isPat_of_uh {c : net.ParentChoice} (huh : (7 : Fin 11) ∉ net.deletedArcs c) {x : Fin 5}
     (hx : x = 3 ∨ x = 4) : IsPat (net.displayedCluster c 6) 0 2 1 x := by
-  have h₆ : (6 : Fin 11) ∉ net.deletedArcs c := notMem_deletedArcs_of_unique c (by decide) (by decide)
-  have h₁₀ : (10 : Fin 11) ∉ net.deletedArcs c := notMem_deletedArcs_of_unique c (by decide) (by decide)
+  have h₆ : (6 : Fin 11) ∉ net.deletedArcs c := TreeOfBlobs.FinNetwork.notMem_deletedArcs_of_unique c (by decide) (by decide)
+  have h₁₀ : (10 : Fin 11) ∉ net.deletedArcs c := TreeOfBlobs.FinNetwork.notMem_deletedArcs_of_unique c (by decide) (by decide)
   have hout : ∀ y : Fin 5, lf y ∉ desc 6 → y ∉ net.displayedCluster c 6 := fun y hy hm =>
-    hy (tables.reaches_iff.1 (mem_displayedCluster.1 hm).reaches)
+    hy (TreeOfBlobs.FinNetwork.Binary.tables.reaches_iff.1 (mem_displayedCluster.1 hm).reaches)
   refine Or.inl ⟨mem_displayedCluster.2 (Relation.ReflTransGen.single ⟨6, h₆, rfl, rfl⟩),
     mem_displayedCluster.2 (Relation.ReflTransGen.head ⟨7, huh, rfl, rfl⟩
       (Relation.ReflTransGen.single ⟨10, h₁₀, rfl, rfl⟩)), hout 1 (by decide), hout x ?_⟩
@@ -1111,10 +1111,10 @@ theorem isPat_of_uh {c : net.ParentChoice} (huh : (7 : Fin 11) ∉ net.deletedAr
 /-- The cluster of `v` under a parent choice that keeps `v → h`. -/
 theorem isPat_of_vh {c : net.ParentChoice} (hvh : (9 : Fin 11) ∉ net.deletedArcs c) {x : Fin 5}
     (hx : x = 3 ∨ x = 4) : IsPat (net.displayedCluster c 7) 1 2 0 x := by
-  have h₈ : (8 : Fin 11) ∉ net.deletedArcs c := notMem_deletedArcs_of_unique c (by decide) (by decide)
-  have h₁₀ : (10 : Fin 11) ∉ net.deletedArcs c := notMem_deletedArcs_of_unique c (by decide) (by decide)
+  have h₈ : (8 : Fin 11) ∉ net.deletedArcs c := TreeOfBlobs.FinNetwork.notMem_deletedArcs_of_unique c (by decide) (by decide)
+  have h₁₀ : (10 : Fin 11) ∉ net.deletedArcs c := TreeOfBlobs.FinNetwork.notMem_deletedArcs_of_unique c (by decide) (by decide)
   have hout : ∀ y : Fin 5, lf y ∉ desc 7 → y ∉ net.displayedCluster c 7 := fun y hy hm =>
-    hy (tables.reaches_iff.1 (mem_displayedCluster.1 hm).reaches)
+    hy (TreeOfBlobs.FinNetwork.Binary.tables.reaches_iff.1 (mem_displayedCluster.1 hm).reaches)
   refine Or.inl ⟨mem_displayedCluster.2 (Relation.ReflTransGen.single ⟨8, h₈, rfl, rfl⟩),
     mem_displayedCluster.2 (Relation.ReflTransGen.head ⟨9, hvh, rfl, rfl⟩
       (Relation.ReflTransGen.single ⟨10, h₁₀, rfl, rfl⟩)), hout 0 (by decide), hout x ?_⟩
@@ -1123,7 +1123,7 @@ theorem isPat_of_vh {c : net.ParentChoice} (hvh : (9 : Fin 11) ∉ net.deletedAr
 /-- An arc dominating a taxon has positive length, at valid parameters. -/
 theorem length_pos_of_dominates {θ : MetricData (Fin 11)} (hθ : net.IsMetric θ) {f : Fin 11} {y : Fin 5}
     (h : net.Dominates f y) : 0 < θ.length f := by
-  have hN := net_isPhylogenetic
+  have hN := TreeOfBlobs.FinNetwork.Binary.net_isPhylogenetic
   have hnh : ¬ net.IsHybridArc f := Remarks.not_isHybridArc_of_dominates hN h
   have h₃ := hN.nonroot_indegree _ (target_ne_root_of_isPhylogenetic hN f)
   refine hθ.1 f ?_
@@ -1136,7 +1136,7 @@ two sets of four taxa with no cut split, the sum of pairs of the quartet tree th
 the framework applies to it (`consistency_averageDist`). -/
 theorem spConverse_averageDist {θ : MetricData (Fin 11)} (hθ : net.IsMetric θ) :
     SPConverse net (averageDist net θ) := by
-  have hN := net_isPhylogenetic
+  have hN := TreeOfBlobs.FinNetwork.Binary.net_isPhylogenetic
   have hF := spForward_averageDist hN hθ
   have hs := averageDist_comm (N := net) (θ := θ)
   have h0 := averageDist_self (N := net) (θ := θ)
@@ -1146,7 +1146,7 @@ theorem spConverse_averageDist {θ : MetricData (Fin 11)} (hθ : net.IsMetric θ
         ∃ x : Fin 5, (x = 3 ∨ x = 4) ∧ q = {0, 1, 2, x} := by decide
   rcases hcases q hq with ⟨y, z, rfl, hr⟩ | ⟨x, hx, rfl⟩
   · exact Or.inr (Or.inl ⟨quartetTree 3 4 y z hq, by simp [treesOn],
-      inducedCutSplit_of_rdom hN hq (tables.rdom_iff.2 hr)⟩)
+      inducedCutSplit_of_rdom hN hq (TreeOfBlobs.FinNetwork.Binary.tables.rdom_iff.2 hr)⟩)
   · right; right
     have h₁' : ({0, 2, 1, x} : Finset (Fin 5)).card = 4 := by
       rcases hx with rfl | rfl <;> decide
@@ -1158,13 +1158,13 @@ theorem spConverse_averageDist {θ : MetricData (Fin 11)} (hθ : net.IsMetric θ
       rcases hx with rfl | rfl <;> decide
     have hm₁ : quartetTree 0 2 1 x h₁' ∈ treesOn ({0, 1, 2, x} : Finset (Fin 5)) := by
       simp only [treesOn, mem_filter, mem_univ, true_and]
-      rw [FalseEdge.taxa_quartetTree, ht₁]
+      rw [PhyloNetwork.taxa_quartetTree, ht₁]
     have hm₂ : quartetTree 1 2 0 x h₂' ∈ treesOn ({0, 1, 2, x} : Finset (Fin 5)) := by
       simp only [treesOn, mem_filter, mem_univ, true_and]
-      rw [FalseEdge.taxa_quartetTree, ht₂]
+      rw [PhyloNetwork.taxa_quartetTree, ht₂]
     have hm₃ : quartetTree 0 1 2 x hq ∈ treesOn ({0, 1, 2, x} : Finset (Fin 5)) := by
       simp only [treesOn, mem_filter, mem_univ, true_and]
-      rw [FalseEdge.taxa_quartetTree]
+      rw [PhyloNetwork.taxa_quartetTree]
     have h12 : quartetTree 0 2 1 x h₁' ≠ quartetTree 1 2 0 x h₂' := by
       intro h
       have := congrArg Subtype.val h
@@ -1182,21 +1182,21 @@ theorem spConverse_averageDist {θ : MetricData (Fin 11)} (hθ : net.IsMetric θ
       rcases hx with rfl | rfl <;> exact absurd this (by decide)
     -- the weights
     have hW₃ : avgWeight net θ 0 1 2 x = 0 := Finset.sum_eq_zero fun c _ => by
-      rcases uh_or_vh c with h | h
-      · rw [patWeight_eq_zero hN hq (displays_of_uh h hx h₁')
-          (by rw [FalseEdge.taxa_quartetTree, ht₁]) h13.symm, mul_zero]
-      · rw [patWeight_eq_zero hN hq (displays_of_vh h hx h₂')
-          (by rw [FalseEdge.taxa_quartetTree, ht₂]) h23.symm, mul_zero]
+      rcases TreeOfBlobs.FinNetwork.Binary.uh_or_vh c with h | h
+      · rw [patWeight_eq_zero hN hq (TreeOfBlobs.FinNetwork.Binary.displays_of_uh h hx h₁')
+          (by rw [PhyloNetwork.taxa_quartetTree, ht₁]) h13.symm, mul_zero]
+      · rw [patWeight_eq_zero hN hq (TreeOfBlobs.FinNetwork.Binary.displays_of_vh h hx h₂')
+          (by rw [PhyloNetwork.taxa_quartetTree, ht₂]) h23.symm, mul_zero]
     have hW₁ : 0 < avgWeight net θ 0 2 1 x :=
       avgWeight_pos hθ choiceU (f := 4)
-        (notMem_deletedArcs_of_unique choiceU (by decide) (by decide))
-        (isPat_of_uh choiceU_keeps hx)
-        (length_pos_of_dominates hθ (y := 0) (tables.dominates_iff.2 (by decide)))
+        (TreeOfBlobs.FinNetwork.notMem_deletedArcs_of_unique choiceU (by decide) (by decide))
+        (isPat_of_uh TreeOfBlobs.FinNetwork.Binary.choiceU_keeps hx)
+        (length_pos_of_dominates hθ (y := 0) (TreeOfBlobs.FinNetwork.Binary.tables.dominates_iff.2 (by decide)))
     have hW₂ : 0 < avgWeight net θ 1 2 0 x :=
       avgWeight_pos hθ choiceV (f := 5)
-        (notMem_deletedArcs_of_unique choiceV (by decide) (by decide))
-        (isPat_of_vh choiceV_keeps hx)
-        (length_pos_of_dominates hθ (y := 1) (tables.dominates_iff.2 (by decide)))
+        (TreeOfBlobs.FinNetwork.notMem_deletedArcs_of_unique choiceV (by decide) (by decide))
+        (isPat_of_vh TreeOfBlobs.FinNetwork.Binary.choiceV_keeps hx)
+        (length_pos_of_dominates hθ (y := 1) (TreeOfBlobs.FinNetwork.Binary.tables.dominates_iff.2 (by decide)))
     have i₁ := sumOfPairs_sub_eq (N := net) (θ := θ) 0 2 1 x
     have i₂ := sumOfPairs_sub_eq (N := net) (θ := θ) 1 2 0 x
     rw [avgWeight_comm_left 1 0 2 x, hW₃] at i₂

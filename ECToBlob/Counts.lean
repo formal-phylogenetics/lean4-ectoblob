@@ -1,14 +1,14 @@
 module
 
 public import TreeOfBlobs.Defs
-public import TreeOfBlobs.Testing.Combining
-public import TreeOfBlobs.Testing.Defs
+public import PhyloNetwork.Testing.Combining
+public import PhyloNetwork.Testing.Defs
 public import Phylogenetics.Tree.Detach
 public import Phylogenetics.Network.CutHierarchy
 public import ECToBlob.Deterministic
 public import ECToBlob.Remark84
 public import TreeOfBlobs.TreeCounts
-public import TINNiK.Counts
+public import Tinnik.Algorithms.Counts
 
 /-!
 # ECToBlob: operation counts
@@ -62,7 +62,7 @@ order: `O(s⁶)` does not need the bound on incident edges, since `(s - 3)²` ed
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Finset
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Finset
 open scoped Classical
 
 namespace ECToBlob.Counts
@@ -96,11 +96,11 @@ theorem compl_mem_internalSides {T : Finset (Finset X)} (hT : ∀ A ∈ T, Aᶜ 
 /-- **"At most `s - 3` internal edges of a tree"**: one side per edge, in any tree on `s ≥ 3` taxa. Rooted at `r`, a
 tree has at most `s - 1` clusters of at least two taxa, among them the root and `{r}ᶜ`. -/
 theorem card_edgeSides_add_three_le {T : Finset (Finset X)} (hT : IsUnrootedTree T) (h3 : 3 ≤ Fintype.card X) (r : X) :
-    (TOBQMC.edgeSides r T).card + 3 ≤ Fintype.card X := by
+    (TreeOfBlobs.edgeSides r T).card + 3 ≤ Fintype.card X := by
   have hS := hT.isSplitFamily (by omega)
   have hH := rootedAt_isHierarchy hS r
-  have hle := TINNiK.card_filter_two_le_add_one_le hH
-  have hsub : insert (univ : Finset X) (insert ({r} : Finset X)ᶜ (TOBQMC.edgeSides r T)) ⊆
+  have hle := TreeOfBlobs.card_filter_two_le_add_one_le hH
+  have hsub : insert (univ : Finset X) (insert ({r} : Finset X)ᶜ (TreeOfBlobs.edgeSides r T)) ⊆
       (rootedAt T r).filter fun A => 2 ≤ A.card := by
     intro A hA
     rw [mem_insert, mem_insert] at hA
@@ -112,12 +112,12 @@ theorem card_edgeSides_add_three_le {T : Finset (Finset X)} (hT : IsUnrootedTree
     · obtain ⟨hint, hr⟩ := mem_filter.mp hA
       obtain ⟨hAT, h₁, -⟩ := mem_filter.mp hint
       exact mem_filter.mpr ⟨mem_rootedAt.mpr (Or.inr (Or.inr ⟨hAT, hr⟩)), h₁⟩
-  have hnot₁ : ({r} : Finset X)ᶜ ∉ TOBQMC.edgeSides r T := by
+  have hnot₁ : ({r} : Finset X)ᶜ ∉ TreeOfBlobs.edgeSides r T := by
     intro h
     have := (mem_filter.mp (mem_filter.mp h).1).2.2
     rw [compl_compl, card_singleton] at this
     omega
-  have hnot₂ : (univ : Finset X) ∉ insert ({r} : Finset X)ᶜ (TOBQMC.edgeSides r T) := by
+  have hnot₂ : (univ : Finset X) ∉ insert ({r} : Finset X)ᶜ (TreeOfBlobs.edgeSides r T) := by
     rw [mem_insert]
     rintro (h | h)
     · exact (mem_compl.mp (h ▸ mem_univ r)) (mem_singleton_self r)
@@ -133,7 +133,7 @@ theorem card_internalSides_add_six_le {T : Finset (Finset X)} (hT : IsUnrootedTr
   obtain ⟨r⟩ : Nonempty X := Fintype.card_pos_iff.mp (by omega)
   rw [card_eq_two_mul_filter (fun A hA => compl_mem_internalSides hS.compl_mem hA) r]
   have := card_edgeSides_add_three_le hT h3 r
-  simp only [TOBQMC.edgeSides] at this
+  simp only [TreeOfBlobs.edgeSides] at this
   omega
 
 /-! ### The edges incident to an edge -/
@@ -179,7 +179,7 @@ theorem card_childClusters_rootedAt {T : Finset (Finset X)} (hT : IsBinaryTree T
   have hS := hTu.isSplitFamily h2
   have hH := rootedAt_isHierarchy hS r
   -- the clusters: `T` has `4 s - 6` sides, half of them without `r`
-  have hcardT := TOBQMC.card_of_isBinaryTree hT h2
+  have hcardT := TreeOfBlobs.card_of_isBinaryTree hT h2
   have hhalf := card_eq_two_mul_filter hS.compl_mem r
   have hcardH : (rootedAt T r).card + 1 = 2 * Fintype.card X := by
     have h₁ : ({r} : Finset X) ∉ T.filter fun A => r ∉ A := fun h => (mem_filter.mp h).2 (mem_singleton_self r)
@@ -192,9 +192,9 @@ theorem card_childClusters_rootedAt {T : Finset (Finset X)} (hT : IsBinaryTree T
       · exact (mem_filter.mp h).2 (mem_univ r)
     rw [rootedAt, card_insert_of_notMem h₂, card_insert_of_notMem h₁]
     omega
-  have hsum := TINNiK.sum_card_childClusters hH
+  have hsum := TreeOfBlobs.sum_card_childClusters hH
   have htot := card_filter_add_card_filter_not (s := rootedAt T r) (fun A : Finset X => 2 ≤ A.card)
-  rw [TINNiK.card_filter_not_two_le hH] at htot
+  rw [TreeOfBlobs.card_filter_not_two_le hH] at htot
   have hsplit := sum_filter_add_sum_filter_not (rootedAt T r) (fun A : Finset X => 2 ≤ A.card)
     (fun A => (childClusters (rootedAt T r) A).card)
   have h₂ : ∑ A ∈ (rootedAt T r).filter (fun A : Finset X => ¬ 2 ≤ A.card),
@@ -447,7 +447,7 @@ theorem card_internalSides_add_card_sdiff {T₀ T : Finset (Finset X)} (hT₀ : 
     rw [disjoint_left]
     intro A hA hA'
     exact (mem_sdiff.mp hA').2 (mem_filter.mp hA).1
-  have hc := TOBQMC.card_internalSides hT₀ h3
+  have hc := TreeOfBlobs.card_internalSides hT₀ h3
   rw [hsplit, card_union_of_disjoint hdis] at hc
   exact hc
 
@@ -806,7 +806,7 @@ each of its three quartet trees. -/
 theorem card_fourSets_add_card_quartetTree :
     (univ.filter fun q : Finset X => q.card = 4).card + Fintype.card (QuartetTree X) =
       4 * (Fintype.card X).choose 4 := by
-  rw [TINNiK.card_fourSets, TINNiK.card_quartetTree]
+  rw [Tinnik.card_fourSets, Tinnik.card_quartetTree]
   ring
 
 /-- The operations of Algorithm 7.1 for `bi` or `quad`, on `s` taxa, as the paper counts them

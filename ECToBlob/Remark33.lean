@@ -6,8 +6,8 @@ public import Phylogenetics.NMSC.DisplayedTreeModel
 public import Phylogenetics.NMSC.Induced
 public import Phylogenetics.Network.CutHierarchy
 public import Phylogenetics.NMSC.InducedParams
-public import TreeOfBlobs.Testing.Trinomial.Tests
-public import TreeOfBlobs.Level1Blobs
+public import PhyloNetwork.Testing.Trinomial.Tests
+public import PhyloNetwork.Level1Blobs
 public import ECToBlob.Section3
 
 /-!
@@ -248,7 +248,7 @@ omit [Fintype V] [Fintype E] in
 `NoAnomalousQuartets`, implies equation (3.1). -/
 theorem isTQuartetNonanomalous_of_inducedCutSplit (hN : N.IsPhylogenetic) {p : QuartetTree X → ℝ}
     (h : ∀ s, InducedCutSplit N s → ∀ r ∈ s.alternatives, p r < p s) :
-    TOBQMC.IsTQuartetNonanomalous N p := fun s hs =>
+    TreeOfBlobs.IsTQuartetNonanomalous N p := fun s hs =>
   h s (inducedCutSplit_of_displays_treeOfBlobs hN hs)
 
 /-- On a cut-edge split of the induced network, each alternative has concordance factor
@@ -283,7 +283,7 @@ assumptions of Theorem 3.1, provided the quartet tree of each cut edge is strict
 have positive lengths under `IsMetric`.
 
 Equation (3.1) is the assumption, so "no anomalous quartets" must be read in this strict form, as
-`TOBQMC.IsTQuartetNonanomalous` and `NoAnomalousQuartets` do. Definition 2 of the cited [8] (Ané et al.
+`TreeOfBlobs.IsTQuartetNonanomalous` and `NoAnomalousQuartets` do. Definition 2 of the cited [8] (Ané et al.
 2024) calls a quartet anomalous when `p_ab|cd < 1/3`, so that its absence is only `1/3 ≤ p_ab|cd`
 (`nmscCF_le_iff_one_third_le`), and (3.1) can fail with it: by Example 1 of [8], on the `3₂`-cycle with hybrid
 arcs of length `0`, tree arc of length `s₀` in the cycle and cut edge of length `t`,
@@ -293,7 +293,7 @@ the network is not anomalous in the sense of [8], its cut edge has positive leng
 conclusion of Theorem 3.1: on these four taxa all three resolved trees are optimal. ([8] is C. Ané, J. Fogg,
 E. Allman, H. Baños, J. Rhodes, J. Math. Biol. 88 (2024), read in the preprint bioRxiv 10.1101/2023.08.18.553582.) -/
 theorem remark3_3_nmsc (hN : N.IsPhylogenetic) (hθ : N.IsMetric θ) (hρ : 0 ≤ ρ ∧ ρ ≤ 1)
-    (hano : TOBQMC.IsTQuartetNonanomalous N (nmscCF N θ ρ)) :
+    (hano : TreeOfBlobs.IsTQuartetNonanomalous N (nmscCF N θ ρ)) :
     Theorem31Assumptions N (nmscCF N θ ρ) :=
   ⟨fun s => (nmscCF_pos hN hθ hρ s).le, hano, NMSC.exchangeability hN hθ hρ⟩
 
@@ -370,7 +370,7 @@ theorem expectedCF_nmscTreeDist [Nonempty X] (hN : N.IsPhylogenetic) (s : Quarte
 /-- **Corollary 3.6** (`ecto:cor3_6`) for the NMSC with inheritance correlation `0 ≤ ρ ≤ 1` and no anomalous
 quartets. -/
 theorem corollary3_6_nmsc [Nonempty X] (hN : N.IsPhylogenetic) (hθ : N.IsMetric θ) (hρ : 0 ≤ ρ ∧ ρ ≤ 1)
-    (hano : TOBQMC.IsTQuartetNonanomalous N (nmscCF N θ ρ)) :
+    (hano : TreeOfBlobs.IsTQuartetNonanomalous N (nmscCF N θ ρ)) :
     Tendsto (fun n => iidProb (nmscTreeDist N θ ρ) n fun ω =>
       ∀ T, IsUnrootedTree T →
         (∀ T', IsUnrootedTree T' → quartetSupport (empiricalCF ω) T' ≤ quartetSupport (empiricalCF ω) T) →

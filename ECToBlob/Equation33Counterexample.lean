@@ -185,7 +185,7 @@ theorem tables : Tables src tgt 7 desc avoid :=
 abbrev net : RootedNetwork (Fin 8) (Fin 7) (Fin 6) := ECToBlob.FinNetwork.net src tgt 7 lf
 
 theorem net_isPhylogenetic : net.IsPhylogenetic :=
-  isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
+  TreeOfBlobs.FinNetwork.isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
 
 /-- The sides of the tree of blobs. -/
 theorem mem_treeOfBlobs_iff {A : Finset (Fin 6)} :
@@ -207,7 +207,7 @@ theorem P₀_mem_multifurcations : P₀ ∈ multifurcations (treeOfBlobs net) :=
 /-- Four taxa in distinct blocks have a trivial 4-blob at the root. -/
 theorem hasTrivialFourBlob_of_inDistinctBlocks {q : Finset (Fin 6)} (hq : q.card = 4) (hI : InDistinctBlocks P₀ q) :
     HasTrivialFourBlob net q := by
-  rw [tables.hasTrivialFourBlob_iff net_isPhylogenetic hq]
+  rw [ECToBlob.FinNetwork.Tables.hasTrivialFourBlob_iff tables net_isPhylogenetic hq]
   have hdec : ∀ q : Finset (Fin 6), q.card = 4 → ¬ ({0, 1} : Finset (Fin 6)) ⊆ q → HubT src tgt lf desc avoid q 7 := by
     decide
   exact ⟨7, hdec q hq (inDistinctBlocks_P₀_iff.1 hI)⟩
@@ -238,7 +238,7 @@ def Equation33Printed : Prop :=
 right side `10/3`. -/
 theorem not_equation33Printed : ¬ Equation33Printed := by
   intro h
-  have hθ := isMetric_unitMetric net
+  have hθ := TreeOfBlobs.isMetric_unitMetric net
   have hρ : (0 : ℝ) ≤ 0 ∧ (0 : ℝ) ≤ 1 := ⟨le_rfl, zero_le_one⟩
   have he := h net net_isPhylogenetic _ hθ 0 hρ P₀ P₀_mem_multifurcations caterpillar caterpillar_isBinaryTree
   obtain ⟨h₁, h₂⟩ := values_nmsc hθ hρ caterpillar_isBinaryTree

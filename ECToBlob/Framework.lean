@@ -31,7 +31,7 @@ The instances: `ECToBlob.DisplayedTree` (the displayed tree model), `ECToBlob.Su
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Phylogenetics.QuartetTests Finset Filter Topology
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Phylogenetics.QuartetTests Finset Filter Topology
 open scoped Classical
 
 namespace ECToBlob.Framework

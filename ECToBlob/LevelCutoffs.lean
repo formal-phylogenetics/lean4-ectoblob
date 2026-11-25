@@ -24,7 +24,7 @@ For `β_n` this is `BinaryLaw.OnFour.tendsto_log_beta_of_consistent`. This file 
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Phylogenetics.QuartetTests Finset Filter Topology
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Phylogenetics.QuartetTests Finset Filter Topology
 open scoped Classical
 
 namespace ECToBlob.BinaryLaw
@@ -76,7 +76,7 @@ theorem tables : Tables src tgt 8 desc avoid :=
 abbrev net : RootedNetwork (Fin 9) (Fin 9) (Fin 4) := FinNetwork.net src tgt 8 lf
 
 theorem net_isPhylogenetic : net.IsPhylogenetic :=
-  isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
+  TreeOfBlobs.FinNetwork.isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
 
 theorem net_isBinary : net.IsBinary := by
   have hin : ∀ v : Fin 9, net.graph.indegree v = (univ.filter fun e => tgt e = v).card := by
@@ -102,7 +102,7 @@ theorem net_isBinary : net.IsBinary := by
 /-- No set of four taxa has a trivial 4-blob: the 4-blob is not a multifurcation. -/
 theorem not_hasTrivialFourBlob {Q : Finset (Fin 4)} (hQ : Q.card = 4) : ¬ HasTrivialFourBlob net Q := by
   have : ∀ Q : Finset (Fin 4), Q.card = 4 → ∀ v, ¬ HubT src tgt lf desc avoid Q v := by decide
-  rw [tables.hasTrivialFourBlob_iff net_isPhylogenetic hQ]
+  rw [ECToBlob.FinNetwork.Tables.hasTrivialFourBlob_iff tables net_isPhylogenetic hQ]
   rintro ⟨v, hv⟩
   exact this Q hQ v hv
 

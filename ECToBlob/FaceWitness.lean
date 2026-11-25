@@ -1,13 +1,13 @@
 module
 
-public import AllmanEtAl2023.GenericCF
+public import Allman2023.FourTaxa.GenericCF
 
 /-!
 # ECToBlob: non-cut parameters on a face, at a reduction
 
 The witness that ECToBlob's adaptation of Theorem 1 of Allman et al. 2023 needs, for networks whose reticulations have degree three and whose other nodes in non-trivial blobs may have any degree (`ECToBlob.exists_face_isNonCut`). It reads the two deleted networks off a set `D` of arcs of `N`, in the coordinates of `N`, and proves only the half of "strictly cut" that the choice of `γ` uses.
 
-This is not a proof of Theorem 1 of Allman et al. 2023, which is `AllmanEtAl2023.theorem1`.
+This is not a proof of Theorem 1 of Allman et al. 2023, which is `Allman2023.theorem1`.
 
 ## Main results
 
@@ -20,7 +20,7 @@ This is not a proof of Theorem 1 of Allman et al. 2023, which is `AllmanEtAl2023
 open Phylogenetics Phylogenetics.RootedNetwork Finset MeasureTheory
 open scoped Classical
 
-open Phylogenetics.DirectedMultigraph AllmanEtAl2023
+open Phylogenetics.DirectedMultigraph Allman2023
 
 open Phylogenetics.NMSC
 
@@ -123,7 +123,7 @@ theorem analyticOnNhd_nmscCF_offMetric (r : QuartetTree X) :
   have h := (analyticOnNhd_nmscCF_coordMetric N d 0 r).comp hm (Set.mapsTo_univ _ _)
   simpa only [Function.comp_def, maskCLM_apply, offMetric] using h
 
-/-- **A split off `D` gives a CF that differs from its alternatives**, for generic parameters off `D`. Long cut arcs give a point (`nmscCF_lt_nmscCF_of_splitOffAt`), and a CF is analytic in the coordinates. So all the numerical parameters off `D` vary, lengths and the other inheritance probabilities. The other half of "strictly cut", that the alternatives are equal, is not needed for the choice of `γ` (`exists_mem_Ioo_forall_ne`). -/
+/-- **A split off `D` gives a CF that differs from its alternatives**, for generic parameters off `D`. Long cut arcs give a point (`nmscCF_lt_nmscCF_of_splitOffAt`), and a CF is analytic in the coordinates. So all the numerical parameters off `D` vary, lengths and the other inheritance probabilities. The other half of "strictly cut", that the alternatives are equal, is not needed for the choice of `γ` (`Real.exists_mem_Ioo_forall_ne`). -/
 theorem measure_nmscCF_eq_offMetric (hN : N.IsPhylogenetic) (hD : N.IsDeletion D)
     {e : E} (heZ : e ∉ Z) {s r : QuartetTree X}
     (hs : N.SplitOffAt D e s) (hr : r ∈ s.alternatives) :
@@ -265,7 +265,7 @@ end Pair
 
 /-- **Parameters with a non-cut CF at a reduction** of `exists_reduction_of_blobDegree`: a set `D` of arcs of inheritance `0`, and two parents `k₁`, `k₂` with at most `a` below them. It is the argument of part (b) of the proof of Theorem 1 of Allman et al. 2023 (the PMC text, lines 150-152), read off `D`.
 
-The CF is the mixture `γ₁ CF¹ + γ₂ CF²` of the CFs of the two deleted networks (`NMSC.nmscCF_withPair`). `CF¹` and `CF²` differ from their alternatives for generic parameters (`measure_nmscCF_eq_offMetric`, for `insert k₂ D` and `insert k₁ D`). So a choice of the coordinates `x` (`exists_isStochasticCoords_notMem`), and then of `γ` (`exists_mem_Ioo_forall_ne`), gives a non-cut CF.
+The CF is the mixture `γ₁ CF¹ + γ₂ CF²` of the CFs of the two deleted networks (`NMSC.nmscCF_withPair`). `CF¹` and `CF²` differ from their alternatives for generic parameters (`measure_nmscCF_eq_offMetric`, for `insert k₂ D` and `insert k₁ D`). So a choice of the coordinates `x` (`exists_isStochasticCoords_notMem`), and then of `γ` (`Real.exists_mem_Ioo_forall_ne`), gives a non-cut CF.
 
 The set `Z` of arcs of length `0`, disjoint from the cut arcs, is the set of hybrid arcs for ECToBlob's measure, which needs a point on that face (`exists_face_isNonCut`). -/
 theorem exists_isNonCut_of_reduction (hN : N.IsPhylogenetic) (hD : N.IsDeletion D) {k₁ k₂ : E}
@@ -325,7 +325,7 @@ theorem exists_isNonCut_of_reduction (hN : N.IsPhylogenetic) (hD : N.IsDeletion 
       exact Or.inr (hcf₂ r (htaxa r hr r' hr' hne))
     · exact absurd (eq_of_mem_treesOn_of_ne hq hs₁ hs₂ hss hr hr' h₁ h₃ h₂ h₄) hne
   -- the choice of `γ`
-  obtain ⟨γ, hγ, hne⟩ := exists_mem_Ioo_forall_ne (treesOn q) (fun r => nmscCF N (θ.withPair k₁ k₂ 1) 0 r)
+  obtain ⟨γ, hγ, hne⟩ := Real.exists_mem_Ioo_forall_ne (treesOn q) (fun r => nmscCF N (θ.withPair k₁ k₂ 1) 0 r)
     (fun r => nmscCF N (θ.withPair k₁ k₂ 0) 0 r) hsep
   have hmix : ∀ t ∈ treesOn q, nmscCF N (θ.withPair k₁ k₂ γ) 0 t =
       γ * nmscCF N (θ.withPair k₁ k₂ 1) 0 t + (1 - γ) * nmscCF N (θ.withPair k₁ k₂ 0) 0 t := fun t ht =>

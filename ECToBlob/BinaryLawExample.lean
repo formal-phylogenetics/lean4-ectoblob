@@ -20,7 +20,7 @@ public import ECToBlob.DisplayedTreeExample
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Phylogenetics.QuartetTests Finset Filter Topology
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Phylogenetics.QuartetTests Finset Filter Topology
 open scoped Classical
 
 namespace ECToBlob.BinaryLaw
@@ -154,18 +154,18 @@ open FinNetwork.Binary
 /-- A cut split of an induced network of this network is `de|xy`. -/
 theorem mem_val_of_inducedCutSplit {s : QuartetTree (Fin 5)} (h : InducedCutSplit net s) :
     ({3, 4} : Finset (Fin 5)) ∈ s.val := by
-  obtain ⟨a, b, c, d, hc, rfl, hr⟩ := exists_rdom_of_inducedCutSplit net_isPhylogenetic h
+  obtain ⟨a, b, c, d, hc, rfl, hr⟩ := exists_rdom_of_inducedCutSplit TreeOfBlobs.FinNetwork.Binary.net_isPhylogenetic h
   have hdec : ∀ a b c d : Fin 5, ({a, b, c, d} : Finset (Fin 5)).card = 4 →
       RDomT tgt lf desc avoid a b c d →
       ({a, b} : Finset (Fin 5)) = {3, 4} ∨ ({c, d} : Finset (Fin 5)) = {3, 4} := by decide
-  rcases hdec a b c d hc (tables.rdom_iff.1 hr) with h' | h'
+  rcases hdec a b c d hc (TreeOfBlobs.FinNetwork.Binary.tables.rdom_iff.1 hr) with h' | h'
   · simp [quartetTree, h']
   · simp [quartetTree, h']
 
 /-- A quartet tree with the cherry `de` is a cut split. -/
 theorem inducedCutSplit_of_mem_val {s : QuartetTree (Fin 5)} (h : ({3, 4} : Finset (Fin 5)) ∈ s.val) :
     InducedCutSplit net s :=
-  inducedCutSplit_of_mem net_isPhylogenetic ((mem_treeOfBlobs_iff (A := {3, 4})).2 (by decide))
+  inducedCutSplit_of_mem TreeOfBlobs.FinNetwork.Binary.net_isPhylogenetic ((TreeOfBlobs.FinNetwork.Binary.mem_treeOfBlobs_iff (A := {3, 4})).2 (by decide))
     (by rwa [Finset.inter_eq_left.2 (s.subset_taxa h)])
 
 /-- Both directions of Assumption 1, for concordance factors of the shape of the two laws below. -/
@@ -181,7 +181,7 @@ theorem assumption1_of_shape {p : QuartetTree (Fin 5) → ℝ} {A B C D : ℝ} (
     (hab : ∀ s : QuartetTree (Fin 5), ({0, 1} : Finset (Fin 5)) ∈ s.val →
       ¬ ({3, 4} : Finset (Fin 5)) ⊆ s.taxa → p s = 0) :
     Assumption1Forward net p ∧ Assumption1Converse net p := by
-  have hN := net_isPhylogenetic
+  have hN := TreeOfBlobs.FinNetwork.Binary.net_isPhylogenetic
   have hF : Assumption1Forward net p := by
     refine ⟨fun q hq htr => absurd htr (not_hasTrivialFourBlob hq), fun s hs => ?_⟩
     have h₀ := mem_val_of_inducedCutSplit hs
@@ -479,7 +479,7 @@ theorem tables : Tables src tgt 6 desc avoid :=
 abbrev net : RootedNetwork (Fin 7) (Fin 6) (Fin 4) := FinNetwork.net src tgt 6 lf
 
 theorem net_isPhylogenetic : net.IsPhylogenetic :=
-  isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
+  TreeOfBlobs.FinNetwork.isPhylogenetic_of_down (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
     (by decide)
 
 /-- The rooted trees on four taxa with the given cherries. -/
@@ -574,7 +574,7 @@ theorem law_assumption1 {q : ℝ} (h1 : q < 1 / 3) :
   have hF : Assumption1Forward net (displayCF (law q) Subtype.val) := by
     refine ⟨fun Q hQ htr => ?_, fun s hs => ?_⟩
     · have : ∀ Q : Finset (Fin 4), Q.card = 4 → ∀ v, ¬ HubT src tgt lf desc avoid Q v := by decide
-      obtain ⟨v, hv⟩ := (tables.hasTrivialFourBlob_iff hN hQ).1 htr
+      obtain ⟨v, hv⟩ := (ECToBlob.FinNetwork.Tables.hasTrivialFourBlob_iff tables hN hQ).1 htr
       exact absurd hv (this Q hQ v)
     · have h₀ := mem_val_of_inducedCutSplit hs
       have haltv : ∀ r ∈ s.alternatives, displayCF (law q) Subtype.val r = q := by
@@ -730,7 +730,7 @@ theorem not_theorem8_2_without_hpos {m : TestCorrection} (hm : m = .cauchy ∨ m
   have hne : FinNetwork.Binary.T₀ ≠ treeOfBlobs FinNetwork.Binary.net := fun he =>
     FinNetwork.Binary.T₀_ne_treeOfBlobs.2 (he ▸ FinNetwork.Binary.T₀_ne_treeOfBlobs.1)
   have hzero := tendsto_eq_zero_of_tendsto_eq OnBinary.lawD_isDist hne hself
-  have hone := h FinNetwork.Binary.net FinNetwork.Binary.net_isPhylogenetic OnBinary.lawD
+  have hone := h FinNetwork.Binary.net TreeOfBlobs.FinNetwork.Binary.net_isPhylogenetic OnBinary.lawD
     OnBinary.lawD_isDist h₁ h₂ FinNetwork.Binary.T₀ FinNetwork.Binary.T₀_isResolution o rfl
   exact one_ne_zero (tendsto_nhds_unique hone hzero)
 
@@ -1009,15 +1009,15 @@ theorem ectoblobEdge_eq_self {o : ECToBlobOptions} (hm : o.testCo = .cbc) {α β
   have hc₂ : ({3, 4, 0, 2} : Finset (Fin 5)).card = 4 := by decide
   have hS₁ : quartetTree 3 4 0 1 hc₁ ∈ multipartitionQuartets T₀ ({3, 4} : Finset (Fin 5)) := by
     refine quartetTree_mem hc₁ (by decide) (by decide) (by decide) (by decide) ?_ ?_
-    · unfold FalseEdge.Sep T₀ H₀ unroot
+    · unfold PhyloNetwork.Sep T₀ H₀ unroot
       decide
-    · unfold FalseEdge.Sep T₀ H₀ unroot
+    · unfold PhyloNetwork.Sep T₀ H₀ unroot
       decide
   have hS₂ : quartetTree 3 4 0 2 hc₂ ∈ multipartitionQuartets T₀ ({3, 4} : Finset (Fin 5)) := by
     refine quartetTree_mem hc₂ (by decide) (by decide) (by decide) (by decide) ?_ ?_
-    · unfold FalseEdge.Sep T₀ H₀ unroot
+    · unfold PhyloNetwork.Sep T₀ H₀ unroot
       decide
-    · unfold FalseEdge.Sep T₀ H₀ unroot
+    · unfold PhyloNetwork.Sep T₀ H₀ unroot
       decide
   have hS₁₂ : quartetTree 3 4 0 1 hc₁ ≠ quartetTree 3 4 0 2 hc₂ := by
     intro h
@@ -1120,7 +1120,7 @@ theorem not_consistency_edge_combination_cbc :
   have hd := lawC_isDist
   obtain ⟨h₁, h₂⟩ := lawC_assumption1
   refine ⟨hd, h₁, h₂, lawC_hpos, fun o hm => ?_, fun o hm {α β} hα hβ₀ hβ => ?_⟩
-  · exact consistency_edge_combination net net_isPhylogenetic lawC hd h₁ h₂ T₀ T₀_isResolution o hm
+  · exact consistency_edge_combination net TreeOfBlobs.FinNetwork.Binary.net_isPhylogenetic lawC hd h₁ h₂ T₀ T₀_isResolution o hm
       fun _ s hs r hr => lawC_hpos s hs r hr
   have key : ∀ ε : ℝ, 0 < ε → ∀ᶠ n in atTop, 1 / 2 - ε < iidProb lawC n fun ω =>
       ectoblobEdge o (α n) (β n) (quartetCount Subtype.val ω) T₀ = T₀ := by

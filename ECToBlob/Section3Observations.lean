@@ -1,13 +1,13 @@
 module
 
 public import TreeOfBlobs.FinNetwork
-public import TreeOfBlobs.General
+public import Phylogenetics.NMSC.ChoiceMetric
 public import Phylogenetics.NMSC.DisplayedTreeModel
 public import Phylogenetics.Tree.Detach
 public import Phylogenetics.Network.CutHierarchy
 public import ECToBlob.Remark33Counterexample
 public import ECToBlob.Section5
-public import TreeOfBlobs.Level1CF
+public import PhyloNetwork.Level1CF
 
 /-!
 # ECToBlob §3: the observations on what MQS infers
@@ -261,7 +261,7 @@ theorem isMQSOptimal_choiceMetric_iff [Nonempty X] (hN : N.IsPhylogenetic) (c : 
       refine theorem3_1 hM _ hnn (fun s hs r hr => h₁ s ?_ r hr) ?_ hT hmax
       · obtain ⟨P, hP, e', hd, hn⟩ := exists_separating_arc hM
           (inducedCutSplit_of_displays_treeOfBlobs hM hs)
-        refine displays_of_cluster hP (u := N.graph.target e'.val) (fun x hx => ?_) (fun x hxq hxP hx => ?_)
+        refine TreeOfBlobs.displays_of_cluster hP (u := N.graph.target e'.val) (fun x hx => ?_) (fun x hxq hxP hx => ?_)
         · exact mem_displayedCluster.2 (reachesOff_of_reaches_choiceNetwork hN c x₀ ((hd x hx).isBelow hM))
         · exact hn x hxq hxP (reaches_choiceNetwork hN c x₀ _ _ (mem_displayedCluster.1 hx))
       · rw [hF]
@@ -292,7 +292,7 @@ theorem isMQSOptimal_choiceMetric_iff [Nonempty X] (hN : N.IsPhylogenetic) (c : 
         exact mem_displayedCluster.2 (ht ▸ this)
       · intro h
         exact reaches_choiceNetwork hN c x₀ _ _ (ht ▸ mem_displayedCluster.1 h)
-    refine TOBQMC.Level1.displays_of_isBridge hM s hP (e := e')
+    refine PhyloNetwork.Level1.displays_of_isBridge hM s hP (e := e')
       ((DirectedMultigraph.isBridge_iff _ _).2 ⟨_, fun f => crosses_below_iff_of_tree hM (fun _ _ h => hstar h) e' f⟩)
       (fun x hx => ?_)
       (fun x hx hxP hb => hxP ((hu x hx).2 ((hbel x).1 hb)))
@@ -1064,7 +1064,7 @@ theorem displays_choiceU : Displays (fourCycle.displayedSides choiceU) abcd := b
   have hua : E₄.ua ∉ fourCycle.deletedArcs choiceU := notMem_deletedArcs_choice choiceU ⟨.a, by decide⟩
   have huh : E₄.uh ∉ fourCycle.deletedArcs choiceU := notMem_deletedArcs_choice choiceU ⟨.h, by decide⟩
   have hhb : E₄.hb ∉ fourCycle.deletedArcs choiceU := notMem_deletedArcs_choice choiceU ⟨.b, by decide⟩
-  refine displays_of_cluster (P := {0, 1}) (u := V₄.u) (by simp [abcd]) (fun x hx => ?_) (fun x _ hxP hx => ?_)
+  refine TreeOfBlobs.displays_of_cluster (P := {0, 1}) (u := V₄.u) (by simp [abcd]) (fun x hx => ?_) (fun x _ hxP hx => ?_)
   · rw [mem_insert, mem_singleton] at hx
     rcases hx with rfl | rfl
     · exact mem_displayedCluster.2 (Relation.ReflTransGen.single ⟨.ua, hua, rfl, rfl⟩)
@@ -1080,7 +1080,7 @@ theorem displays_choiceV : Displays (fourCycle.displayedSides choiceV) adbc := b
   have hvc : E₄.vc ∉ fourCycle.deletedArcs choiceV := notMem_deletedArcs_choice choiceV ⟨.c, by decide⟩
   have hvh : E₄.vh ∉ fourCycle.deletedArcs choiceV := notMem_deletedArcs_choice choiceV ⟨.h, by decide⟩
   have hhb : E₄.hb ∉ fourCycle.deletedArcs choiceV := notMem_deletedArcs_choice choiceV ⟨.b, by decide⟩
-  refine displays_of_cluster (P := {1, 2}) (u := V₄.v) (by simp [adbc]) (fun x hx => ?_) (fun x _ hxP hx => ?_)
+  refine TreeOfBlobs.displays_of_cluster (P := {1, 2}) (u := V₄.v) (by simp [adbc]) (fun x hx => ?_) (fun x _ hxP hx => ?_)
   · rw [mem_insert, mem_singleton] at hx
     rcases hx with rfl | rfl
     · exact mem_displayedCluster.2 (Relation.ReflTransGen.head ⟨.vh, hvh, rfl, rfl⟩
@@ -1183,7 +1183,7 @@ def choiceE₁ : N₁.ParentChoice := fun p => ⟨match p.val with
 theorem displays_choiceE₁ : Displays (N₁.displayedSides choiceE₁) abcd := by
   have hc : E₁.c ∉ N₁.deletedArcs choiceE₁ := notMem_deletedArcs_choice choiceE₁ ⟨.c, by decide⟩
   have hd : E₁.d ∉ N₁.deletedArcs choiceE₁ := notMem_deletedArcs_choice choiceE₁ ⟨.d, by decide⟩
-  refine displays_of_cluster (P := {2, 3}) (u := V₀.w) (by simp [abcd]) (fun x hx => ?_) (fun x _ hxP hx => ?_)
+  refine TreeOfBlobs.displays_of_cluster (P := {2, 3}) (u := V₀.w) (by simp [abcd]) (fun x hx => ?_) (fun x _ hxP hx => ?_)
   · rw [mem_insert, mem_singleton] at hx
     rcases hx with rfl | rfl
     · exact mem_displayedCluster.2 (Relation.ReflTransGen.single ⟨.c, hc, rfl, rfl⟩)

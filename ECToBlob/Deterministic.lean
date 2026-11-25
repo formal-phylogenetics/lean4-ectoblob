@@ -1,10 +1,10 @@
 module
 
 public import TreeOfBlobs.Defs
-public import TreeOfBlobs.InducedSplits
+public import PhyloNetwork.InducedSplits
 public import Phylogenetics.Network.Cuts
-public import TreeOfBlobs.Testing.Combining
-public import TreeOfBlobs.Testing.Defs
+public import PhyloNetwork.Testing.Combining
+public import PhyloNetwork.Testing.Defs
 public import Phylogenetics.Tree.Splits
 public import Phylogenetics.Network.CutHierarchy
 public import ECToBlob.FalseEdge
@@ -41,7 +41,7 @@ API: `CombineBounds`, `IsT1Null`, `TestCorrect`, `Run`, `ectoblob_eq_treeOfBlobs
 
 @[expose] public noncomputable section
 
-open Phylogenetics Phylogenetics.RootedNetwork Finset Filter Topology
+open Phylogenetics Phylogenetics.RootedNetwork PhyloNetwork Finset Filter Topology
 open scoped Classical
 
 namespace ECToBlob.Deterministic
