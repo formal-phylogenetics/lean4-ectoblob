@@ -8,6 +8,9 @@ public import Phylogenetics.NMSC.Witness
 public import PhyloNetwork.Testing.Combining
 public import PhyloNetwork.Testing.Trinomial.Gaussian
 public import Ectoblob.Consistency.Remark84
+public import Tinnik.External.Allman2023.Rule
+public import Ectoblob.External.Allman2023.GenericCF
+public import Tinnik.External.Allman2023.CFDetectable
 
 /-!
 # ECToBlob §10: variants of the algorithm
@@ -470,7 +473,7 @@ theorem exists_face_ne (hN : N.IsPhylogenetic) {s r : QuartetTree X} (hs : Induc
     (hr : r ∈ s.alternatives) :
     ∃ θ₀, N.IsNormalized θ₀ ∧ (∀ e, N.IsHybridArc e → θ₀.length e = 0) ∧
       nmscCF N θ₀ 0 r ≠ nmscCF N θ₀ 0 s := by
-  obtain ⟨e, he⟩ := (Allman2023.inducedCutSplit_iff_exists_splitOffAt hN _).mp hs
+  obtain ⟨e, he⟩ := (External.Allman2023.inducedCutSplit_iff_exists_splitOffAt hN _).mp hs
   obtain ⟨g, hg⟩ : ∃ x, N.Dominates e x := by
     obtain ⟨P, hP, hsep⟩ := he
     obtain ⟨x, hx⟩ : P.Nonempty := Finset.card_pos.1 (by rw [s.card_of_mem hP]; omega)
@@ -482,7 +485,7 @@ theorem exists_face_ne (hN : N.IsPhylogenetic) {s r : QuartetTree X} (hs : Induc
     split_ifs <;> norm_num
   have hℓe : ℓ e = 3 := by simp [ℓ]
   refine ⟨Allman2023.deletionMetric N ∅ ℓ,
-    Allman2023.isNormalized_deletionMetric hN (isDeletion_empty hN) ℓ,
+    External.Allman2023.isNormalized_deletionMetric hN (isDeletion_empty hN) ℓ,
     fun f hf => ?_, ?_⟩
   · have hfe : f ≠ e := by
       rintro rfl
@@ -490,9 +493,9 @@ theorem exists_face_ne (hN : N.IsPhylogenetic) {s r : QuartetTree X} (hs : Induc
     show ℓ f = 0
     simp [ℓ, hfe]
   · obtain ⟨hrt, hne⟩ := QuartetTree.mem_alternatives.1 hr
-    have h₁ := Allman2023.three_quarters_lt_nmscCF hN (isDeletion_empty hN) hℓ hℓe he
+    have h₁ := External.Allman2023.three_quarters_lt_nmscCF hN (isDeletion_empty hN) hℓ hℓe he
     have h₂ := NMSC.nmscCF_le_exp_of_splitOffAt (ρ := 0) hN
-      (Allman2023.isWeakMetric_deletionMetric hN (isDeletion_empty hN) hℓ)
+      (External.Allman2023.isWeakMetric_deletionMetric hN (isDeletion_empty hN) hℓ)
       ⟨le_rfl, zero_le_one⟩ (isDeletion_empty hN) (fun f hf => absurd hf (Set.notMem_empty f)) he hrt hne
     rw [show (Allman2023.deletionMetric N ∅ ℓ).length e = 3 from hℓe] at h₂
     have h₃ : Real.exp (-3) < 1 / 4 := by

@@ -14,6 +14,7 @@ public import PhyloNetwork.Level1Blobs
 public import Mathlib.MeasureTheory.Constructions.Pi
 public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 public import Mathlib.MeasureTheory.Measure.Dirac.Basic
+public import Ectoblob.External.Allman2023.Reduction
 
 /-!
 # ECToBlob §5: the measure on numerical parameters, Assumption 1, Proposition 5.1
@@ -123,7 +124,7 @@ theorem exists_face_isNonCut (hN : N.IsPhylogenetic) (hdeg : BlobDegreeAtMostThr
     ∃ θ, N.IsNormalized θ ∧ (∀ e, N.IsHybridArc e → θ.length e = 0) ∧
       Allman2023.IsNonCut (nmscCF N θ 0) q := by
   obtain ⟨D, k₁, k₂, a, s₁, s₂, e₁, e₂, hD, hk, ht, hk₁, hk₂, hpar, -, -, hnot, hs₁, hs₂, hss, hsp₁,
-    hsp₂, he₁, he₂⟩ := Allman2023.exists_reduction_of_blobDegree hN hdeg hq hnt htr
+    hsp₂, he₁, he₂⟩ := External.Allman2023.exists_reduction_of_blobDegree hN hdeg hq hnt htr
   obtain ⟨θ, hθ, hface, hnc⟩ := exists_isNonCut_of_reduction
     (Z := {e | N.IsHybridArc e}) hN hD hk ht hk₁ hk₂ hpar hq hnot hs₁ hs₂ hss hsp₁ hsp₂
     (not_isHybridArc_of_isTreeArc he₁) (not_isHybridArc_of_isTreeArc he₂)

@@ -7,6 +7,8 @@ public import Phylogenetics.Network.AncestralRestriction
 public import Phylogenetics.Tree.Splits
 public import Phylogenetics.Network.CutHierarchy
 public import Ectoblob.Basic.Data.Set.Card
+public import Ectoblob.External.Allman2023.CycleLemma
+public import Ectoblob.External.Allman2023.SubgraphBlobs
 
 /-!
 # ECToBlob §4: funnels, the subgraphs `G̃₃`, `G̃₄`, and their cut edges
@@ -113,7 +115,7 @@ theorem reaches_of_mem_funnel (hf : f ∈ funnel N Z z) :
 the taxon stays in the funnel. -/
 theorem walks_funnel_target (hf : f ∈ funnel N Z z) :
     N.graph.Walks (funnel N Z z) (N.graph.target f) (N.leaf z) :=
-  walks_of_reaches (reaches_of_mem_funnel hf) fun g h1 h2 =>
+  External.Allman2023.walks_of_reaches (reaches_of_mem_funnel hf) fun g h1 h2 =>
     ⟨⟨z, rfl, h2⟩, fun hg => hf.2 (N.mem_ancestralVertices_of_reaches (h1.tail ⟨g, rfl, rfl⟩) hg)⟩
 
 theorem walks_funnel_of_mem_funnelNodes (hx : x ∈ funnelNodes N Z z) :
@@ -131,11 +133,11 @@ theorem reaches_of_mem_funnelNodes (hx : x ∈ funnelNodes N Z z) :
 /-- A taxon outside `Z` is a node of its funnel. -/
 theorem leaf_mem_funnelNodes (hN : N.IsPhylogenetic) (hz : z ∉ Z) :
     N.leaf z ∈ funnelNodes N Z z := by
-  obtain ⟨g, hg, -, -⟩ := exists_leaf_arc hN z
+  obtain ⟨g, hg, -, -⟩ := External.Allman2023.exists_leaf_arc hN z
   refine ⟨g, ⟨⟨z, rfl, hg ▸ .refl⟩, ?_⟩, Or.inr hg⟩
   rintro ⟨y, hy, hr⟩
   rw [hg] at hr
-  exact hz (hN.leaf_injective (eq_of_leaf_reaches hN hr) ▸ hy)
+  exact hz (hN.leaf_injective (External.Allman2023.eq_of_leaf_reaches hN hr) ▸ hy)
 
 /-- A path from the root to a node outside the subgraph induced on `Z` leaves it by an arc. -/
 theorem exists_arc_entering (hN : N.IsPhylogenetic) (hZ : Z.Nonempty)
@@ -208,12 +210,12 @@ theorem induces_of_onlyCrosses (hN : N.IsPhylogenetic) {T : Set V} (he : e ∈ N
     · exact ⟨_, _, hs, ht, h2, h1⟩
   have hleaf : ∀ {a : X}, a ∈ Y → N.leaf a ∈ N.ancestralVertices Y :=
     fun ha => N.leaf_mem_ancestralVertices ha
-  refine ⟨hT.isCutIn he hc, fun x hx y hy => ?_, fun x hx y hy => ?_, fun x hx y hy hw => ?_⟩
-  · exact walks_diff_of_mem_side hT huT (walks_ancestral hN hu (hleaf (hP x hx).1))
-      (walks_ancestral hN hu (hleaf (hP y hy).1)) (hP x hx).2 (hP y hy).2
-  · exact walks_diff_of_mem_side hT.compl (not_not.mpr hwT) (walks_ancestral hN hw (hleaf (hQ x hx).1))
-      (walks_ancestral hN hw (hleaf (hQ y hy).1)) (hQ x hx).2 (hQ y hy).2
-  · exact (hQ y hy).2 ((hT.mem_iff_of_walks_diff hw).mp (hP x hx).2)
+  refine ⟨(External.Allman2023.OnlyCrosses.isCutIn hT) he hc, fun x hx y hy => ?_, fun x hx y hy => ?_, fun x hx y hy hw => ?_⟩
+  · exact External.Allman2023.walks_diff_of_mem_side hT huT (External.Allman2023.walks_ancestral hN hu (hleaf (hP x hx).1))
+      (External.Allman2023.walks_ancestral hN hu (hleaf (hP y hy).1)) (hP x hx).2 (hP y hy).2
+  · exact External.Allman2023.walks_diff_of_mem_side (External.Allman2023.OnlyCrosses.compl hT) (not_not.mpr hwT) (External.Allman2023.walks_ancestral hN hw (hleaf (hQ x hx).1))
+      (External.Allman2023.walks_ancestral hN hw (hleaf (hQ y hy).1)) (hQ x hx).2 (hQ y hy).2
+  · exact (hQ y hy).2 (((External.Allman2023.OnlyCrosses.mem_iff_of_walks_diff hT) hw).mp (hP x hx).2)
 
 /-- A cut-edge split of the subgraph induced on `Y` is given by a cut edge inducing it. -/
 theorem exists_induces (hN : N.IsPhylogenetic) {A : Set X} (h : N.HasCutSplitOn Y A)
@@ -229,13 +231,13 @@ theorem Induces.hasCutSplitOn (hN : N.IsPhylogenetic) (h : Induces N (N.ancestra
     (hY : ∀ x ∈ Y, x ∈ P ∨ x ∈ Q) (hPY : P ⊆ Y) (hQY : Q ⊆ Y) (hp : p ∈ P) (hq : q ∈ Q) :
     N.HasCutSplitOn Y P := by
   have hT : OnlyCrosses N.graph (N.ancestralArcs Y) e
-      (compOff N.graph (N.ancestralArcs Y) e (N.leaf p)) := onlyCrosses_compOff
+      (compOff N.graph (N.ancestralArcs Y) e (N.leaf p)) := External.Allman2023.onlyCrosses_compOff
   have hqT : N.leaf q ∉ compOff N.graph (N.ancestralArcs Y) e (N.leaf p) := h.sep p hp q hq
   have hc : N.graph.Crosses e (compOff N.graph (N.ancestralArcs Y) e (N.leaf p)) := by
-    obtain ⟨-, a, b, hl, ha, hb⟩ := exists_links_of_walks hT hqT
-      (walks_ancestral hN (N.leaf_mem_ancestralVertices (hQY hq))
+    obtain ⟨-, a, b, hl, ha, hb⟩ := External.Allman2023.exists_links_of_walks hT hqT
+      (External.Allman2023.walks_ancestral hN (N.leaf_mem_ancestralVertices (hQY hq))
         (N.leaf_mem_ancestralVertices (hPY hp))) (Relation.ReflTransGen.refl)
-    exact hl.crosses ha hb
+    exact (External.Allman2023.Links.crosses hl) ha hb
   refine ⟨e, h.cut.1, _, fun f hf => ⟨hT f hf, ?_⟩, fun x hx => ⟨fun hxT => ?_, h.left p hp x⟩⟩
   · rintro rfl
     exact hc
@@ -250,7 +252,7 @@ theorem Induces.restrict (hN : N.IsPhylogenetic) (h : Induces N (N.ancestralArcs
   have hleaf : ∀ {a : X}, a ∈ Z → N.leaf a ∈ N.ancestralVertices Z :=
     fun ha => N.leaf_mem_ancestralVertices ha
   have hconn : ∀ {a b : X}, a ∈ Z → b ∈ Z → N.graph.Walks (N.ancestralArcs Z) (N.leaf a) (N.leaf b) :=
-    fun ha hb => walks_ancestral hN (hleaf ha) (hleaf hb)
+    fun ha hb => External.Allman2023.walks_ancestral hN (hleaf ha) (hleaf hb)
   have he : e ∈ N.ancestralArcs Z := by
     by_contra hn
     have hsub' : N.ancestralArcs Z ⊆ N.ancestralArcs Y \ {e} := fun f hf => ⟨hsub hf, by
@@ -259,12 +261,12 @@ theorem Induces.restrict (hN : N.IsPhylogenetic) (h : Induces N (N.ancestralArcs
     exact h.sep p (hP hp) q (hQ hq) (walks_mono hsub' (hconn (hPZ hp) (hQZ hq)))
   have hsep : ∀ x ∈ P', ∀ y ∈ Q', ¬ N.graph.Walks (N.ancestralArcs Z \ {e}) (N.leaf x) (N.leaf y) :=
     fun x hx y hy hw => h.sep x (hP hx) y (hQ hy) (walks_mono (Set.sdiff_subset_sdiff_left hsub) hw)
-  refine ⟨isCutIn_of_subset hsub h.cut he, fun x hx y hy => ?_, fun x hx y hy => ?_, hsep⟩
-  · rcases mem_compOff_or_mem_compOff (hconn (hPZ hx) (hPZ hy)) (hconn (hPZ hx) (hQZ hq))
+  refine ⟨External.Allman2023.isCutIn_of_subset hsub h.cut he, fun x hx y hy => ?_, fun x hx y hy => ?_, hsep⟩
+  · rcases External.Allman2023.mem_compOff_or_mem_compOff (hconn (hPZ hx) (hPZ hy)) (hconn (hPZ hx) (hQZ hq))
       (hsep x hx q hq) with h1 | h1
     · exact h1
     · exact absurd (N.graph.walks_symm h1) (hsep y hy q hq)
-  · rcases mem_compOff_or_mem_compOff (hconn (hQZ hx) (hQZ hy)) (hconn (hQZ hx) (hPZ hp))
+  · rcases External.Allman2023.mem_compOff_or_mem_compOff (hconn (hQZ hx) (hQZ hy)) (hconn (hQZ hx) (hPZ hp))
       (fun hw => hsep p hp x hx (N.graph.walks_symm hw)) with h1 | h1
     · exact h1
     · exact absurd h1 (hsep p hp y hy)
@@ -282,7 +284,7 @@ theorem Induces.attaches (hN : N.IsPhylogenetic) (h : Induces N (N.ancestralArcs
       (Set.singleton_subset_iff.mpr hpZ) (Set.singleton_subset_iff.mpr hqZ) rfl rfl
   have hpV := N.leaf_mem_ancestralVertices hpZ
   have hqV := N.leaf_mem_ancestralVertices hqZ
-  rcases mem_compOff_or_mem_compOff (walks_ancestral hN hpV hxZ) (walks_ancestral hN hpV hqV)
+  rcases External.Allman2023.mem_compOff_or_mem_compOff (External.Allman2023.walks_ancestral hN hpV hxZ) (External.Allman2023.walks_ancestral hN hpV hqV)
     (hr.sep p rfl q rfl) with h1 | h1
   · exact h1
   · exfalso
@@ -317,9 +319,9 @@ theorem Induces.attach_funnels (hN : N.IsPhylogenetic) (h : Induces N (N.ancestr
   let Sp : Set V := compOff N.graph (N.ancestralArcs Z) e (N.leaf p) ∪ {x | ∃ z ∈ P', x ∈ funnelNodes N Z z}
   let Sq : Set V := compOff N.graph (N.ancestralArcs Z) e (N.leaf q) ∪ {x | ∃ z ∈ Q', x ∈ funnelNodes N Z z}
   have hVp : ∀ {x}, x ∈ compOff N.graph (N.ancestralArcs Z) e (N.leaf p) → x ∈ N.ancestralVertices Z :=
-    fun hx => mem_ancestralVertices_of_walks hpV (walks_mono Set.sdiff_subset hx)
+    fun hx => External.Allman2023.mem_ancestralVertices_of_walks hpV (walks_mono Set.sdiff_subset hx)
   have hVq : ∀ {x}, x ∈ compOff N.graph (N.ancestralArcs Z) e (N.leaf q) → x ∈ N.ancestralVertices Z :=
-    fun hx => mem_ancestralVertices_of_walks hqV (walks_mono Set.sdiff_subset hx)
+    fun hx => External.Allman2023.mem_ancestralVertices_of_walks hqV (walks_mono Set.sdiff_subset hx)
   have hmeet : ∀ {x}, x ∈ compOff N.graph (N.ancestralArcs Z) e (N.leaf p) →
       x ∈ compOff N.graph (N.ancestralArcs Z) e (N.leaf q) → False := fun h1 h2 =>
     hsep (Relation.ReflTransGen.trans h1 (N.graph.walks_symm h2))
@@ -334,8 +336,8 @@ theorem Induces.attach_funnels (hN : N.IsPhylogenetic) (h : Induces N (N.ancestr
   -- on the subgraph induced on `Z`, the side of `p` is its component
   have hkey : ∀ x ∈ N.ancestralVertices Z,
       (x ∈ Sp ↔ x ∈ compOff N.graph (N.ancestralArcs Z) e (N.leaf p)) := fun x hx =>
-    ⟨fun hxS => (mem_compOff_or_mem_compOff (walks_ancestral hN hpV hx)
-      (walks_ancestral hN hpV hqV) hsep).resolve_right fun hxq => hdis x hxS (Or.inl hxq), Or.inl⟩
+    ⟨fun hxS => (External.Allman2023.mem_compOff_or_mem_compOff (External.Allman2023.walks_ancestral hN hpV hx)
+      (External.Allman2023.walks_ancestral hN hpV hqV) hsep).resolve_right fun hxq => hdis x hxS (Or.inl hxq), Or.inl⟩
   have hO : OnlyCrosses N.graph (N.ancestralArcs Y) e Sp := by
     intro f hf hc
     by_contra hfe
@@ -345,7 +347,7 @@ theorem Induces.attach_funnels (hN : N.IsPhylogenetic) (h : Induces N (N.ancestr
       have hc' : N.graph.Crosses f (compOff N.graph (N.ancestralArcs Z) e (N.leaf p)) := by
         simp only [Crosses] at hc ⊢
         rwa [hkey _ hs, hkey _ hfZ] at hc
-      exact hfe (onlyCrosses_compOff f hfZ hc')
+      exact hfe (External.Allman2023.onlyCrosses_compOff f hfZ hc')
     · -- an arc of a funnel
       obtain ⟨z, hz, hfun⟩ := exists_mem_funnel hf hfZ
       rw [hY] at hz
@@ -361,14 +363,14 @@ theorem Induces.attach_funnels (hN : N.IsPhylogenetic) (h : Induces N (N.ancestr
         · exact h1 h'
         · exact h2 h'
   have hc : N.graph.Crosses e Sp := by
-    obtain ⟨-, a, b, hl, ha, hb⟩ := exists_links_of_walks
-      (onlyCrosses_compOff (G := N.graph) (F := N.ancestralArcs Z) (e := e) (v := N.leaf p)) hsep
-      (walks_ancestral hN hqV hpV) Relation.ReflTransGen.refl
+    obtain ⟨-, a, b, hl, ha, hb⟩ := External.Allman2023.exists_links_of_walks
+      (External.Allman2023.onlyCrosses_compOff (G := N.graph) (F := N.ancestralArcs Z) (e := e) (v := N.leaf p)) hsep
+      (External.Allman2023.walks_ancestral hN hqV hpV) Relation.ReflTransGen.refl
     have haV : a ∈ N.ancestralVertices Z := by
       rcases hl with ⟨rfl, -⟩ | ⟨-, rfl⟩
       · exact N.source_mem_ancestralVertices h.cut.1
       · exact h.cut.1
-    exact hl.crosses (fun ha' => ha ((hkey a haV).mp ha')) (Or.inl hb)
+    exact (External.Allman2023.Links.crosses hl) (fun ha' => ha ((hkey a haV).mp ha')) (Or.inl hb)
   have hZY : Z ⊆ Y := by
     rw [hZ, hY]
     exact Set.union_subset_union hP hQ
@@ -460,9 +462,9 @@ theorem mem_compOff_of_determines (h : Induces N (N.ancestralArcs Y) e {a₁, a�
     (ha : a₁ ≠ a₂) (hdet : Determines N.graph (N.ancestralArcs Y) v N.leaf {a₁, a₂, b₁}) :
     v ∈ compOff N.graph (N.ancestralArcs Y) e (N.leaf a₁) := by
   by_contra hvT
-  refine ha (hdet.eq_of_mem_side onlyCrosses_compOff hvT (by simp) (by simp)
-    (walks_ancestral hN hv (N.leaf_mem_ancestralVertices ha₁))
-    (walks_ancestral hN hv (N.leaf_mem_ancestralVertices ha₂)) .refl (h.left a₁ (by simp) a₂ (by simp)))
+  refine ha ((External.Allman2023.Determines.eq_of_mem_side hdet) External.Allman2023.onlyCrosses_compOff hvT (by simp) (by simp)
+    (External.Allman2023.walks_ancestral hN hv (N.leaf_mem_ancestralVertices ha₁))
+    (External.Allman2023.walks_ancestral hN hv (N.leaf_mem_ancestralVertices ha₂)) .refl (h.left a₁ (by simp) a₂ (by simp)))
 
 /-- The blob determined by `a₁, a₂, b₁` is determined by `a₁, a₂, b₂`, for `e` inducing `a₁a₂|b₁b₂`.
 A side away from the blob with `b₂` and a taxon `a` of `a₁, a₂`, having neither `b₁` nor the other one,
@@ -479,15 +481,15 @@ theorem determines_of_induces (hN : N.IsPhylogenetic) (h : Induces N (N.ancestra
   have hleaf : ∀ {t : X}, t ∈ Y → N.leaf t ∈ N.ancestralVertices Y :=
     fun ht => N.leaf_mem_ancestralVertices ht
   have hc : ∀ {u : V}, u ∈ N.ancestralVertices Y → ∀ {t : X}, t ∈ Y →
-      N.graph.Walks (N.ancestralArcs Y) u (N.leaf t) := fun hu _ ht => walks_ancestral hN hu (hleaf ht)
+      N.graph.Walks (N.ancestralArcs Y) u (N.leaf t) := fun hu _ ht => External.Allman2023.walks_ancestral hN hu (hleaf ht)
   have hO : OnlyCrosses N.graph (N.ancestralArcs Y) e
-      (compOff N.graph (N.ancestralArcs Y) e (N.leaf a₁)) := onlyCrosses_compOff
+      (compOff N.graph (N.ancestralArcs Y) e (N.leaf a₁)) := External.Allman2023.onlyCrosses_compOff
   have hm₁ : N.leaf a₁ ∈ compOff N.graph (N.ancestralArcs Y) e (N.leaf a₁) := .refl
   have hm₂ : N.leaf a₂ ∈ compOff N.graph (N.ancestralArcs Y) e (N.leaf a₁) := h.left a₁ (by simp) a₂ (by simp)
   have hm₃ : N.leaf b₁ ∉ compOff N.graph (N.ancestralArcs Y) e (N.leaf a₁) := h.sep a₁ (by simp) b₁ (by simp)
   have hm₄ : N.leaf b₂ ∉ compOff N.graph (N.ancestralArcs Y) e (N.leaf a₁) := h.sep a₁ (by simp) b₂ (by simp)
-  refine determines_of_median ?_ (fun _ _ _ _ hxy => hN.leaf_injective hxy)
-    (fun s _ => isPendantIn_leaf hN s _) ?_ ?_
+  refine External.Allman2023.determines_of_median ?_ (fun _ _ _ _ hxy => hN.leaf_injective hxy)
+    (fun s _ => External.Allman2023.isPendantIn_leaf hN s _) ?_ ?_
   · rw [Finset.card_insert_of_notMem (by simp [ha, h1b₂]), Finset.card_pair h2b₂]
   · intro s hs
     simp only [Finset.mem_insert, Finset.mem_singleton] at hs
@@ -498,15 +500,15 @@ theorem determines_of_induces (hN : N.IsPhylogenetic) (h : Induces N (N.ancestra
   · intro f T hT hvT s hs t ht hsT htT
     have hdet' : ∀ {c d : X}, c ∈ ({a₁, a₂, b₁} : Finset X) → d ∈ ({a₁, a₂, b₁} : Finset X) → c ∈ Y →
         d ∈ Y → N.leaf c ∈ T → N.leaf d ∈ T → c = d := fun hc' hd' hcY hdY h1 h2 =>
-      hdet.eq_of_mem_side hT hvT hc' hd' (hc hv hcY) (hc hv hdY) h1 h2
+      (External.Allman2023.Determines.eq_of_mem_side hdet) hT hvT hc' hd' (hc hv hcY) (hc hv hdY) h1 h2
     -- `a₁` and `b₂` on a side away from the blob
     have h₁ : N.leaf a₁ ∈ T → N.leaf b₂ ∈ T → False := fun h1T hT₂ =>
-      hO.not_crossing hT (hc (hleaf ha₁) ha₂) (hc (hleaf ha₁) hb₂) (hc (hleaf ha₁) hb₁) hm₁ hm₂ hm₄ hm₃ h1T
+      (External.Allman2023.OnlyCrosses.not_crossing hO) hT (hc (hleaf ha₁) ha₂) (hc (hleaf ha₁) hb₂) (hc (hleaf ha₁) hb₁) hm₁ hm₂ hm₄ hm₃ h1T
         (fun h2T => ha (hdet' (by simp) (by simp) ha₁ ha₂ h1T h2T)) hT₂
         (fun hbT => h1b₁ (hdet' (by simp) (by simp) ha₁ hb₁ h1T hbT))
     -- `a₂` and `b₂` on a side away from the blob
     have h₂ : N.leaf a₂ ∈ T → N.leaf b₂ ∈ T → False := fun h2T hT₂ =>
-      hO.not_crossing hT (hc (hleaf ha₂) ha₁) (hc (hleaf ha₂) hb₂) (hc (hleaf ha₂) hb₁)
+      (External.Allman2023.OnlyCrosses.not_crossing hO) hT (hc (hleaf ha₂) ha₁) (hc (hleaf ha₂) hb₂) (hc (hleaf ha₂) hb₁)
         hm₂ hm₁ hm₄ hm₃ h2T
         (fun h1T => ha (hdet' (by simp) (by simp) ha₁ ha₂ h1T h2T)) hT₂
         (fun hbT => h2b₁ (hdet' (by simp) (by simp) ha₂ hb₁ h2T hbT))
@@ -553,8 +555,8 @@ theorem exists_isTwoBlobs (hN : N.IsPhylogenetic) (ha : a₁ ≠ a₂) (hb : b�
   have h1b₁ : a₁ ≠ b₁ := h.ne (by simp) (by simp)
   have h2b₁ : a₂ ≠ b₁ := h.ne (by simp) (by simp)
   have h1b₂ : a₁ ≠ b₂ := h.ne (by simp) (by simp)
-  obtain ⟨v, hv, hdv⟩ := exists_determines_three hN ma₁ ma₂ mb₁ ha h1b₁ h2b₁
-  obtain ⟨w, hw, hdw⟩ := exists_determines_three hN mb₁ mb₂ ma₁ hb h1b₁.symm h1b₂.symm
+  obtain ⟨v, hv, hdv⟩ := External.Allman2023.exists_determines_three hN ma₁ ma₂ mb₁ ha h1b₁ h2b₁
+  obtain ⟨w, hw, hdw⟩ := External.Allman2023.exists_determines_three hN mb₁ mb₂ ma₁ hb h1b₁.symm h1b₂.symm
   have hdw₂ : Determines N.graph (G₄ N a₁ a₂ b₁ b₂) w N.leaf {b₁, b₂, a₂} := by
     have := determines_of_induces hN h' (v := w) (by simp) (by simp) (by simp) (by simp) hb (hset ▸ hw)
       (hset ▸ hdw)
@@ -563,7 +565,7 @@ theorem exists_isTwoBlobs (hN : N.IsPhylogenetic) (ha : a₁ ≠ a₂) (hb : b�
   have h₁ := mem_compOff_of_determines h ma₁ ma₂ hN hv ha hdv
   have h₂ := mem_compOff_of_determines h.symm mb₁ mb₂ hN hw hb hdw
   exact h.sep a₁ (by simp) b₁ (by simp) (Relation.ReflTransGen.trans
-    (Relation.ReflTransGen.trans h₁ (hsame.walks_diff h.cut)) (N.graph.walks_symm h₂))
+    (Relation.ReflTransGen.trans h₁ ((External.Allman2023.SameBlobIn.walks_diff (h := hsame)) h.cut)) (N.graph.walks_symm h₂))
 
 /-- **These are the only 3-blobs** (line 591): a node determined by three of the taxa is in one of the
 two blobs. So a blob of `G̃₄` other than these two determines no three taxa. The chains of 2-blobs and cut edges of
@@ -587,20 +589,20 @@ theorem IsTwoBlobs.sameBlobIn_of_determines (hN : N.IsPhylogenetic) (h : IsTwoBl
     intro u hu r s t hr hs ht c hc
     simp only [Finset.mem_insert, Finset.mem_singleton] at hc
     rcases hc with rfl | rfl | rfl
-    · exact walks_ancestral hN hu (N.leaf_mem_ancestralVertices hr)
-    · exact walks_ancestral hN hu (N.leaf_mem_ancestralVertices hs)
-    · exact walks_ancestral hN hu (N.leaf_mem_ancestralVertices ht)
+    · exact External.Allman2023.walks_ancestral hN hu (N.leaf_mem_ancestralVertices hr)
+    · exact External.Allman2023.walks_ancestral hN hu (N.leaf_mem_ancestralVertices hs)
+    · exact External.Allman2023.walks_ancestral hN hu (N.leaf_mem_ancestralVertices ht)
   have m₁ : a₁ ∈ ({a₁, a₂, b₁, b₂} : Set X) := by simp
   have m₂ : a₂ ∈ ({a₁, a₂, b₁, b₂} : Set X) := by simp
   have m₃ : b₁ ∈ ({a₁, a₂, b₁, b₂} : Set X) := by simp
   have m₄ : b₂ ∈ ({a₁, a₂, b₁, b₂} : Set X) := by simp
-  have hvx := walks_ancestral hN h.mem_left hx
-  have hwx := walks_ancestral hN h.mem_right hx
+  have hvx := External.Allman2023.walks_ancestral hN h.mem_left hx
+  have hwx := External.Allman2023.walks_ancestral hN h.mem_right hx
   rcases hS with rfl | rfl | rfl | rfl
-  · exact Or.inl (h.left₁.sameBlobIn hdet (hcard h12 h13 h23) (hwalk h.mem_left m₁ m₂ m₃) hvx)
-  · exact Or.inl (h.left₂.sameBlobIn hdet (hcard h12 h14 h24) (hwalk h.mem_left m₁ m₂ m₄) hvx)
-  · exact Or.inr (h.right₁.sameBlobIn hdet (hcard h34 h13.symm h14.symm) (hwalk h.mem_right m₃ m₄ m₁) hwx)
-  · exact Or.inr (h.right₂.sameBlobIn hdet (hcard h34 h23.symm h24.symm) (hwalk h.mem_right m₃ m₄ m₂) hwx)
+  · exact Or.inl ((External.Allman2023.Determines.sameBlobIn h.left₁) hdet (hcard h12 h13 h23) (hwalk h.mem_left m₁ m₂ m₃) hvx)
+  · exact Or.inl ((External.Allman2023.Determines.sameBlobIn h.left₂) hdet (hcard h12 h14 h24) (hwalk h.mem_left m₁ m₂ m₄) hvx)
+  · exact Or.inr ((External.Allman2023.Determines.sameBlobIn h.right₁) hdet (hcard h34 h13.symm h14.symm) (hwalk h.mem_right m₃ m₄ m₁) hwx)
+  · exact Or.inr ((External.Allman2023.Determines.sameBlobIn h.right₂) hdet (hcard h34 h23.symm h24.symm) (hwalk h.mem_right m₃ m₄ m₂) hwx)
 
 omit [DecidableEq X] in
 /-- **Up-down paths from a taxon lead first to its 3-blob** (lines 593-595), in the generality the four
@@ -620,30 +622,30 @@ theorem not_walks_avoiding_blob (hN : N.IsPhylogenetic) {S₁ S₂ S₃ : Finset
   intro hwalk
   have hc : ∀ {u : V}, u ∈ N.ancestralVertices Y → ∀ {t : X}, t ∈ Y →
       N.graph.Walks (N.ancestralArcs Y) u (N.leaf t) :=
-    fun hu _ ht => walks_ancestral hN hu (N.leaf_mem_ancestralVertices ht)
+    fun hu _ ht => External.Allman2023.walks_ancestral hN hu (N.leaf_mem_ancestralVertices ht)
   -- the cut edge leading from the blob of `v` to `a`
   have hnb : ¬ SameBlobIn N.graph (N.ancestralArcs Y) v (N.leaf a) := fun hb =>
-    h₁.ne_of_isPendantIn h3 (isPendantIn_leaf hN a _) (fun s hs => hc hv (hS₁ s hs))
-      ((isPendantIn_leaf hN a _).eq_of_sameBlobIn hb)
-  obtain ⟨g, hg⟩ := (exists_leadsTo (hc hv haY)).resolve_left hnb
+    (External.Allman2023.Determines.ne_of_isPendantIn h₁) h3 (External.Allman2023.isPendantIn_leaf hN a _) (fun s hs => hc hv (hS₁ s hs))
+      ((External.Allman2023.IsPendantIn.eq_of_sameBlobIn (External.Allman2023.isPendantIn_leaf hN a _)) hb)
+  obtain ⟨g, hg⟩ := (External.Allman2023.exists_leadsTo (hc hv haY)).resolve_left hnb
   have hO : OnlyCrosses N.graph (N.ancestralArcs Y) g (far N.graph (N.ancestralArcs Y) g v) :=
-    onlyCrosses_far
-  have hvT : v ∉ far N.graph (N.ancestralArcs Y) g v := not_mem_far_self
+    External.Allman2023.onlyCrosses_far
+  have hvT : v ∉ far N.graph (N.ancestralArcs Y) g v := External.Allman2023.not_mem_far_self
   -- the walk stays on that side
   have hxT : x ∈ far N.graph (N.ancestralArcs Y) g v := by
     refine (N.graph.mem_iff_mem_of_walks (fun f hf hcr => ?_) hwalk).mp hg.2
     have hfg := hO f hf.1 hcr
     subst hfg
-    obtain ⟨p, q, hl, hb, -⟩ := exists_ends_of_mem_incidentCuts hg.1
+    obtain ⟨p, q, hl, hb, -⟩ := External.Allman2023.exists_ends_of_mem_incidentCuts hg.1
     rcases hl with ⟨rfl, -⟩ | ⟨-, rfl⟩
     · exact hf.2.1 hb
     · exact hf.2.2 hb
-  have hwT : w ∈ far N.graph (N.ancestralArcs Y) g v := (SameBlobIn.mem_iff hO hx).mpr hxT
+  have hwT : w ∈ far N.graph (N.ancestralArcs Y) g v := (External.Allman2023.SameBlobIn.mem_iff hO hx).mpr hxT
   have hbT : N.leaf b ∉ far N.graph (N.ancestralArcs Y) g v := fun h' =>
-    hab (h₁.eq_of_mem_side hO hvT ha₁ hb₁ (hc hv haY) (hc hv hbY) hg.2 h')
+    hab ((External.Allman2023.Determines.eq_of_mem_side h₁) hO hvT ha₁ hb₁ (hc hv haY) (hc hv hbY) hg.2 h')
   have hbT' : N.leaf b' ∉ far N.graph (N.ancestralArcs Y) g v := fun h' =>
-    hab' (h₂.eq_of_mem_side hO hvT ha₂ hb₂ (hc hv haY) (hc hv hbY') hg.2 h')
-  exact hbb (h₃.eq_of_mem_side hO.compl (not_not.mpr hwT) hb₃ hb₃' (hc hw hbY) (hc hw hbY') hbT hbT')
+    hab' ((External.Allman2023.Determines.eq_of_mem_side h₂) hO hvT ha₂ hb₂ (hc hv haY) (hc hv hbY') hg.2 h')
+  exact hbb ((External.Allman2023.Determines.eq_of_mem_side h₃) (External.Allman2023.OnlyCrosses.compl hO) (not_not.mpr hwT) hb₃ hb₃' (hc hw hbY) (hc hw hbY') hbT hbT')
 
 /-- **"Up-down paths from `ã₁` or `ã₂` to a 3-blob lead to one of these blobs first, while up-down paths
 from `b̃₁` or `b̃₂` lead to the other"** (lines 593-595): a walk in `G̃₄` from `a₁` or `a₂` to the blob
@@ -697,7 +699,7 @@ theorem chain_between (hN : N.IsPhylogenetic) (hv : v ∈ N.ancestralVertices Y)
     (he' : ¬ N.graph.Walks (N.ancestralArcs Y \ {e'}) v w) :
     compOff N.graph (N.ancestralArcs Y) e v ⊆ compOff N.graph (N.ancestralArcs Y) e' v ∨
       compOff N.graph (N.ancestralArcs Y) e' v ⊆ compOff N.graph (N.ancestralArcs Y) e v :=
-  compOff_subset_or_subset (walks_ancestral hN hv hw) he he'
+  External.Allman2023.compOff_subset_or_subset (External.Allman2023.walks_ancestral hN hv hw) he he'
 
 /-- **`E` is the set of cut edges of the chain connecting the two 3-blobs** (line 597): an arc induces
 `a₁a₂|b₁b₂` on `G̃₄` exactly when it separates the two blobs. -/
@@ -721,37 +723,37 @@ theorem IsTwoBlobs.mem_quartetCuts_iff (hN : N.IsPhylogenetic) (h : IsTwoBlobs N
     have hc : ∀ {u : V}, u ∈ N.ancestralVertices {a₁, a₂, b₁, b₂} → ∀ {t : X},
         t ∈ ({a₁, a₂, b₁, b₂} : Set X) →
         N.graph.Walks (G₄ N a₁ a₂ b₁ b₂) u (N.leaf t) :=
-      fun hu _ ht => walks_ancestral hN hu (N.leaf_mem_ancestralVertices ht)
+      fun hu _ ht => External.Allman2023.walks_ancestral hN hu (N.leaf_mem_ancestralVertices ht)
     have hO : OnlyCrosses N.graph (G₄ N a₁ a₂ b₁ b₂) g
-        (far N.graph (G₄ N a₁ a₂ b₁ b₂) g v) := onlyCrosses_far
-    have hvT : v ∉ far N.graph (G₄ N a₁ a₂ b₁ b₂) g v := not_mem_far_self
+        (far N.graph (G₄ N a₁ a₂ b₁ b₂) g v) := External.Allman2023.onlyCrosses_far
+    have hvT : v ∉ far N.graph (G₄ N a₁ a₂ b₁ b₂) g v := External.Allman2023.not_mem_far_self
     have hwT : w ∈ far N.graph (G₄ N a₁ a₂ b₁ b₂) g v := hsep
     have hv := h.mem_left
     have hw := h.mem_right
-    obtain ⟨hgF, p, q, hl, hp, hq⟩ := exists_links_of_walks hO hvT (walks_ancestral hN hv hw) hwT
+    obtain ⟨hgF, p, q, hl, hp, hq⟩ := External.Allman2023.exists_links_of_walks hO hvT (External.Allman2023.walks_ancestral hN hv hw) hwT
     have hb₁ : N.leaf b₁ ∈ far N.graph (G₄ N a₁ a₂ b₁ b₂) g v := by
       by_contra hn
       have hb₂ : N.leaf b₂ ∈ far N.graph (G₄ N a₁ a₂ b₁ b₂) g v := by
         by_contra hn'
-        exact h34 (h.right₁.eq_of_mem_side hO.compl (not_not.mpr hwT) (by simp) (by simp) (hc hw m₃)
+        exact h34 ((External.Allman2023.Determines.eq_of_mem_side h.right₁) (External.Allman2023.OnlyCrosses.compl hO) (not_not.mpr hwT) (by simp) (by simp) (hc hw m₃)
           (hc hw m₄) hn hn')
       have ha₁ : N.leaf a₁ ∈ far N.graph (G₄ N a₁ a₂ b₁ b₂) g v := by
         by_contra hn'
-        exact h13.symm (h.right₁.eq_of_mem_side hO.compl (not_not.mpr hwT) (by simp) (by simp) (hc hw m₃)
+        exact h13.symm ((External.Allman2023.Determines.eq_of_mem_side h.right₁) (External.Allman2023.OnlyCrosses.compl hO) (not_not.mpr hwT) (by simp) (by simp) (hc hw m₃)
           (hc hw m₁) hn hn')
-      exact h14 (h.left₂.eq_of_mem_side hO hvT (by simp) (by simp) (hc hv m₁) (hc hv m₄) ha₁ hb₂)
+      exact h14 ((External.Allman2023.Determines.eq_of_mem_side h.left₂) hO hvT (by simp) (by simp) (hc hv m₁) (hc hv m₄) ha₁ hb₂)
     have hb₂ : N.leaf b₂ ∈ far N.graph (G₄ N a₁ a₂ b₁ b₂) g v := by
       by_contra hn
       have ha₁ : N.leaf a₁ ∈ far N.graph (G₄ N a₁ a₂ b₁ b₂) g v := by
         by_contra hn'
-        exact h14.symm (h.right₁.eq_of_mem_side hO.compl (not_not.mpr hwT) (by simp) (by simp) (hc hw m₄)
+        exact h14.symm ((External.Allman2023.Determines.eq_of_mem_side h.right₁) (External.Allman2023.OnlyCrosses.compl hO) (not_not.mpr hwT) (by simp) (by simp) (hc hw m₄)
           (hc hw m₁) hn hn')
-      exact h13 (h.left₁.eq_of_mem_side hO hvT (by simp) (by simp) (hc hv m₁) (hc hv m₃) ha₁ hb₁)
+      exact h13 ((External.Allman2023.Determines.eq_of_mem_side h.left₁) hO hvT (by simp) (by simp) (hc hv m₁) (hc hv m₃) ha₁ hb₁)
     have ha₁ : N.leaf a₁ ∉ far N.graph (G₄ N a₁ a₂ b₁ b₂) g v := fun h' =>
-      h13 (h.left₁.eq_of_mem_side hO hvT (by simp) (by simp) (hc hv m₁) (hc hv m₃) h' hb₁)
+      h13 ((External.Allman2023.Determines.eq_of_mem_side h.left₁) hO hvT (by simp) (by simp) (hc hv m₁) (hc hv m₃) h' hb₁)
     have ha₂ : N.leaf a₂ ∉ far N.graph (G₄ N a₁ a₂ b₁ b₂) g v := fun h' =>
-      h23 (h.left₁.eq_of_mem_side hO hvT (by simp) (by simp) (hc hv m₂) (hc hv m₃) h' hb₁)
-    refine Induces.symm (induces_of_onlyCrosses hN hgF hO (hl.crosses hp hq) ?_ ?_)
+      h23 ((External.Allman2023.Determines.eq_of_mem_side h.left₁) hO hvT (by simp) (by simp) (hc hv m₂) (hc hv m₃) h' hb₁)
+    refine Induces.symm (induces_of_onlyCrosses hN hgF hO ((External.Allman2023.Links.crosses hl) hp hq) ?_ ?_)
     · rintro x (rfl | rfl)
       · exact ⟨m₃, hb₁⟩
       · exact ⟨m₄, hb₂⟩
@@ -779,15 +781,15 @@ variable {G : DirectedMultigraph V E} {F : Set E} {u v w x p q : V} {e e' g h : 
 
 /-- An arc separating two joined vertices is a cut edge. -/
 theorem isCutIn_of_not_walks (hw : G.Walks F v w) (he : ¬ G.Walks (F \ {e}) v w) : IsCutIn G F e := by
-  obtain ⟨heF, p, q, hl, hp, hq⟩ := exists_links_of_walks (onlyCrosses_far (G := G) (F := F) (e := e)
-    (v := v)) not_mem_far_self hw he
-  exact onlyCrosses_far.isCutIn heF (hl.crosses hp hq)
+  obtain ⟨heF, p, q, hl, hp, hq⟩ := External.Allman2023.exists_links_of_walks (External.Allman2023.onlyCrosses_far (G := G) (F := F) (e := e)
+    (v := v)) External.Allman2023.not_mem_far_self hw he
+  exact (External.Allman2023.OnlyCrosses.isCutIn External.Allman2023.onlyCrosses_far) heF ((External.Allman2023.Links.crosses hl) hp hq)
 
 /-- An arc separating two joined vertices has one end on each side. -/
 theorem exists_ends_of_not_walks (hw : G.Walks F v w) (he : ¬ G.Walks (F \ {e}) v w) :
     ∃ p q, Links G e p q ∧ p ∈ compOff G F e v ∧ q ∉ compOff G F e v := by
-  obtain ⟨-, p, q, hl, hp, hq⟩ := exists_links_of_walks (onlyCrosses_far (G := G) (F := F) (e := e)
-    (v := v)) not_mem_far_self hw he
+  obtain ⟨-, p, q, hl, hp, hq⟩ := External.Allman2023.exists_links_of_walks (External.Allman2023.onlyCrosses_far (G := G) (F := F) (e := e)
+    (v := v)) External.Allman2023.not_mem_far_self hw he
   exact ⟨p, q, hl, not_not.mp hp, hq⟩
 
 /-- A cut edge with an end in the blob of `x` is incident to that blob. -/
@@ -808,13 +810,13 @@ cut edges separating `x` from `w`. A cut edge `h` nearer to `x` would have both 
 one end is in the blob of `x`. -/
 theorem compOff_subset_of_leadsTo (hg : LeadsTo G F x g w) (hw : G.Walks F x w)
     (hh : ¬ G.Walks (F \ {h}) x w) : compOff G F g x ⊆ compOff G F h x := by
-  rcases compOff_subset_or_subset hw hg.2 hh with h₁ | h₁
+  rcases External.Allman2023.compOff_subset_or_subset hw hg.2 hh with h₁ | h₁
   · exact h₁
   · by_cases hgh : g = h
     · rw [hgh]
     · exfalso
-      obtain ⟨p, q, hl, hb, hq⟩ := exists_ends_of_mem_incidentCuts hg.1
-      have hp : p ∈ compOff G F h x := hb.walks_diff (isCutIn_of_not_walks hw hh)
+      obtain ⟨p, q, hl, hb, hq⟩ := External.Allman2023.exists_ends_of_mem_incidentCuts hg.1
+      have hp : p ∈ compOff G F h x := (External.Allman2023.SameBlobIn.walks_diff (h := hb)) (isCutIn_of_not_walks hw hh)
       exact hq (h₁ (hp.tail ⟨g, ⟨hg.1.1.1, hgh⟩, hl⟩))
 
 /-- Beyond a cut edge `e` towards `w`, with end `x`, an arc `g` with an end in the blob of `x` leaves `v` joined to `x`:
@@ -824,13 +826,13 @@ theorem walks_diff_of_mem_incidentCuts (hw : G.Walks F v w) (he : ¬ G.Walks (F 
     (hg : g ∈ incidentCuts G F x) (hge : g ≠ e) : G.Walks (F \ {g}) v x := by
   have heF : e ∈ F := (isCutIn_of_not_walks hw he).1
   have hvu : G.Walks F v u := walks_mono Set.sdiff_subset hu
-  have hux : G.Walks F u x := walks_of_links heF hl
-  obtain ⟨p, q, hlg, hbp, -⟩ := exists_ends_of_mem_incidentCuts hg
+  have hux : G.Walks F u x := External.Allman2023.walks_of_links heF hl
+  obtain ⟨p, q, hlg, hbp, -⟩ := External.Allman2023.exists_ends_of_mem_incidentCuts hg
   have hp : p ∉ compOff G F e v := fun hp =>
-    hx ((SameBlobIn.mem_iff onlyCrosses_compOff hbp).mpr hp)
-  have hin := walks_insideArcs_of_mem (onlyCrosses_compOff (G := G) (F := F) (e := e) (v := v)) hx
+    hx ((External.Allman2023.SameBlobIn.mem_iff External.Allman2023.onlyCrosses_compOff hbp).mpr hp)
+  have hin := External.Allman2023.walks_insideArcs_of_mem (External.Allman2023.onlyCrosses_compOff (G := G) (F := F) (e := e) (v := v)) hx
     (G.walks_symm (hvu.trans hux)) (G.walks_symm hux) (Relation.ReflTransGen.refl) hu
-  exact (walks_mono (insideArcs_subset_diff hlg hp) hin).tail ⟨e, ⟨heF, hge.symm⟩, hl⟩
+  exact (walks_mono (External.Allman2023.insideArcs_subset_diff hlg hp) hin).tail ⟨e, ⟨heF, hge.symm⟩, hl⟩
 
 /-- **`e'` is the cut edge after `e`** between `v` and `w`, in the order of their sides containing `v`. -/
 structure IsNextCut (G : DirectedMultigraph V E) (F : Set E) (v w : V) (e e' : E) : Prop where
@@ -848,17 +850,17 @@ theorem sameBlobIn_or_exists_isNextCut (hw : G.Walks F v w) (he : ¬ G.Walks (F 
     (hl : Links G e u x) (hu : u ∈ compOff G F e v) (hx : x ∉ compOff G F e v) :
     SameBlobIn G F x w ∨ ∃ e', LeadsTo G F x e' w ∧ IsNextCut G F v w e e' := by
   have heF : e ∈ F := (isCutIn_of_not_walks hw he).1
-  have hvx : G.Walks F v x := (walks_mono Set.sdiff_subset hu).trans (walks_of_links heF hl)
+  have hvx : G.Walks F v x := (walks_mono Set.sdiff_subset hu).trans (External.Allman2023.walks_of_links heF hl)
   have hxw : G.Walks F x w := (G.walks_symm hvx).trans hw
-  refine (exists_leadsTo hxw).imp_right ?_
+  refine (External.Allman2023.exists_leadsTo hxw).imp_right ?_
   rintro ⟨g, hg⟩
   have hge : g ≠ e := by
     rintro rfl
-    exact hg.2 (walks_diff_of_mem_side onlyCrosses_far not_mem_far_self hvx hw hx he)
+    exact hg.2 (External.Allman2023.walks_diff_of_mem_side External.Allman2023.onlyCrosses_far External.Allman2023.not_mem_far_self hvx hw hx he)
   have hvg : G.Walks (F \ {g}) v x := walks_diff_of_mem_incidentCuts hw he hl hu hx hg.1 hge
   have hsep : ¬ G.Walks (F \ {g}) v w := fun h => hg.2 ((G.walks_symm hvg).trans h)
   have hlt : compOff G F e v ⊂ compOff G F g v := by
-    rcases compOff_subset_or_subset hw he hsep with h₁ | h₁
+    rcases External.Allman2023.compOff_subset_or_subset hw he hsep with h₁ | h₁
     · exact ⟨h₁, fun h₂ => hx (h₂ hvg)⟩
     · exact absurd (h₁ hvg) hx
   refine ⟨g, hg, he, hsep, hlt, fun h hh hlth => ?_⟩
@@ -885,10 +887,10 @@ theorem exists_blob_of_isNextCut (hw : G.Walks F v w) (hn : IsNextCut G F v w e 
   have hne : e ≠ e' := hn.ne
   have hxe' : x ∈ compOff G F e' v := Relation.ReflTransGen.tail (hn.lt.subset hu) ⟨e, ⟨heF, hne⟩, hl⟩
   have hexit : ¬ G.Walks (F \ {e'}) x w := fun h => hn.right (Relation.ReflTransGen.trans hxe' h)
-  refine ⟨x, ⟨mem_incidentCuts_of_links (isCutIn_of_not_walks hw hn.left) hl.symm .refl, fun h => hx
+  refine ⟨x, ⟨mem_incidentCuts_of_links (isCutIn_of_not_walks hw hn.left) (External.Allman2023.Links.symm hl) .refl, fun h => hx
     (G.walks_symm h)⟩, ?_⟩
   rcases sameBlobIn_or_exists_isNextCut hw hn.left hl hu hx with hb | ⟨g, hg, hng⟩
-  · exact absurd (hb.walks_diff (isCutIn_of_not_walks hw hn.right)) hexit
+  · exact absurd ((External.Allman2023.SameBlobIn.walks_diff (h := hb)) (isCutIn_of_not_walks hw hn.right)) hexit
   · have hc : compOff G F g v = compOff G F e' v :=
       Set.Subset.antisymm (hng.next e' hn.right hn.lt) (hn.next g hng.right hng.lt)
     rw [← eq_of_compOff_eq hw hng.right hc]
@@ -897,13 +899,13 @@ theorem exists_blob_of_isNextCut (hw : G.Walks F v w) (hn : IsNextCut G F v w e 
 /-- Vertices of `F` joined to an end of an arc of an induced subgraph are in it. -/
 theorem mem_ancestralVertices_of_mem_incidentCuts {Y : Set X} {x : V} {g : E}
     (hg : g ∈ incidentCuts N.graph (N.ancestralArcs Y) x) : x ∈ N.ancestralVertices Y := by
-  obtain ⟨p, q, hl, hb, -⟩ := exists_ends_of_mem_incidentCuts hg
+  obtain ⟨p, q, hl, hb, -⟩ := External.Allman2023.exists_ends_of_mem_incidentCuts hg
   have hg' : g ∈ N.ancestralArcs Y := hg.1.1
   have hp : p ∈ N.ancestralVertices Y := by
     rcases hl with ⟨rfl, -⟩ | ⟨-, rfl⟩
     · exact N.source_mem_ancestralVertices hg'
     · exact hg'
-  exact mem_ancestralVertices_of_walks hp (N.graph.walks_symm hb.walks)
+  exact External.Allman2023.mem_ancestralVertices_of_walks hp (N.graph.walks_symm (External.Allman2023.SameBlobIn.walks hb))
 
 variable [DecidableEq X] {a₁ a₂ b₁ b₂ a b t : X} {Y : Set X}
 
@@ -923,17 +925,17 @@ theorem IsTwoBlobs.eq_or_eq_of_between (hN : N.IsPhylogenetic) (h : IsTwoBlobs N
   have m₄ : b₂ ∈ ({a₁, a₂, b₁, b₂} : Set X) := by simp
   have hx : x ∈ N.ancestralVertices {a₁, a₂, b₁, b₂} := mem_ancestralVertices_of_mem_incidentCuts hg
   have hc : ∀ {y : V}, y ∈ N.ancestralVertices {a₁, a₂, b₁, b₂} →
-      N.graph.Walks (G₄ N a₁ a₂ b₁ b₂) x y := fun hy => walks_ancestral hN hx hy
+      N.graph.Walks (G₄ N a₁ a₂ b₁ b₂) x y := fun hy => External.Allman2023.walks_ancestral hN hx hy
   have hcl : ∀ {t : X}, t ∈ ({a₁, a₂, b₁, b₂} : Set X) →
       N.graph.Walks (G₄ N a₁ a₂ b₁ b₂) x (N.leaf t) := fun ht =>
     hc (N.leaf_mem_ancestralVertices ht)
   -- `e` and `e'` separate the two blobs, so they induce `a₁a₂|b₁b₂`
   have hwe : N.graph.Walks (G₄ N a₁ a₂ b₁ b₂ \ {e}) x w := by
     by_contra hn
-    exact hne (LeadsTo.unique ⟨hl.1, hn⟩ hr (hc h.mem_right))
+    exact hne (External.Allman2023.LeadsTo.unique ⟨hl.1, hn⟩ hr (hc h.mem_right))
   have hve' : N.graph.Walks (G₄ N a₁ a₂ b₁ b₂ \ {e'}) x v := by
     by_contra hn
-    exact hne (LeadsTo.unique hl ⟨hr.1, hn⟩ (hc h.mem_left))
+    exact hne (External.Allman2023.LeadsTo.unique hl ⟨hr.1, hn⟩ (hc h.mem_left))
   have hq₁ : Induces N (G₄ N a₁ a₂ b₁ b₂) e {a₁, a₂} {b₁, b₂} :=
     (h.mem_quartetCuts_iff hN h4).mpr fun hvw =>
       hl.2 (hwe.trans (N.graph.walks_symm hvw))
@@ -951,10 +953,10 @@ theorem IsTwoBlobs.eq_or_eq_of_between (hN : N.IsPhylogenetic) (h : IsTwoBlobs N
     far₃ (Relation.ReflTransGen.trans hb (hq₂.right b₂ (by simp) b₁ (by simp)))
   have hlead : LeadsTo N.graph (G₄ N a₁ a₂ b₁ b₂) x g (N.leaf t) := ⟨hg, htg⟩
   rcases ht with rfl | rfl | rfl | rfl
-  · exact Or.inl (hlead.unique ⟨hl.1, far₁⟩ (hcl m₁))
-  · exact Or.inl (hlead.unique ⟨hl.1, far₂⟩ (hcl m₂))
-  · exact Or.inr (hlead.unique ⟨hr.1, far₃⟩ (hcl m₃))
-  · exact Or.inr (hlead.unique ⟨hr.1, far₄⟩ (hcl m₄))
+  · exact Or.inl ((External.Allman2023.LeadsTo.unique hlead) ⟨hl.1, far₁⟩ (hcl m₁))
+  · exact Or.inl ((External.Allman2023.LeadsTo.unique hlead) ⟨hl.1, far₂⟩ (hcl m₂))
+  · exact Or.inr ((External.Allman2023.LeadsTo.unique hlead) ⟨hr.1, far₃⟩ (hcl m₃))
+  · exact Or.inr ((External.Allman2023.LeadsTo.unique hlead) ⟨hr.1, far₄⟩ (hcl m₄))
 
 omit [DecidableEq X] in
 /-- A blob between the taxon `a` and a blob of `v` determined with `a` by any other taxon of `Y` has, in the subgraph
@@ -969,19 +971,19 @@ theorem eq_or_eq_of_between_taxon (hN : N.IsPhylogenetic) (hv : v ∈ N.ancestra
     (htg : N.leaf t ∈ far N.graph (N.ancestralArcs Y) g x) : g = e ∨ g = e' := by
   have hx : x ∈ N.ancestralVertices Y := mem_ancestralVertices_of_mem_incidentCuts hg
   have hcl : ∀ {t : X}, t ∈ Y → N.graph.Walks (N.ancestralArcs Y) x (N.leaf t) := fun ht =>
-    walks_ancestral hN hx (N.leaf_mem_ancestralVertices ht)
+    External.Allman2023.walks_ancestral hN hx (N.leaf_mem_ancestralVertices ht)
   have hlead : LeadsTo N.graph (N.ancestralArcs Y) x g (N.leaf t) := ⟨hg, htg⟩
   by_cases hta : t = a
   · subst hta
-    exact Or.inl (hlead.unique hl (hcl ht))
-  · refine Or.inr (hlead.unique ⟨hr.1, fun htT => ?_⟩ (hcl ht))
+    exact Or.inl ((External.Allman2023.LeadsTo.unique hlead) hl (hcl ht))
+  · refine Or.inr ((External.Allman2023.LeadsTo.unique hlead) ⟨hr.1, fun htT => ?_⟩ (hcl ht))
     have haT : N.leaf a ∈ compOff N.graph (N.ancestralArcs Y) e' x := by
       by_contra hn
-      exact hne (LeadsTo.unique hl ⟨hr.1, hn⟩ (hcl ha))
+      exact hne (External.Allman2023.LeadsTo.unique hl ⟨hr.1, hn⟩ (hcl ha))
     obtain ⟨S, hS, haS, htS⟩ := hdet t ht hta
     have hvc : ∀ {t : X}, t ∈ Y → N.graph.Walks (N.ancestralArcs Y) v (N.leaf t) := fun ht =>
-      walks_ancestral hN hv (N.leaf_mem_ancestralVertices ht)
-    exact hta (hS.eq_of_mem_side onlyCrosses_compOff hr.2 htS haS (hvc ht) (hvc ha) htT haT)
+      External.Allman2023.walks_ancestral hN hv (N.leaf_mem_ancestralVertices ht)
+    exact hta ((External.Allman2023.Determines.eq_of_mem_side hS) External.Allman2023.onlyCrosses_compOff hr.2 htS haS (hvc ht) (hvc ha) htT haT)
 
 /-- The two blobs, seen from `b₁, b₂`. -/
 theorem IsTwoBlobs.symm (h : IsTwoBlobs N a₁ a₂ b₁ b₂ v w) : IsTwoBlobs N b₁ b₂ a₁ a₂ w v := by
@@ -1001,7 +1003,7 @@ theorem IsTwoBlobs.symm (h : IsTwoBlobs N a₁ a₂ b₁ b₂ v w) : IsTwoBlobs 
   · rw [hG]
     exact h.left₂
   · rw [hG]
-    exact fun hsame => h.ne hsame.symm
+    exact fun hsame => h.ne (External.Allman2023.SameBlobIn.symm hsame)
 
 /-- **"Has two 3-blobs"** (line 591), for the blob of `v`: it has exactly three incident cut edges with a taxon of the
 four beyond them, those leading to `a₁`, to `a₂`, and to `b₁` and `b₂`. The last is the one leading to the blob of `w`. For
@@ -1023,7 +1025,7 @@ theorem IsTwoBlobs.exists_three_cuts (hN : N.IsPhylogenetic) (h : IsTwoBlobs N a
   have m₄ : b₂ ∈ ({a₁, a₂, b₁, b₂} : Set X) := by simp
   have hcl : ∀ {t : X}, t ∈ ({a₁, a₂, b₁, b₂} : Set X) →
       N.graph.Walks (G₄ N a₁ a₂ b₁ b₂) v (N.leaf t) := fun ht =>
-    walks_ancestral hN h.mem_left (N.leaf_mem_ancestralVertices ht)
+    External.Allman2023.walks_ancestral hN h.mem_left (N.leaf_mem_ancestralVertices ht)
   have h3 : 3 ≤ ({a₁, a₂, b₁} : Finset X).card := by
     rw [Finset.card_insert_of_notMem (by simp [h12, h13]), Finset.card_pair h23]
   have hS : ∀ s ∈ ({a₁, a₂, b₁} : Finset X), N.graph.Walks (G₄ N a₁ a₂ b₁ b₂) v (N.leaf s) := by
@@ -1034,11 +1036,11 @@ theorem IsTwoBlobs.exists_three_cuts (hN : N.IsPhylogenetic) (h : IsTwoBlobs N a
     · exact hcl m₂
     · exact hcl m₃
   have hnb : ∀ {t : X}, ¬ SameBlobIn N.graph (G₄ N a₁ a₂ b₁ b₂) v (N.leaf t) := fun hb =>
-    h.left₁.ne_of_isPendantIn h3 (isPendantIn_leaf hN _ _) hS
-      ((isPendantIn_leaf hN _ _).eq_of_sameBlobIn hb)
-  obtain ⟨e₁, he₁⟩ := (exists_leadsTo (hcl m₁)).resolve_left hnb
-  obtain ⟨e₂, he₂⟩ := (exists_leadsTo (hcl m₂)).resolve_left hnb
-  obtain ⟨e₃, he₃⟩ := (exists_leadsTo (walks_ancestral hN h.mem_left h.mem_right)).resolve_left h.ne
+    (External.Allman2023.Determines.ne_of_isPendantIn h.left₁) h3 (External.Allman2023.isPendantIn_leaf hN _ _) hS
+      ((External.Allman2023.IsPendantIn.eq_of_sameBlobIn (External.Allman2023.isPendantIn_leaf hN _ _)) hb)
+  obtain ⟨e₁, he₁⟩ := (External.Allman2023.exists_leadsTo (hcl m₁)).resolve_left hnb
+  obtain ⟨e₂, he₂⟩ := (External.Allman2023.exists_leadsTo (hcl m₂)).resolve_left hnb
+  obtain ⟨e₃, he₃⟩ := (External.Allman2023.exists_leadsTo (External.Allman2023.walks_ancestral hN h.mem_left h.mem_right)).resolve_left h.ne
   -- `e₃` induces `a₁a₂|b₁b₂`
   have hq : Induces N (G₄ N a₁ a₂ b₁ b₂) e₃ {a₁, a₂} {b₁, b₂} :=
     (h.mem_quartetCuts_iff hN h4).mpr he₃.2
@@ -1059,16 +1061,16 @@ theorem IsTwoBlobs.exists_three_cuts (hN : N.IsPhylogenetic) (h : IsTwoBlobs N a
     exact he₂.2 hnear₂
   have hne₁₂ : e₁ ≠ e₂ := by
     rintro rfl
-    exact h12 (h.left₁.eq_of_mem_side onlyCrosses_far not_mem_far_self (s := a₁) (t := a₂) (by simp)
+    exact h12 (External.Allman2023.Determines.eq_of_mem_side h.left₁ External.Allman2023.onlyCrosses_far External.Allman2023.not_mem_far_self (s := a₁) (t := a₂) (by simp)
       (by simp) (hcl m₁) (hcl m₂) he₁.2 he₂.2)
   refine ⟨e₁, e₂, e₃, hne₁₂, hne₁₃, hne₂₃, he₁, he₂, ⟨he₃.1, hfar₃⟩, ⟨he₃.1, hfar₄⟩, he₃, ?_⟩
   rintro g hg t ht htg
   have hlead : LeadsTo N.graph (G₄ N a₁ a₂ b₁ b₂) v g (N.leaf t) := ⟨hg, htg⟩
   rcases ht with rfl | rfl | rfl | rfl
-  · exact Or.inl (hlead.unique he₁ (hcl m₁))
-  · exact Or.inr (Or.inl (hlead.unique he₂ (hcl m₂)))
-  · exact Or.inr (Or.inr (hlead.unique ⟨he₃.1, hfar₃⟩ (hcl m₃)))
-  · exact Or.inr (Or.inr (hlead.unique ⟨he₃.1, hfar₄⟩ (hcl m₄)))
+  · exact Or.inl ((External.Allman2023.LeadsTo.unique hlead) he₁ (hcl m₁))
+  · exact Or.inr (Or.inl ((External.Allman2023.LeadsTo.unique hlead) he₂ (hcl m₂)))
+  · exact Or.inr (Or.inr ((External.Allman2023.LeadsTo.unique hlead) ⟨he₃.1, hfar₃⟩ (hcl m₃)))
+  · exact Or.inr (Or.inr ((External.Allman2023.LeadsTo.unique hlead) ⟨he₃.1, hfar₄⟩ (hcl m₄)))
 
 /-- **The blobs between a taxon and its closest 3-blob are 2-blobs** (line 596), for `a₁` or `a₂` and the blob of `v`. -/
 theorem IsTwoBlobs.eq_or_eq_of_between_left (hN : N.IsPhylogenetic) (h : IsTwoBlobs N a₁ a₂ b₁ b₂ v w)
@@ -1114,7 +1116,7 @@ theorem IsTwoBlobs.exists_two_blob (hN : N.IsPhylogenetic) (h : IsTwoBlobs N a�
     ∃ x, LeadsTo N.graph (G₄ N a₁ a₂ b₁ b₂) x e v ∧ LeadsTo N.graph (G₄ N a₁ a₂ b₁ b₂) x e' w ∧
       ∀ g ∈ incidentCuts N.graph (G₄ N a₁ a₂ b₁ b₂) x, ∀ t ∈ ({a₁, a₂, b₁, b₂} : Set X),
         N.leaf t ∈ far N.graph (G₄ N a₁ a₂ b₁ b₂) g x → g = e ∨ g = e' := by
-  obtain ⟨x, hl, hr⟩ := exists_blob_of_isNextCut (walks_ancestral hN h.mem_left h.mem_right) hn
+  obtain ⟨x, hl, hr⟩ := exists_blob_of_isNextCut (External.Allman2023.walks_ancestral hN h.mem_left h.mem_right) hn
   exact ⟨x, hl, hr, fun g hg t ht htg =>
     h.eq_or_eq_of_between hN h4 hl hr hn.ne hg ht htg⟩
 
@@ -1128,7 +1130,7 @@ theorem IsTwoBlobs.exists_two_blob_left (hN : N.IsPhylogenetic) (h : IsTwoBlobs 
         N.leaf t ∈ far N.graph (G₄ N a₁ a₂ b₁ b₂) g x → g = e ∨ g = e' := by
   have hm : a ∈ ({a₁, a₂, b₁, b₂} : Set X) := by rcases ha with rfl | rfl <;> simp
   obtain ⟨x, hl, hr⟩ := exists_blob_of_isNextCut
-    (walks_ancestral hN (N.leaf_mem_ancestralVertices hm) h.mem_left) hn
+    (External.Allman2023.walks_ancestral hN (N.leaf_mem_ancestralVertices hm) h.mem_left) hn
   exact ⟨x, hl, hr, fun g hg t ht htg =>
     h.eq_or_eq_of_between_left hN ha hl hr hn.ne hg ht htg⟩
 
@@ -1140,7 +1142,7 @@ theorem IsTwoBlobs.exists_two_blob_right (hN : N.IsPhylogenetic) (h : IsTwoBlobs
         N.leaf t ∈ far N.graph (G₄ N a₁ a₂ b₁ b₂) g x → g = e ∨ g = e' := by
   have hm : b ∈ ({a₁, a₂, b₁, b₂} : Set X) := by rcases hb with rfl | rfl <;> simp
   obtain ⟨x, hl, hr⟩ := exists_blob_of_isNextCut
-    (walks_ancestral hN (N.leaf_mem_ancestralVertices hm) h.mem_right) hn
+    (External.Allman2023.walks_ancestral hN (N.leaf_mem_ancestralVertices hm) h.mem_right) hn
   exact ⟨x, hl, hr, fun g hg t ht htg =>
     h.eq_or_eq_of_between_right hN hb hl hr hn.ne hg ht htg⟩
 
@@ -1232,7 +1234,7 @@ theorem exists_sideOff_eq (hN : N.IsPhylogenetic) (hne : (quartetCuts N z p q r)
       sideOff N (G₃ N p q r) (quartetCuts N z p q r) p =
         compOff N.graph (G₃ N p q r) e₀ (N.leaf p) := by
   have : Finite E := hN.finite_arcs
-  exact exists_compOff_eq (Set.toFinite _) hne (walks_ancestral hN
+  exact External.Allman2023.exists_compOff_eq (Set.toFinite _) hne (External.Allman2023.walks_ancestral hN
     (N.leaf_mem_ancestralVertices (by simp)) (N.leaf_mem_ancestralVertices (x := q) (by simp)))
     fun e he => (Induces.threeTaxa hN he).sep p rfl q (Set.mem_insert q _)
 
@@ -1241,8 +1243,8 @@ off the arc of `E` nearest to `q`, and `q`, `r` are joined off any arc of `E`. -
 theorem leaf_mem_sideOff (hN : N.IsPhylogenetic) (hne : (quartetCuts N z p q r).Nonempty) :
     N.leaf r ∈ sideOff N (G₃ N p q r) (quartetCuts N z p q r) q := by
   have : Finite E := hN.finite_arcs
-  obtain ⟨e₀, he₀, heq⟩ := exists_compOff_eq (F := G₃ N p q r) (u := N.leaf q)
-    (w := N.leaf p) (Set.toFinite (quartetCuts N z p q r)) hne (walks_ancestral hN
+  obtain ⟨e₀, he₀, heq⟩ := External.Allman2023.exists_compOff_eq (F := G₃ N p q r) (u := N.leaf q)
+    (w := N.leaf p) (Set.toFinite (quartetCuts N z p q r)) hne (External.Allman2023.walks_ancestral hN
       (N.leaf_mem_ancestralVertices (by simp)) (N.leaf_mem_ancestralVertices (by simp)))
     fun e he hw => (Induces.threeTaxa hN he).sep p rfl q (Set.mem_insert q _) (N.graph.walks_symm hw)
   change N.leaf r ∈ {x | N.graph.Walks (G₃ N p q r \ quartetCuts N z p q r) (N.leaf q) x}

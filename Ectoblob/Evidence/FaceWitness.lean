@@ -1,6 +1,8 @@
 module
 
 public import Allman2023.FourTaxa.GenericCF
+public import Ectoblob.External.Allman2023.GenericCF
+public import Tinnik.External.Allman2023.CFDetectable
 
 /-!
 # ECToBlob: non-cut parameters on a face, at a reduction
@@ -132,7 +134,7 @@ theorem measure_nmscCF_eq_offMetric (hN : N.IsPhylogenetic) (hD : N.IsDeletion D
   have hℓ₀ : ∀ f, 0 ≤ ℓ₀ f := fun f => by
     simp only [ℓ₀]
     split_ifs <;> norm_num
-  have hlt := nmscCF_lt_nmscCF_of_splitOffAt hN hD hℓ₀ (ite_eq_right heZ : ℓ₀ e = 3) hs hr
+  have hlt := External.Allman2023.nmscCF_lt_nmscCF_of_splitOffAt hN hD hℓ₀ (ite_eq_right heZ : ℓ₀ e = 3) hs hr
   have hmask : (fun f => if f ∈ D then 0 else (deletionMetric N D ℓ₀).inheritance f) =
       (deletionMetric N D ℓ₀).inheritance := by
     funext f
@@ -141,7 +143,7 @@ theorem measure_nmscCF_eq_offMetric (hN : N.IsPhylogenetic) (hD : N.IsDeletion D
       deletionMetric N D ℓ₀ := by
     rw [offMetric]
     simp only [hmask]
-    exact coordMetric_self (isNormalized_deletionMetric hN hD ℓ₀) d
+    exact coordMetric_self (External.Allman2023.isNormalized_deletionMetric hN hD ℓ₀) d
   have hf : AnalyticOnNhd ℝ (fun x : (E → ℝ) × (E → ℝ) =>
       nmscCF N (offMetric N D Z d x) 0 r - nmscCF N (offMetric N D Z d x) 0 s) Set.univ :=
     (analyticOnNhd_nmscCF_offMetric N D Z d r).sub (analyticOnNhd_nmscCF_offMetric N D Z d s)
@@ -289,7 +291,7 @@ theorem exists_isNonCut_of_reduction (hN : N.IsPhylogenetic) (hD : N.IsDeletion 
     measure_nmscCF_eq_offMetric (Z := Z) (d := Function.update d (N.graph.target k₂) k₂) hN
       (hD.insert hN hk ht hk₂) he₂ hsp₂ (Finset.mem_coe.mp hr)
   -- the numerical parameters other than `γ₁`, `γ₂`
-  obtain ⟨x, hx, hxn⟩ := exists_isStochasticCoords_notMem (measure_union_null hnull₁ hnull₂)
+  obtain ⟨x, hx, hxn⟩ := External.Allman2023.exists_isStochasticCoords_notMem (measure_union_null hnull₁ hnull₂)
   set θ := offMetric N D Z d x with hθ
   have hw := isWeakMetric_offMetric (Z := Z) hd hx
   have hD0 : ∀ f ∈ D, θ.inheritance f = 0 := fun f hf => offMetric_inheritance_eq_zero hD hd hf
@@ -323,7 +325,7 @@ theorem exists_isNonCut_of_reduction (hN : N.IsPhylogenetic) (hD : N.IsDeletion 
     by_cases h₄ : r' = s₂
     · subst h₄
       exact Or.inr (hcf₂ r (htaxa r hr r' hr' hne))
-    · exact absurd (eq_of_mem_treesOn_of_ne hq hs₁ hs₂ hss hr hr' h₁ h₃ h₂ h₄) hne
+    · exact absurd (External.Allman2023.eq_of_mem_treesOn_of_ne hq hs₁ hs₂ hss hr hr' h₁ h₃ h₂ h₄) hne
   -- the choice of `γ`
   obtain ⟨γ, hγ, hne⟩ := Real.exists_mem_Ioo_forall_ne (treesOn q) (fun r => nmscCF N (θ.withPair k₁ k₂ 1) 0 r)
     (fun r => nmscCF N (θ.withPair k₁ k₂ 0) 0 r) hsep

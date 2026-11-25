@@ -6,6 +6,7 @@ public import Phylogenetics.Network.Cuts
 public import Phylogenetics.Tree.Metric
 public import Phylogenetics.Network.CutHierarchy
 public import Ectoblob.CutEdgeSplits.Funnels
+public import Tinnik.External.Allman2023.Rule
 
 /-!
 # ECToBlob §4: combinatorics of quartets and cut-edge splits
@@ -295,7 +296,7 @@ theorem not_hasCutSplitOn_and_hasCutSplitOn (hN : N.IsPhylogenetic) {q : Finset 
     (inducedCutSplit_quartetTree_iff h).mpr (hq ▸ hxy)
   have h₂ : InducedCutSplit N (quartetTree x u y v h') :=
     (inducedCutSplit_quartetTree_iff h').mpr (by rw [hq']; exact hq ▸ hxu)
-  have heq := inducedCutSplit_unique hN h₁ h₂ (by
+  have heq := External.Allman2023.inducedCutSplit_unique hN h₁ h₂ (by
     rw [quartetTree_taxa, quartetTree_taxa, hq'])
   have hmem : ({x, y} : Finset X) ∈ (quartetTree x u y v h').val := heq ▸ (by simp)
   simp only [quartetTree_val, Finset.mem_insert, Finset.mem_singleton] at hmem

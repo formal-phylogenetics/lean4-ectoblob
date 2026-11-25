@@ -10,6 +10,7 @@ public import Ectoblob.Consistency.Remark84
 public import TreeOfBlobs.TreeCounts
 public import Tinnik.Algorithms.Counts
 public import Ectoblob.Basic.Data.Fintype.Card
+public import Ectoblob.External.Tinnik.Counts
 
 /-!
 # ECToBlob: operation counts
@@ -792,7 +793,7 @@ each of its three quartet trees. -/
 theorem card_fourSets_add_card_quartetTree :
     (univ.filter fun q : Finset X => q.card = 4).card + Fintype.card (QuartetTree X) =
       4 * (Fintype.card X).choose 4 := by
-  rw [Tinnik.card_fourSets, Tinnik.card_quartetTree]
+  rw [External.Tinnik.card_fourSets, External.Tinnik.card_quartetTree]
   ring
 
 /-- The operations of Algorithm 7.1 for `bi` or `quad`, on `s` taxa, as the paper counts them
