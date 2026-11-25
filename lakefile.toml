@@ -1,8 +1,8 @@
-name = "ECToBlob"
+name = "Ectoblob"
 version = "0.1.0"
 keywords = ["math", "phylogenetics"]
 description = "A Lean 4 formalization of ECToBlob (Rhodes, Allman, Ané, Baños 2026)"
-defaultTargets = ["ECToBlob"]
+defaultTargets = ["Ectoblob"]
 
 [leanOptions]
 pp.unicode.fun = true
@@ -50,7 +50,11 @@ name = "mathlib"
 scope = "leanprover-community"
 rev = "v4.37.0-rc1"
 
-# Every module of this repository is under ECToBlob/ (lean4-phylogenetics, docs/CONVENTIONS.md).
+# Every module of the project is in Ectoblob/ (lean4-phylogenetics, docs/CONVENTIONS.md, Sections 2
+# and 3). Lake fails on a glob whose directory does not exist.
+
+# The paper's library, in the namespace Ectoblob: general mathematics in Ectoblob/Basic/, the results
+# the paper cites in Ectoblob/External/, and the paper's sections.
 [[lean_lib]]
-name = "ECToBlob"
-globs = ["ECToBlob.+"]
+name = "Ectoblob"
+globs = ["Ectoblob.+"]
