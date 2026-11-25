@@ -2,7 +2,7 @@ name = "Ectoblob"
 version = "0.1.0"
 keywords = ["math", "phylogenetics"]
 description = "A Lean 4 formalization of ECToBlob (Rhodes, Allman, Ané, Baños 2026)"
-defaultTargets = ["Ectoblob"]
+defaultTargets = ["Ectoblob", "Palomar"]
 
 [leanOptions]
 pp.unicode.fun = true
@@ -50,11 +50,22 @@ name = "mathlib"
 scope = "leanprover-community"
 rev = "v4.37.0-rc1"
 
-# Every module of the project is in Ectoblob/ (lean4-phylogenetics, docs/CONVENTIONS.md, Sections 2
-# and 3). Lake fails on a glob whose directory does not exist.
+# Every module of the project is in Ectoblob/, but its Challenge and its Solution, which are in
+# palomar/ (lean4-phylogenetics, docs/CONVENTIONS.md, Sections 2 and 3). Lake fails on a glob whose
+# directory, or a root whose file, does not exist.
 
 # The paper's library, in the namespace Ectoblob: general mathematics in Ectoblob/Basic/, the results
-# the paper cites in Ectoblob/External/, and the paper's sections.
+# the paper cites in Ectoblob/External/, the definitions of the Challenge in Ectoblob/Defs.lean, and
+# the paper's sections.
 [[lean_lib]]
 name = "Ectoblob"
 globs = ["Ectoblob.+"]
+
+# The paper's Challenge and Solution, the modules Ectoblob.Challenge and Ectoblob.Solution of the
+# source directory palomar/ (Comparator: palomar/Ectoblob/comparator.json). Declared last: Lake gives
+# a module to the last library whose patterns match it, and the glob above matches these names when
+# the paper's name is the root.
+[[lean_lib]]
+name = "Palomar"
+srcDir = "palomar"
+roots = ["Ectoblob.Challenge", "Ectoblob.Solution"]
