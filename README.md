@@ -19,7 +19,7 @@ outside the Challenge's statements. Theorem 8.2 holds as proved for laws meeting
 parameters, and, for the Cauchy and CBC corrections, with positive alternatives on quartets strictly in the T1 null (E10,
 E11 of [the report](docs/Ectoblob/REPORT.md#4-missing-hypotheses)); (3.3) is proved in a corrected form (E2). No person has reviewed the proofs.
 
-This paper is one of the hub [lean4-phylo-tree-of-blobs](https://github.com/vltanh/lean4-phylo-tree-of-blobs), on the tree
+This paper belongs to the hub [lean4-phylo-tree-of-blobs](https://github.com/vltanh/lean4-phylo-tree-of-blobs), on the tree
 of blobs of a phylogenetic network, a sub-hub of [lean4-phylo-network](https://github.com/vltanh/lean4-phylo-network), in
 the collection rooted at [lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics). It builds on Allman et al.
 2023, TINNiK and NANUQ, formalized in [lean4-allman2023](https://github.com/vltanh/lean4-allman2023),
