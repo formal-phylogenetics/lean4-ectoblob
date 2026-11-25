@@ -23,8 +23,8 @@ open scoped Classical
 namespace External.Allman2023
 
 /-- **The reduction for ECToBlob's adaptation of Theorem 1 of Allman et al. 2023**
-(`ECToBlob.adaptedAllmanTheorem1`). For a network whose vertices in non-trivial blobs have degree at
-most three (`hdeg`, which is `ECToBlob.BlobDegreeAtMostThree N`) and a 4-set `q` that is neither
+(`Ectoblob.adaptedAllmanTheorem1`). For a network whose vertices in non-trivial blobs have degree at
+most three (`hdeg`, which is `Ectoblob.BlobDegreeAtMostThree N`) and a 4-set `q` that is neither
 treelike nor a trivial 4-blob, the conclusion of `exists_reduction` holds, with cut arcs `e₁`, `e₂`
 that are tree arcs of the network, so that their lengths are free positive parameters on every face
 of ECToBlob's measure. lean4-allman2023 proves it as `Allman2023.exists_reduction_of_blobDegree`. -/

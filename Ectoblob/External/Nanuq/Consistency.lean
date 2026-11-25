@@ -43,7 +43,7 @@ theorem nanuqDistance_congr {X : Type*} [Fintype X] [DecidableEq X]
   _root_.Nanuq.nanuqDistance_congr h
 
 /-- Levels with `log(1/α_n) = o(n)` reject off the null: the argument of ECToBlob's Theorem 8.2
-(`QuartetTests.t3Test_rejects`). lean4-nanuq proves it as `Nanuq.rejectsOffNull_of_log`. -/
+(`Phylogenetics.QuartetTests.t3Test_rejects`). lean4-nanuq proves it as `Nanuq.rejectsOffNull_of_log`. -/
 theorem rejectsOffNull_of_log {X : Type*} [Fintype X] [DecidableEq X] {Γ : Type*} [Fintype Γ]
     {dist : Γ → ℝ} {sides : Γ → Finset (Finset X)} (hd : IsDist dist)
     (hs : QuartetTests.DisplaysOne dist sides) {α : ℕ → ℝ} (hα : ∀ (n : ℕ), 0 < α n)

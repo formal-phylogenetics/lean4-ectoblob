@@ -20,5 +20,5 @@ proved from the theorem of lean4-nanuq of the same name; the paper's library use
 The label `nanuq:proposition9` is the row of lean4-nanuq's routes file, which already carries the prefix
 `nanuq:`; it has a row in [`docs/Ectoblob/paper_routes.tsv`](../../../docs/Ectoblob/paper_routes.tsv),
 with `proved = 0`. The other statements are steps of the proof of Theorem 36 that the source does not
-label. The definitions the statements use (`Nanuq.classify`, `Nanuq.cfClass`, `Nanuq.nanuqDistance`,
-`Nanuq.networkClass`, `Nanuq.Proposition9`, …) are lean4-nanuq's.
+label. The definitions the statements use ([`Nanuq.classify`](https://github.com/vltanh/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L95), [`Nanuq.cfClass`](https://github.com/vltanh/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L140), [`Nanuq.nanuqDistance`](https://github.com/vltanh/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L113),
+[`Nanuq.networkClass`](https://github.com/vltanh/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L1221), [`Nanuq.Proposition9`](https://github.com/vltanh/lean4-nanuq/blob/edca11442dc8f45662b35a6a4d03073010bfea10/Nanuq/Algorithm/Consistency.lean#L1205), …) are lean4-nanuq's.

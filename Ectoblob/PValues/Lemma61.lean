@@ -8,7 +8,7 @@ public import Mathlib.Analysis.SpecialFunctions.Trigonometric.ArctanDeriv
 /-!
 # ECToBlob §6: combining p-values
 
-Lemma 6.1. The combination methods are defined in `TreeOfBlobs.Testing.Combining`.
+Lemma 6.1. The combination methods are defined in `PhyloNetwork.Testing.Combining`.
 
 The bound for the Cauchy combination is the printed `f⁻¹(((k-1) f(D) + f(η))/k)`. The lemma gives no domain for
 `B`, and evaluates it only at `(min P, max P)`, so here it is stated on `0 ≤ η ≤ D < 1`, where the printed bound has the

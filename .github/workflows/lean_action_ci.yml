@@ -13,28 +13,53 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v7
       # Mathlib's compiled files take most of the runner's disk; remove preinstalled toolchains
       # that the build does not use.
       - name: Free disk space
         run: |
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
           df -h /
-      - uses: actions/checkout@v7
       - uses: leanprover/lean-action@v1
       # `lake build` builds only the modules of the required libraries that this repository imports;
       # the audit reads all of them.
       - name: Build the libraries that the audit reads
-        run: lake build Phylogenetics TreeOfBlobs AllmanEtAl2023 TINNiK PhyloNetwork Nanuq
-      # The audit sees a module's proofs only through its own `import all` line.
+        run: lake build Phylogenetics PhyloNetwork TreeOfBlobs Allman2023 Tinnik Nanuq
+      # The audit sees a module's proofs only through its own `import all` line: every module of
+      # Ectoblob/ (Basic/, External/, Defs.lean, Bridge/ and the paper's library), the paper's
+      # Solution in palomar/, and every module of the required libraries Phylogenetics, PhyloNetwork,
+      # TreeOfBlobs, Allman2023, Tinnik and Nanuq, but not the Challenge, which holds a copy of the
+      # definitions of Ectoblob/Defs.lean.
       - name: Check that the audit imports every module of the libraries
-        run: python3 scripts/gen_audit.py --check
+        run: >-
+          diff <({ find Ectoblob -name '*.lean'; cd palomar && find . -name Solution.lean;
+          cd ../.lake/packages/Phylogenetics && find Phylogenetics -name '*.lean';
+          cd ../PhyloNetwork && find PhyloNetwork -name '*.lean';
+          cd ../TreeOfBlobs && find TreeOfBlobs -name '*.lean';
+          cd ../Allman2023 && find Allman2023 -name '*.lean';
+          cd ../Tinnik && find Tinnik -name '*.lean';
+          cd ../Nanuq && find Nanuq -name '*.lean'; }
+          | sed 's#^\./##; s/\.lean$//; s#/#.#g' | sort)
+          <(grep -E '^import all (Ectoblob|Phylogenetics|PhyloNetwork|TreeOfBlobs|Allman2023|Tinnik|Nanuq)\.' scripts/Audit.lean
+          | sed 's/^import all //' | sort)
+      # It imports the deprecated modules of TreeOfBlobs too, whose import warns.
       - name: Audit axioms and dependencies
-        run: lake env lean -DautoImplicit=false -DmaxSynthPendingDepth=3 scripts/Audit.lean
-      # The routes of the paper's proofs (docs/paper_routes.tsv) and the reviewed differences
-      # (docs/route_differences.tsv).
+        run: lake env lean -Dlinter.deprecated.module=false scripts/Audit.lean
+      # The routes of the paper's proofs (docs/Ectoblob/paper_routes.tsv) and the reviewed
+      # differences (docs/Ectoblob/route_differences.tsv).
       - name: Check that the proofs follow the routes of the paper's proofs
         run: >-
-          python3 scripts/route_check.py check docs/paper_routes.tsv
-          --accept docs/route_differences.tsv
+          python3 scripts/route_check.py check docs/Ectoblob/paper_routes.tsv
+          --accept docs/Ectoblob/route_differences.tsv
+      # The copy of Ectoblob/Defs.lean in palomar/Ectoblob/Challenge.lean.
+      - name: Check that the Challenge's copy of the shared definitions is current
+        run: python3 scripts/sync_challenge_defs.py --check
+      - name: Check that the documentation's links to the code are current
+        run: python3 scripts/linkify_docs.py --check
       - name: Check the Markdown tables
-        run: python3 scripts/check_md_tables.py README.md REPORT.md CREDITS.md
+        run: >-
+          python3 scripts/check_md_tables.py README.md
+          docs/Ectoblob/REPORT.md docs/Ectoblob/CREDITS.md Ectoblob/README.md Ectoblob/Basic/README.md
+          Ectoblob/External/README.md Ectoblob/External/Allman2023/README.md
+          Ectoblob/External/Tinnik/README.md Ectoblob/External/Nanuq/README.md
+          Ectoblob/External/LegriedEtAl2021/README.md

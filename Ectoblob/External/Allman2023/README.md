@@ -20,8 +20,8 @@ and proved from the theorem of lean4-allman2023 of the same name; the paper's li
 statements. Four that lean4-tinnik states already, from the same theorems, are used from there
 ([`Tinnik/External/Allman2023/`](https://github.com/vltanh/lean4-tinnik/tree/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023)), since the namespace
 `External.Allman2023` is shared by the repositories that require one another:
-`External.Allman2023.inducedCutSplit_unique`, `External.Allman2023.inducedCutSplit_iff_exists_splitOffAt`,
-`External.Allman2023.isNormalized_deletionMetric` and `External.Allman2023.three_quarters_lt_nmscCF`.
+[`External.Allman2023.inducedCutSplit_unique`](https://github.com/vltanh/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023/Rule.lean#L69), [`External.Allman2023.inducedCutSplit_iff_exists_splitOffAt`](https://github.com/vltanh/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023/Rule.lean#L75),
+[`External.Allman2023.isNormalized_deletionMetric`](https://github.com/vltanh/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023/CFDetectable.lean#L50) and [`External.Allman2023.three_quarters_lt_nmscCF`](https://github.com/vltanh/lean4-tinnik/blob/de514e1f14522531f16dcdfa12244fe72fe05944/Tinnik/External/Allman2023/CFDetectable.lean#L57).
 
 | File | Statements | Where the paper's library uses them |
 | --- | --- | --- |
@@ -33,7 +33,7 @@ statements. Four that lean4-tinnik states already, from the same theorems, are u
 The label `allman2023:a:claim:three-taxa` is the row of lean4-allman2023's routes file, prefixed by its
 id; it has a row in [`docs/Ectoblob/paper_routes.tsv`](../../../docs/Ectoblob/paper_routes.tsv), with
 `proved = 0`. The other statements are steps of the source's proofs that its routes file does not label.
-The definitions they use (`Determines`, `OnlyCrosses`, `SameBlobIn`, `compOff`, `deletionMetric`,
-`IsStochasticCoords`, `CFDetectable`, …) are lean4-allman2023's. The general
-`Real.exists_mem_Ioo_forall_ne` of its `Basic/` is used directly, in
+The definitions they use ([`Determines`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/SubgraphBlobs.lean#L66), [`OnlyCrosses`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/SubgraphBlobs.lean#L80), [`SameBlobIn`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/SubgraphBlobs.lean#L54), [`compOff`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/SubgraphBlobs.lean#L74), [`deletionMetric`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/FourTaxa/GenericCF.lean#L60),
+[`IsStochasticCoords`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/FourTaxa/GenericCF.lean#L166), [`CFDetectable`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/LargeNetworks/Rule.lean#L56), …) are lean4-allman2023's. The general
+[`Real.exists_mem_Ioo_forall_ne`](https://github.com/vltanh/lean4-allman2023/blob/46efa61d0988df12649089689ae77bc100be034f/Allman2023/Basic/Analysis/Convex/Segment.lean#L24) of its `Basic/` is used directly, in
 [`Ectoblob.Evidence.FaceWitness`](../../Evidence/FaceWitness.lean).

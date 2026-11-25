@@ -14,3 +14,9 @@ ECToBlob (Rhodes, Allman, Ané, Baños 2026), in Lean.
 - **Moved to this repository** on 2026-11-21, by Claude (Opus 5.5) in Claude Code, when lean4-tob became the hub
   of its papers. No statement and no proof changed: only module paths did. Every declaration keeps its name and its
   type, checked against lean4-tob at commit `6e7bc49`, and the audit and the route check pass here.
+- **Arranged in the layout of the collection** on 2026-11-25, by Claude (Opus 5.5) in Claude Code, in about an
+  hour: the root [`Ectoblob`](../../Ectoblob), the library by the paper's sections, general mathematics in [`Ectoblob/Basic/`](../../Ectoblob/Basic), the
+  results of Allman et al. 2023, TINNiK and NANUQ that the proofs use stated in [`Ectoblob/External/`](../../Ectoblob/External) and proved from
+  lean4-allman2023, lean4-tinnik and lean4-nanuq, and a Challenge that states Theorems 3.1, 4.1 and 8.2 on
+  definitions in Mathlib's vocabulary, with the bridges to the library's. The statements of the library keep their
+  meaning; the declarations are renamed from the namespace `ECToBlob` to [`Ectoblob`](../../Ectoblob).
