@@ -19,9 +19,9 @@ outside the Challenge's statements. Theorem 8.2 holds as proved for laws meeting
 parameters, and, for the Cauchy and CBC corrections, with positive alternatives on quartets strictly in the T1 null (E10,
 E11 of [the report](docs/Ectoblob/REPORT.md#4-missing-hypotheses)); (3.3) is proved in a corrected form (E2). No person has reviewed the proofs.
 
-This paper belongs to the hub [lean4-phylo-tree-of-blobs](https://github.com/formal-phylogenetics/lean4-phylo-tree-of-blobs), on the tree
-of blobs of a phylogenetic network, a sub-hub of [lean4-phylo-network](https://github.com/formal-phylogenetics/lean4-phylo-network), in
-the collection rooted at [lean4-phylogenetics](https://github.com/formal-phylogenetics/lean4-phylogenetics). It builds on Allman et al.
+This paper belongs to the hub [lean4-phylo-network](https://github.com/formal-phylogenetics/lean4-phylo-network), with the papers on the
+tree of blobs of a phylogenetic network, which share the library of
+[lean4-phylo-tree-of-blobs](https://github.com/formal-phylogenetics/lean4-phylo-tree-of-blobs), in the collection rooted at [lean4-phylogenetics](https://github.com/formal-phylogenetics/lean4-phylogenetics). It builds on Allman et al.
 2023, TINNiK and NANUQ, formalized in [lean4-allman2023](https://github.com/formal-phylogenetics/lean4-allman2023),
 [lean4-tinnik](https://github.com/formal-phylogenetics/lean4-tinnik) and [lean4-nanuq](https://github.com/formal-phylogenetics/lean4-nanuq).
 
@@ -122,7 +122,7 @@ Corollary 3.6, Theorem 8.2), and two are not forced and say so (Theorem 4.1 and 
 - [lean4-phylogenetics](https://github.com/formal-phylogenetics/lean4-phylogenetics), the library of the collection, pinned by commit in
   [`lakefile.toml`](lakefile.toml): networks, trees and quartets, the network multispecies coalescent and its exchangeability, generic parameters.
 - [lean4-phylo-network](https://github.com/formal-phylogenetics/lean4-phylo-network) and [lean4-phylo-tree-of-blobs](https://github.com/formal-phylogenetics/lean4-phylo-tree-of-blobs), the libraries of the
-  hubs above this paper, pinned by commit: the hypothesis tests and their limit laws, combining p-values, independent
+  paper's hub and of the papers on the tree of blobs, pinned by commit: the hypothesis tests and their limit laws, combining p-values, independent
   samples, blobs of level-1 networks and the sources Mitchell et al. 2019, Rhodes 2020 and Huber et al. 2025; the algorithm
   and its options, Assumption 1, networks given by tables, and the strict form of Proposition 12 of Ané et al. 2024.
 - [lean4-allman2023](https://github.com/formal-phylogenetics/lean4-allman2023), [lean4-tinnik](https://github.com/formal-phylogenetics/lean4-tinnik) and

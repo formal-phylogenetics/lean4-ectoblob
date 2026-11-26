@@ -7,9 +7,9 @@ was made against the text of the v1 PDF: "line N" is a line of `pdftotext -layou
 lean4-phylo-tree-of-blobs's [`docs/CONFIGURATION.md`](https://github.com/formal-phylogenetics/lean4-phylo-tree-of-blobs/blob/6e7bc494d26f3d7096a17adffbfde1cf559f0ae9/docs/CONFIGURATION.md) defines, and its [`docs/sources.json`](https://github.com/formal-phylogenetics/lean4-phylo-tree-of-blobs/blob/6e7bc494d26f3d7096a17adffbfde1cf559f0ae9/docs/sources.json) has the
 hash of the PDF (both at lean4-phylo-tree-of-blobs `6e7bc49`, where this formalization was made). Section, result and equation numbers are the paper's.
 
-This paper is one of the four on the tree of blobs of the hub [lean4-phylo-tree-of-blobs](https://github.com/formal-phylogenetics/lean4-phylo-tree-of-blobs), a sub-hub of
-[lean4-phylo-network](https://github.com/formal-phylogenetics/lean4-phylo-network). It cites two other papers of that hub, Allman et al. 2023 and TINNiK,
-and NANUQ, a paper of lean4-phylo-network, which have their own repositories,
+This paper is one of the papers on the tree of blobs of the hub [lean4-phylo-network](https://github.com/formal-phylogenetics/lean4-phylo-network), which share the library of
+[lean4-phylo-tree-of-blobs](https://github.com/formal-phylogenetics/lean4-phylo-tree-of-blobs). It cites two others of them, Allman et al. 2023 and TINNiK,
+and NANUQ, another paper of lean4-phylo-network, which have their own repositories,
 [lean4-allman2023](https://github.com/formal-phylogenetics/lean4-allman2023/blob/main/README.md), [lean4-tinnik](https://github.com/formal-phylogenetics/lean4-tinnik/blob/main/README.md) and
 [lean4-nanuq](https://github.com/formal-phylogenetics/lean4-nanuq/blob/main/README.md). The findings keep the collection's numbers (Section 3).
 
@@ -86,8 +86,8 @@ Status of the formalization:
 
 ## 2. Results from prior work and how the paper uses them
 
-Allman et al. 2023 and TINNiK are papers of the hub lean4-phylo-tree-of-blobs, NANUQ a paper of
-lean4-phylo-network, and this paper cites all three. Their own results, by their own proofs, are in
+Allman et al. 2023, TINNiK and NANUQ are papers of the hub lean4-phylo-network, the first two on
+the tree of blobs, and this paper cites all three. Their own results, by their own proofs, are in
 their repositories, with their audits in [lean4-allman2023's
 report](https://github.com/formal-phylogenetics/lean4-allman2023/blob/main/docs/Allman2023/REPORT.md),
 [lean4-tinnik's](https://github.com/formal-phylogenetics/lean4-tinnik/blob/main/docs/Tinnik/REPORT.md) and
